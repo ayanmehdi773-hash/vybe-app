@@ -1,848 +1,836 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0a0b12">
-<meta name="description" content="VYBE — Your personal digital workspace. Organize apps, tasks, notes and focus sessions in one beautiful place.">
-<title>VYBE — Your Space. Your Flow.</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+<meta name="theme-color" content="#080914">
+<title>VYBE — Social Universe OS</title>
+<meta name="google-site-verification" content="olRFP4U0Am89seKBhrvUX_ST8l4SzBG4GYGEx8-DloI" />
 
-:root {
-  --bg:#090a10;
-  --panel:#10121b;
-  --panel2:#151824;
-  --panel3:#1a1d2a;
-  --border:rgba(255,255,255,.075);
-  --text:#f4f5fb;
-  --muted:#858ba2;
-  --accent:#9b8cff;
-  --accent2:#6d5dfc;
-  --cyan:#70e1f5;
-  --green:#65e6b3;
-  --red:#ff7e91;
-  --yellow:#f8d67a;
-  --radius:20px;
-  --sidebar:250px;
-  --shadow:0 18px 55px rgba(0,0,0,.22);
-}
-body.light {
-  --bg:#f4f5fb;
-  --panel:#ffffff;
-  --panel2:#f0f1f8;
-  --panel3:#e8eaf4;
-  --border:rgba(35,38,65,.10);
-  --text:#202238;
-  --muted:#747991;
-  --shadow:0 18px 55px rgba(39,40,70,.08);
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#070812;
+  --panel:rgba(18,21,41,.65);
+  --panel2:#13162b;
+  --text:#f7f7ff;
+  --muted:#8f95b8;
+  --border:rgba(255,255,255,.08);
+  --accent:#9a7bff;
+  --accent2:#00f0ff;
+  --shadow:0 30px 90px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:'DM Sans',sans-serif;font-size:14px;
-  min-height:100vh;transition:background .25s,color .25s;
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Inter,Arial,sans-serif;overflow-x:hidden;
+ transition:background .3s,color .3s;padding-bottom:40px;
 }
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible{
-  outline:2px solid var(--accent);outline-offset:3px
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible{
+ outline:2px solid var(--accent2);outline-offset:3px
 }
-button:disabled{opacity:.45;cursor:not-allowed}
-h1,h2,h3,h4,p{margin-top:0}
-h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--accent);color:white}
-::-webkit-scrollbar{width:8px;height:8px}
-::-webkit-scrollbar-thumb{background:var(--panel3);border-radius:20px}
-.app{min-height:100vh}
-.sidebar{
-  width:var(--sidebar);position:fixed;inset:0 auto 0 0;
-  padding:25px 16px 18px;background:var(--panel);
-  border-right:1px solid var(--border);display:flex;flex-direction:column;
-  z-index:20;transition:transform .25s;
+body.light{
+ --bg:#f0f2fc;--panel:rgba(255,255,255,.82);
+ --panel2:#fff;--text:#17172b;--muted:#6d7290;
+ --border:rgba(30,35,70,.12);--shadow:0 25px 80px rgba(40,40,90,.12)
 }
-.brand-row{display:flex;align-items:center;gap:11px;padding:2px 10px 34px}
-.brand-mark{
-  width:38px;height:38px;border-radius:13px;
-  display:grid;place-items:center;color:white;font-size:22px;font-weight:700;
-  background:linear-gradient(135deg,#b8a6ff,#6852f5 65%,#5144d8);
-  box-shadow:0 5px 24px #7864ff40
+
+#bgCanvas{position:fixed;inset:0;pointer-events:none;z-index:-2;}
+#spotlight{
+ position:fixed;width:600px;height:600px;border-radius:50%;
+ background:radial-gradient(circle, rgba(154,123,255,.12) 0%, rgba(0,240,255,.04) 35%, transparent 70%);
+ pointer-events:none;z-index:-1;transform:translate(-50%,-50%);
+ transition:width .3s, height .3s;
 }
-.brand{font-size:25px;letter-spacing:2px;font-weight:700}
-.brand-sub{font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:2px}
-.nav-label{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1.6px;padding:0 12px;margin:0 0 10px}
-.nav-group{margin-bottom:27px}
-.nav-btn{
-  width:100%;border:0;background:transparent;color:var(--muted);
-  padding:12px 13px;border-radius:12px;display:flex;align-items:center;
-  gap:13px;text-align:left;margin:3px 0;transition:.2s;font-weight:500;
+
+@keyframes float{to{transform:translate(80px,-65px) scale(1.25)}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{0%{opacity:0;transform:scale(.82) translateY(20px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+.intro{
+ position:fixed;inset:0;z-index:9999;background:#070812;
+ display:grid;place-items:center;transition:opacity .7s,visibility .7s
 }
-.nav-btn .nav-icon{width:21px;text-align:center;font-size:17px}
-.nav-btn:hover{background:var(--panel2);color:var(--text)}
-.nav-btn.active{color:var(--text);background:linear-gradient(100deg,#8b78ff28,#8b78ff08);box-shadow:inset 3px 0 var(--accent)}
-.nav-count{margin-left:auto;background:var(--panel3);padding:3px 7px;border-radius:7px;font-size:10px}
-.sidebar-bottom{margin-top:auto}
-.profile{
-  padding:13px;border:1px solid var(--border);background:var(--panel2);
-  border-radius:15px;display:flex;align-items:center;gap:10px
+.intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+.intro-inner{text-align:center;animation:pop .8s both}
+.logo-mark{
+ width:76px;height:76px;border-radius:25px;margin:0 auto 20px;
+ display:grid;place-items:center;font-size:34px;font-weight:900;
+ background:linear-gradient(135deg,#a18aff,#00f0ff);
+ color:#090a1b;box-shadow:0 0 75px rgba(161,138,255,.6);
+ transform:rotate(-8deg)
 }
-.avatar{
-  width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
-  background:linear-gradient(135deg,#6b5cff,#da80ff);color:white;font-weight:700
+.intro h1{font-size:clamp(38px,8vw,70px);letter-spacing:-4px;margin:0}
+.gradient{
+ background:linear-gradient(100deg,#ad95ff,#00f0ff,#ff8ad7,#ad95ff);
+ background-size:200%;background-clip:text;-webkit-background-clip:text;
+ color:transparent;animation:shimmer 5s linear infinite
 }
-.profile-name{font-size:12px;font-weight:700}
-.profile-sub{font-size:10px;color:var(--muted);margin-top:3px}
-.profile-more{margin-left:auto;color:var(--muted)}
-.main{margin-left:var(--sidebar);min-height:100vh}
+.intro p{color:#9299bb;letter-spacing:3px;font-size:11px;margin-top:12px}
+.loader{height:3px;width:180px;margin:30px auto;background:#20213a;border-radius:10px;overflow:hidden}
+.loader:after{content:"";display:block;height:100%;width:45%;
+ background:linear-gradient(90deg,#9d79ff,#00f0ff);animation:loading 1.1s ease-in-out infinite}
+@keyframes loading{from{transform:translateX(-110%)}to{transform:translateX(340%)}}
+
 .topbar{
-  height:76px;padding:0 34px;display:flex;align-items:center;gap:18px;
-  border-bottom:1px solid var(--border);background:var(--bg);
-  position:sticky;top:0;z-index:12
+ height:76px;position:sticky;top:0;z-index:100;
+ background:color-mix(in srgb,var(--bg) 70%,transparent);
+ backdrop-filter:blur(28px);border-bottom:1px solid var(--border)
 }
-.breadcrumb{color:var(--muted);font-size:12px}
-.breadcrumb strong{color:var(--text);font-weight:600}
-.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
-.searchbox{
-  display:flex;align-items:center;gap:9px;background:var(--panel);
-  border:1px solid var(--border);border-radius:12px;padding:10px 12px;
-  width:230px;color:var(--muted)
+.nav{
+ max-width:1450px;height:100%;margin:auto;padding:0 26px;
+ display:flex;align-items:center;gap:20px
 }
-.searchbox input{width:100%;background:none;border:0;outline:none;color:var(--text);min-width:0}
-.searchbox input::placeholder{color:var(--muted)}
-.keycap{font-size:10px;border:1px solid var(--border);padding:3px 5px;border-radius:5px;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text);flex-shrink:0}
+.brand-icon{
+ display:grid;place-items:center;width:39px;height:39px;border-radius:13px;
+ background:linear-gradient(135deg,#a18aff,#00f0ff);color:#080914;
+ font-size:22px;font-weight:900;box-shadow:0 4px 24px rgba(161,138,255,.4)
+}
+.brand-name{font-family:"Space Grotesk",sans-serif;font-size:23px;font-weight:800;letter-spacing:-1.4px}
+.brand-name span{color:#00f0ff}
+.nav-search{position:relative;max-width:410px;flex:1;margin-left:auto}
+.nav-search input{
+ width:100%;height:43px;border:1px solid var(--border);border-radius:14px;
+ padding:0 85px 0 42px;background:var(--panel);color:var(--text);outline:none;
+ backdrop-filter:blur(15px);transition:.3s
+}
+.nav-search input:focus{border-color:var(--accent2);box-shadow:0 0 20px rgba(0,240,255,.2)}
+.search-icon{position:absolute;left:14px;top:12px;color:var(--muted)}
+.shortcut{position:absolute;right:11px;top:10px;font-size:10px;color:var(--muted);background:var(--panel2);padding:3px 7px;border-radius:6px;border:1px solid var(--border)}
+.nav-actions{display:flex;gap:9px}
 .icon-btn{
-  width:39px;height:39px;border-radius:12px;border:1px solid var(--border);
-  background:var(--panel);color:var(--text);display:grid;place-items:center;
-  font-size:16px;transition:.2s
+ width:42px;height:42px;border:1px solid var(--border);border-radius:14px;
+ background:var(--panel);display:grid;place-items:center;font-size:18px;
+ transition:.25s;backdrop-filter:blur(15px)
 }
-.icon-btn:hover{border-color:var(--accent);transform:translateY(-1px)}
-.mobile-menu{display:none}
-.content{max-width:1500px;margin:auto;padding:30px 34px 50px}
-.page{display:none;animation:fadeUp .3s ease}
-.page.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;color:var(--accent);
-  font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase
-}
-.eyebrow:before{content:"";width:18px;height:1px;background:var(--accent)}
-.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:27px}
-.page-heading h1{font-size:clamp(26px,3vw,38px);letter-spacing:-1.3px;margin:9px 0 8px}
-.page-heading p{color:var(--muted);margin:0;line-height:1.6}
-.btn{
-  border:1px solid var(--border);background:var(--panel2);color:var(--text);
-  padding:11px 15px;border-radius:11px;font-weight:600;display:inline-flex;
-  align-items:center;justify-content:center;gap:8px;transition:.2s
-}
-.btn:hover{transform:translateY(-2px);border-color:var(--accent)}
-.btn-primary{border:0;color:white;background:linear-gradient(120deg,#a292ff,#6d5dfc);box-shadow:0 7px 20px #7864ff25}
-.btn-primary:hover{box-shadow:0 10px 28px #7864ff42}
-.btn-small{padding:8px 11px;font-size:12px}
+.icon-btn:hover{transform:translateY(-3px);border-color:var(--accent2);box-shadow:0 0 20px rgba(0,240,255,.25)}
+
+main{max-width:1450px;margin:auto;padding:0 26px 70px}
 .hero{
-  position:relative;overflow:hidden;border:1px solid #9b8cff2d;border-radius:25px;
-  background:linear-gradient(115deg,#17172a 0%,#17172a 45%,#211b42 100%);
-  padding:35px 36px;min-height:238px;display:flex;align-items:center;
-  margin-bottom:23px
+ position:relative;margin-top:30px;min-height:350px;overflow:hidden;
+ border:1px solid var(--border);border-radius:30px;padding:48px;
+ background:linear-gradient(115deg,rgba(98,66,200,.18),rgba(19,25,49,.4) 50%,rgba(0,240,255,.08));
+ box-shadow:var(--shadow);animation:rise .8s both;backdrop-filter:blur(20px)
 }
-body.light .hero{background:linear-gradient(115deg,#eeebff,#e8e5ff 58%,#d9e9ff)}
-.hero-copy{position:relative;z-index:2;max-width:590px}
-.hero h2{font-size:clamp(30px,4vw,47px);line-height:1.08;letter-spacing:-2px;margin:17px 0 14px}
-.hero h2 span{background:linear-gradient(90deg,#b9aaff,#72dff5);background-clip:text;-webkit-background-clip:text;color:transparent}
-.hero p{max-width:470px;color:#b3b4d0;line-height:1.8;margin-bottom:22px}
-body.light .hero p{color:#666987}
-.hero-orb{
-  position:absolute;width:310px;height:310px;right:7%;top:-38px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#c4b5ff,#8065f6 40%,#5540d8 67%,transparent 70%);
-  opacity:.32;filter:blur(2px)
+.hero:before{
+ content:"";position:absolute;width:360px;height:360px;border-radius:50%;
+ right:9%;top:-100px;border:1px solid rgba(169,145,255,.2);
+ box-shadow:0 0 0 35px rgba(169,145,255,.03),0 0 0 75px rgba(169,145,255,.02);
+ animation:spin 55s linear infinite
 }
-.hero-orb:after{content:"";position:absolute;inset:30px;border:1px solid #c8bdff66;border-radius:50%}
-.hero-orb:before{content:"";position:absolute;inset:62px;border:1px solid #c8bdff45;border-radius:50%}
-.hero-float{
-  position:absolute;right:9%;top:55px;z-index:1;width:170px;padding:16px;
-  border:1px solid #ffffff25;border-radius:17px;background:#ffffff0c;
-  backdrop-filter:blur(15px);transform:rotate(5deg)
+.hero-content{position:relative;z-index:2;max-width:640px}
+.eyebrow{
+ display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
+ border:1px solid rgba(161,138,255,.3);background:rgba(152,124,255,.1);border-radius:100px;
+ color:#b7a6ff;font-size:11px;font-weight:800;letter-spacing:1.2px
 }
-.float-label{font-size:10px;color:#d2caff}
-.float-big{font-size:28px;font-family:'Space Grotesk';margin:9px 0}
-.float-bars{display:flex;align-items:flex-end;gap:6px;height:34px}
-.float-bars i{display:block;flex:1;border-radius:4px 4px 1px 1px;background:linear-gradient(#b9aaff,#7460ef)}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:31px}
-.stat{
-  border:1px solid var(--border);border-radius:17px;background:var(--panel);
-  padding:18px;min-width:0;transition:.2s
+.dot{width:7px;height:7px;background:#00f0ff;border-radius:50%;box-shadow:0 0 12px #00f0ff}
+.clock-display{font-family:"Space Grotesk",sans-serif;font-size:14px;color:var(--accent2);margin-left:auto;font-weight:700}
+.hero h1{
+ font-family:"Space Grotesk",sans-serif;font-size:clamp(38px,5.6vw,72px);
+ line-height:1.04;letter-spacing:-3.5px;margin:24px 0 16px
 }
-.stat:hover{transform:translateY(-3px);border-color:#9b8cff60}
-.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:12px}
-.stat-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#9b8cff18;color:var(--accent);font-size:16px}
-.stat-number{font-size:29px;font-family:'Space Grotesk';font-weight:700;margin:14px 0 5px;letter-spacing:-1px}
-.stat-foot{font-size:11px;color:var(--muted)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 16px}
-.section-head h2{font-size:19px;letter-spacing:-.5px;margin:0}
-.section-head p{font-size:12px;color:var(--muted);margin:5px 0 0}
-.text-btn{border:0;background:none;color:var(--accent);font-weight:600;font-size:12px;padding:8px}
-.text-btn:hover{text-decoration:underline}
-.apps-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.hero p{max-width:490px;line-height:1.8;color:var(--muted);font-size:14px}
+.hero-buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.primary,.secondary,.action-btn{
+ border:0;border-radius:14px;padding:13px 22px;font-weight:750;font-size:13px;
+ transition:all .3s cubic-bezier(.2,.8,.2,1);display:inline-flex;align-items:center;gap:8px;
+ position:relative;overflow:hidden
+}
+.primary{background:linear-gradient(115deg,#a28aff,#00f0ff);color:#070812;box-shadow:0 10px 30px rgba(0,240,255,.3)}
+.secondary{background:var(--panel);border:1px solid var(--border);backdrop-filter:blur(15px)}
+.action-btn{background:var(--panel2);border:1px solid var(--border)}
+.primary:hover,.secondary:hover,.action-btn:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 15px 35px rgba(154,123,255,.3)}
+
+.hero-stats{display:flex;gap:32px;margin-top:30px;flex-wrap:wrap}
+.stat strong{font-size:22px;display:block;font-family:"Space Grotesk",sans-serif}
+.stat span{font-size:11px;color:var(--muted);display:block;margin-top:4px;letter-spacing:1px}
+
+.hero-art{
+ position:absolute;right:6%;top:50%;transform:translateY(-50%);
+ width:320px;height:270px;z-index:1;perspective:1000px
+}
+.art-card{
+ position:absolute;width:118px;height:145px;border:1px solid rgba(255,255,255,.18);
+ background:linear-gradient(140deg,rgba(255,255,255,.12),rgba(255,255,255,.02));
+ backdrop-filter:blur(20px);border-radius:23px;
+ display:grid;place-items:center;font-size:52px;
+ box-shadow:0 20px 60px rgba(0,0,0,.4);animation:float 6s ease-in-out infinite alternate
+}
+.art-card.a{left:12px;top:48px;transform:rotate(-18deg) rotateY(18deg)}
+.art-card.b{left:105px;top:5px;transform:rotate(9deg);animation-delay:-2s}
+.art-card.c{right:0;top:75px;transform:rotate(15deg);animation-delay:-4s}
+.art-card.d{left:104px;bottom:0;width:90px;height:95px;font-size:40px;transform:rotate(-8deg);animation-delay:-1s}
+
+.ticker{
+ overflow:hidden;margin:24px 0 38px;padding:13px 0;
+ border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+ white-space:nowrap;color:var(--muted);font-size:11px;letter-spacing:1.5px
+}
+.ticker-track{display:flex;width:max-content;animation:marquee 38s linear infinite;gap:30px}
+.ticker b{color:var(--text);font-weight:700}
+
+.section-head{
+ display:flex;align-items:end;justify-content:space-between;gap:15px;
+ margin:36px 0 19px;animation:rise .6s both
+}
+.section-head h2{font-family:"Space Grotesk",sans-serif;font-size:25px;letter-spacing:-1px;margin:0}
+.section-head p{color:var(--muted);font-size:12px;margin:8px 0 0}
+.section-right{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.small-btn{
+ padding:9px 14px;background:var(--panel);border:1px solid var(--border);
+ border-radius:10px;font-size:11px;backdrop-filter:blur(15px);transition:.25s
+}
+.small-btn:hover{border-color:var(--accent2);box-shadow:0 0 15px rgba(0,240,255,.2)}
+
+.categories{display:flex;gap:9px;overflow:auto;padding:3px 2px 15px;scrollbar-width:none}
+.categories::-webkit-scrollbar{display:none}
+.cat{
+ flex-shrink:0;border:1px solid var(--border);background:var(--panel);
+ border-radius:100px;padding:10px 18px;font-size:12px;font-weight:650;
+ transition:.25s;backdrop-filter:blur(15px)
+}
+.cat:hover,.cat.active{background:linear-gradient(110deg,#9c7cff,#00f0ff);color:#070812;border-color:transparent;box-shadow:0 5px 20px rgba(0,240,255,.3)}
+
+/* 3D Interactive Grid & Cards */
+.apps-grid{
+ display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;
+ perspective:1000px
+}
 .app-card{
-  min-width:0;border:1px solid var(--border);border-radius:17px;
-  background:var(--panel);padding:17px;transition:transform .2s,border-color .2s;
-  position:relative;overflow:hidden
+ position:relative;min-width:0;overflow:hidden;text-align:left;
+ background:var(--panel);border:1px solid var(--border);border-radius:22px;
+ padding:18px;transition:transform .15s ease-out, border-color .3s, box-shadow .3s;
+ transform-style:preserve-3d;cursor:pointer;backdrop-filter:blur(20px)
 }
-.app-card:hover{transform:translateY(-4px);border-color:#9b8cff60}
-.app-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.app-logo{
-  width:43px;height:43px;display:grid;place-items:center;border-radius:14px;
-  background:var(--panel2);font-size:22px
+.app-card.focused{
+ border-color:var(--accent2);box-shadow:0 0 25px rgba(0,240,255,.3);
 }
-.favorite-btn{border:0;background:transparent;color:var(--muted);font-size:19px;padding:3px}
-.favorite-btn.on{color:var(--yellow)}
-.app-card h3{font-size:14px;margin:16px 0 5px}
-.app-card p{font-size:11px;color:var(--muted);margin:0 0 17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.app-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:7px}
-.category{font-size:10px;color:var(--muted);background:var(--panel2);padding:5px 7px;border-radius:6px}
-.open-link{font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap}
-.open-link:hover{text-decoration:underline}
-.dashboard-columns{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;margin-top:31px}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:21px;min-width:0}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
-.panel-head h2{font-size:17px;margin:0}
-.panel-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
-.task-list{display:grid;gap:9px}
-.task-row{
-  display:flex;align-items:center;gap:11px;padding:12px;
-  background:var(--panel2);border-radius:12px;min-width:0
+.app-card:before{
+ content:"";position:absolute;inset:0;opacity:0;
+ background:radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,.2) 0%, transparent 60%);
+ transition:opacity .3s;pointer-events:none
 }
-.task-check{
-  appearance:none;flex-shrink:0;width:18px;height:18px;border:1px solid #6e728a;
-  border-radius:6px;display:grid;place-items:center;cursor:pointer
+.app-card:hover:before{opacity:1}
+.app-card:hover{
+ border-color:rgba(0,240,255,.4);
+ box-shadow:0 20px 40px rgba(0,0,0,.5), 0 0 30px rgba(154,123,255,.2)
 }
-.task-check:checked{background:var(--accent);border-color:var(--accent)}
-.task-check:checked:after{content:"✓";color:white;font-size:12px}
-.task-text{flex:1;min-width:0;overflow-wrap:anywhere}
-.task-text.done{text-decoration:line-through;color:var(--muted)}
-.task-meta{font-size:10px;color:var(--muted);margin-top:5px}
-.task-delete{border:0;background:none;color:var(--muted);font-size:15px;padding:5px}
-.task-delete:hover{color:var(--red)}
-.note-preview{
-  padding:16px;background:linear-gradient(135deg,#9b8cff12,#70e1f50b);
-  border:1px solid #9b8cff1b;border-radius:13px;min-height:120px
+.card-top{display:flex;justify-content:space-between;align-items:center;position:relative;transform:translateZ(20px)}
+.app-icon{
+ width:57px;height:57px;display:grid;place-items:center;border-radius:18px;
+ background:var(--appbg,#292342);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.25), 0 10px 20px rgba(0,0,0,.3);
+ transition:transform .3s;padding:12px;font-size:24px
 }
-.note-preview h3{font-size:13px;margin:0 0 10px}
-.note-preview p{font-size:12px;line-height:1.8;color:var(--muted);margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
-.empty-state{padding:25px 12px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
-.empty-state .empty-icon{font-size:27px;margin-bottom:9px;opacity:.75}
-.filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:19px}
-.filter-chip{padding:8px 12px;border-radius:10px;background:var(--panel);border:1px solid var(--border);color:var(--muted);font-size:11px}
-.filter-chip.active{color:var(--text);background:#9b8cff1c;border-color:#9b8cff70}
-.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.field{
-  width:100%;background:var(--panel2);border:1px solid var(--border);
-  border-radius:11px;padding:12px 13px;color:var(--text);outline:none
+.app-icon img{
+ width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
-.field:focus{border-color:var(--accent)}
-.field::placeholder{color:var(--muted)}
-textarea.field{resize:vertical;min-height:130px;line-height:1.7}
-select.field{cursor:pointer}
-.form-row{display:flex;gap:10px}
-.form-row>*{min-width:0}
-.task-create{display:flex;gap:9px;margin-bottom:16px}
-.task-create input{flex:1;min-width:0}
-.task-detail{font-size:11px;color:var(--muted)}
-.notes-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:17px;min-height:440px}
-.note-list-panel,.note-editor{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:16px;min-width:0}
-.note-item{padding:13px;border-radius:11px;background:var(--panel2);margin-top:9px;cursor:pointer;border:1px solid transparent}
-.note-item.active{border-color:#9b8cff70;background:#9b8cff12}
-.note-item h4{font-size:12px;margin:0 0 7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.note-item p{font-size:10px;color:var(--muted);margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.note-editor{display:flex;flex-direction:column;gap:12px}
-.note-editor input{font-family:'Space Grotesk';font-size:21px;font-weight:700;background:transparent;border:0;border-bottom:1px solid var(--border);border-radius:0;padding:12px 0}
-.note-editor textarea{flex:1;min-height:270px;background:transparent;border:0;padding:12px 0;resize:vertical}
-.note-editor-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:10px}
-.focus-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);gap:18px}
-.focus-card{
-  border:1px solid var(--border);border-radius:22px;background:var(--panel);
-  padding:32px;text-align:center
+.app-card:hover .app-icon{transform:translateZ(30px) scale(1.1) rotate(-4deg)}
+.fav{
+ width:32px;height:32px;border:1px solid var(--border);
+ background:var(--panel);border-radius:10px;font-size:17px;
+ display:grid;place-items:center;color:var(--muted);z-index:2;transition:.2s
 }
-.timer-ring{
-  width:min(260px,75vw);aspect-ratio:1;margin:25px auto;
-  border-radius:50%;display:grid;place-items:center;
-  background:conic-gradient(var(--accent) var(--progress,0%),var(--panel3) 0);
-  position:relative
+.fav:hover{transform:scale(1.15)}
+.fav.active{color:#ff6ea9;border-color:rgba(255,110,169,.5);box-shadow:0 0 15px rgba(255,110,169,.4)}
+.app-card h3{position:relative;font-size:15px;margin:18px 0 6px;font-weight:800;transform:translateZ(15px)}
+.app-card p{position:relative;font-size:11px;line-height:1.55;color:var(--muted);margin:0;min-height:34px;transform:translateZ(10px)}
+.card-bottom{position:relative;display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:5px;transform:translateZ(15px)}
+.app-tag{font-size:9px;color:var(--muted);letter-spacing:.5px;font-weight:700}
+.launch{
+ border:0;background:rgba(142,122,255,.18);color:#c7baff;border-radius:10px;
+ padding:8px 12px;font-size:11px;font-weight:800;white-space:nowrap;transition:.25s
 }
-.timer-ring:before{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--panel)}
-.timer-inner{position:relative;z-index:1}
-.timer-time{font-family:'Space Grotesk';font-size:clamp(37px,6vw,56px);font-weight:600;letter-spacing:-2px}
-.timer-label{color:var(--muted);font-size:11px;margin-top:6px}
-.timer-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-.duration-options{display:flex;justify-content:center;gap:7px;margin:20px 0}
-.duration-btn{padding:8px 12px;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--muted);font-size:11px}
-.duration-btn.active{background:#9b8cff1b;color:var(--text);border-color:var(--accent)}
-.focus-side{display:grid;gap:15px;align-content:start}
-.focus-stat{display:flex;justify-content:space-between;align-items:center;padding:13px;background:var(--panel2);border-radius:12px}
-.focus-stat span{color:var(--muted);font-size:12px}
-.focus-stat strong{font-family:'Space Grotesk';font-size:18px}
-.guide-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.guide-card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:21px;transition:.2s}
-.guide-card:hover{transform:translateY(-3px);border-color:#9b8cff60}
-.guide-art{height:112px;border-radius:13px;margin-bottom:17px;display:grid;place-items:center;font-size:39px;background:linear-gradient(135deg,#9b8cff26,#70e1f518)}
-.guide-card h3{font-size:15px;margin:0 0 8px}
-.guide-card p{color:var(--muted);font-size:12px;line-height:1.8;min-height:60px}
-.guide-tag{display:inline-block;color:var(--accent);background:#9b8cff15;border-radius:6px;padding:5px 8px;font-size:10px}
-.modal-backdrop{
-  position:fixed;inset:0;z-index:60;background:#05060bd9;backdrop-filter:blur(8px);
-  display:none;align-items:center;justify-content:center;padding:18px
+.launch:hover{background:var(--accent2);color:#070812;box-shadow:0 0 15px rgba(0,240,255,.5)}
+
+/* Professional Recently Opened Cards */
+.history-grid{
+ display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:15px;
 }
-.modal-backdrop.show{display:flex}
-.modal{width:min(480px,100%);background:var(--panel);border:1px solid var(--border);border-radius:21px;padding:24px;box-shadow:var(--shadow);animation:fadeUp .2s}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.modal-head h2{font-size:20px;margin:0}
-.modal-close{border:0;background:var(--panel2);color:var(--text);border-radius:9px;width:32px;height:32px}
-.modal-form{display:grid;gap:13px}
-.modal-form label{display:grid;gap:7px;font-size:11px;color:var(--muted)}
-.toast-area{position:fixed;right:20px;bottom:20px;z-index:100;display:grid;gap:9px}
+.history-card{
+ display:flex;align-items:center;gap:12px;padding:12px 16px;
+ border:1px solid var(--border);background:var(--panel);border-radius:16px;
+ font-size:13px;font-weight:700;cursor:pointer;backdrop-filter:blur(20px);
+ transition:all .25s ease
+}
+.history-card:hover{
+ border-color:var(--accent2);transform:translateY(-4px);
+ box-shadow:0 10px 25px rgba(0,240,255,.18)
+}
+.history-icon-box{
+ width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+ padding:6px;background:var(--panel2);border:1px solid var(--border);flex-shrink:0
+}
+.history-icon-box img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.history-info{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history-info span{display:block;font-size:13px;color:var(--text)}
+.history-launch{font-size:10px;color:var(--accent2);margin-left:auto;font-weight:800}
+
+/* Launch Overlay Animation */
+.launch-overlay{
+ position:fixed;inset:0;background:rgba(7,8,18,.92);
+ backdrop-filter:blur(25px);z-index:9000;display:none;
+ flex-direction:column;align-items:center;justify-content:center;
+ animation:pop .3s both
+}
+.launch-overlay.show{display:flex}
+.launch-spinner{
+ width:80px;height:80px;border-radius:50%;border:3px solid var(--border);
+ border-top-color:var(--accent2);animation:spin .8s linear infinite;
+ margin-bottom:20px;box-shadow:0 0 30px rgba(0,240,255,.4)
+}
+
+/* Modal */
+.modal{
+ position:fixed;inset:0;z-index:2000;background:rgba(5,6,15,.85);
+ backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px
+}
+.modal.show{display:flex;animation:pop .25s both}
+.modal-content{
+ background:var(--panel2);border:1px solid var(--border);
+ border-radius:26px;padding:36px;width:min(520px,100%);
+ box-shadow:var(--shadow)
+}
+.modal-content h3{margin:0 0 8px;font-family:"Space Grotesk",sans-serif;font-size:24px}
+.modal-content p{margin:0 0 20px;color:var(--muted);font-size:12px;line-height:1.6}
+.form-group{margin-bottom:16px;text-align:left}
+.form-group label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:700}
+.form-group input, .form-group select, .form-group textarea{
+ width:100%;border-radius:12px;border:1px solid var(--border);
+ background:var(--panel);color:var(--text);padding:10px 14px;outline:none
+}
+.modal-buttons{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+
+/* Professional Footer */
+footer{
+ border-top:1px solid var(--border);margin-top:80px;padding:45px 0 20px;
+ display:flex;flex-direction:column;gap:30px;
+}
+.footer-top{
+ display:flex;justify-content:space-between;align-items:start;gap:30px;flex-wrap:wrap;
+}
+.footer-brand p{font-size:12px;color:var(--muted);line-height:1.8;max-width:480px;margin-top:12px}
+.footer-links-group{display:flex;gap:40px;flex-wrap:wrap}
+.footer-column h4{font-size:13px;font-family:"Space Grotesk",sans-serif;margin:0 0 14px;color:var(--text);letter-spacing:.5px}
+.footer-column ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.footer-column a{color:var(--muted);font-size:12px;text-decoration:none;transition:.2s}
+.footer-column a:hover{color:var(--accent2)}
+.footer-bottom{
+ border-top:1px solid var(--border);padding-top:20px;display:flex;
+ justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;flex-wrap:wrap;gap:15px
+}
+
 .toast{
-  background:var(--panel);color:var(--text);border:1px solid var(--border);
-  box-shadow:var(--shadow);border-radius:12px;padding:13px 16px;
-  min-width:210px;max-width:340px;font-size:12px;animation:fadeUp .2s
+ position:fixed;bottom:35px;left:50%;transform:translate(-50%,25px);
+ opacity:0;pointer-events:none;z-index:3000;background:var(--panel2);
+ border:1px solid var(--border);border-radius:14px;padding:14px 22px;
+ font-size:12px;box-shadow:var(--shadow);transition:.3s;max-width:90vw
 }
-.toast.success{border-left:3px solid var(--green)}
-.toast.error{border-left:3px solid var(--red)}
-.footer{padding:24px 0 0;margin-top:34px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:15px;color:var(--muted);font-size:10px}
-.footer strong{color:var(--text);letter-spacing:2px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 .hidden{display:none!important}
-@media(max-width:1150px){
-  :root{--sidebar:220px}
-  .content{padding:25px 23px 40px}
-  .topbar{padding:0 23px}
-  .apps-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .hero-float{right:5%}
+
+@media(max-width:1100px){
+ .apps-grid, .history-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
-@media(max-width:850px){
-  .sidebar{transform:translateX(-100%);box-shadow:var(--shadow)}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}
-  .mobile-menu{display:grid}
-  .topbar{height:66px;padding:0 18px}
-  .content{padding:23px 18px 35px}
-  .dashboard-columns,.focus-layout{grid-template-columns:1fr}
-  .hero-float{right:4%;opacity:.65}
-  .hero-copy{max-width:70%}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:580px){
-  .topbar{gap:10px}
-  .breadcrumb{display:none}
-  .searchbox{width:auto;flex:1;padding:9px}
-  .searchbox .keycap{display:none}
-  .top-actions{gap:7px}
-  .content{padding:19px 13px 28px}
-  .page-heading{align-items:flex-start;flex-direction:column;margin-bottom:20px}
-  .page-heading h1{font-size:29px}
-  .hero{padding:25px 21px;min-height:245px}
-  .hero-copy{max-width:100%}
-  .hero h2{font-size:35px}
-  .hero p{font-size:12px;max-width:290px}
-  .hero-orb{right:-130px;top:30px}
-  .hero-float{display:none}
-  .stats{gap:9px}
-  .stat{padding:13px}
-  .stat-number{font-size:25px}
-  .stat-top{font-size:10px}
-  .apps-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .app-card{padding:13px}
-  .app-logo{width:38px;height:38px}
-  .dashboard-columns{gap:13px;margin-top:24px}
-  .panel{padding:15px}
-  .notes-layout{grid-template-columns:1fr}
-  .note-list-panel{max-height:230px;overflow:auto}
-  .guide-grid{grid-template-columns:1fr}
-  .guide-card p{min-height:0}
-  .guide-art{height:85px}
-  .focus-card{padding:20px 12px}
-  .footer{flex-direction:column}
-  .form-row{flex-direction:column}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+@media(max-width:760px){
+ .topbar{height:66px}.nav{padding:0 15px;gap:12px}
+ .brand-name{font-size:20px}.nav-search{max-width:none}
+ .shortcut{display:none}.desktop-action{display:none}
+ main{padding:0 15px 45px}
+ .hero{margin-top:18px;padding:29px 23px;min-height:360px}
+ .hero h1{font-size:44px;letter-spacing:-2.5px}
+ .hero-art{width:180px;height:155px;right:-15px;top:auto;bottom:5px;transform:none;opacity:.34}
+ .art-card{width:70px;height:88px;font-size:30px;border-radius:15px}
+ .apps-grid, .history-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .footer-top{flex-direction:column}
 }
 </style>
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand-row">
-      <div class="brand-mark">V</div>
-      <div><div class="brand">VYBE</div><div class="brand-sub">YOUR DIGITAL SPACE</div></div>
-    </div>
-    <div class="nav-group">
-      <div class="nav-label">WORKSPACE</div>
-      <button class="nav-btn active" data-page="overview"><span class="nav-icon">⌂</span>Overview</button>
-      <button class="nav-btn" data-page="apps"><span class="nav-icon">▦</span>App launcher <span class="nav-count" id="navAppCount">8</span></button>
-      <button class="nav-btn" data-page="tasks"><span class="nav-icon">✓</span>Tasks <span class="nav-count" id="navTaskCount">0</span></button>
-      <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>Quick notes</button>
-      <button class="nav-btn" data-page="focus"><span class="nav-icon">◷</span>Focus timer</button>
-    </div>
-    <div class="nav-group">
-      <div class="nav-label">EXPLORE</div>
-      <button class="nav-btn" data-page="discover"><span class="nav-icon">✧</span>Discover & guides</button>
-    </div>
-    <div class="sidebar-bottom">
-      <button class="nav-btn" id="sidebarTheme"><span class="nav-icon">☼</span>Switch appearance</button>
-      <div class="profile">
-        <div class="avatar">V</div>
-        <div><div class="profile-name">My Workspace</div><div class="profile-sub">Personal edition</div></div>
-        <div class="profile-more">•••</div>
-      </div>
-    </div>
-  </aside>
+<canvas id="bgCanvas"></canvas>
+<div id="spotlight"></div>
 
-  <main class="main">
-    <header class="topbar">
-      <button class="icon-btn mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button>
-      <div class="breadcrumb">Workspace <span> / </span> <strong id="crumb">Overview</strong></div>
-      <div class="top-actions">
-        <label class="searchbox"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search workspace..." aria-label="Search workspace"><span class="keycap">/</span></label>
-        <button class="icon-btn" id="themeToggle" title="Switch theme" aria-label="Switch theme">☼</button>
-        <button class="icon-btn" id="quickAdd" title="Create a task" aria-label="Create a task">＋</button>
-      </div>
-    </header>
-
-    <div class="content">
-      <section class="page active" id="page-overview">
-        <div class="page-heading">
-          <div><span class="eyebrow">YOUR PERSONAL WORKSPACE</span><h1 id="greeting">Make room for<br>your next big thing.</h1><p>Your apps, tasks and ideas — all in one calm, organized space.</p></div>
-          <button class="btn btn-primary" data-go="apps">Explore your apps ↗</button>
-        </div>
-        <div class="hero">
-          <div class="hero-copy">
-            <span class="eyebrow">LESS CLUTTER. MORE DOING.</span>
-            <h2>Your space.<br><span>Your flow.</span></h2>
-            <p>One simple place to organize your digital day. Keep your tools close, your ideas safe and your focus on what matters.</p>
-            <button class="btn btn-primary" data-go="tasks">Plan your day <span>→</span></button>
-          </div>
-          <div class="hero-orb"></div>
-          <div class="hero-float"><div class="float-label">YOUR MOMENTUM</div><div class="float-big">Keep going ✦</div><div class="float-bars"><i style="height:35%"></i><i style="height:58%"></i><i style="height:43%"></i><i style="height:76%"></i><i style="height:64%"></i><i style="height:100%"></i><i style="height:82%"></i></div></div>
-        </div>
-        <div class="stats">
-          <div class="stat"><div class="stat-top">Saved apps <span class="stat-icon">▦</span></div><div class="stat-number" id="statApps">8</div><div class="stat-foot">Your digital shortcuts</div></div>
-          <div class="stat"><div class="stat-top">Tasks left <span class="stat-icon">✓</span></div><div class="stat-number" id="statTasks">0</div><div class="stat-foot">One step at a time</div></div>
-          <div class="stat"><div class="stat-top">Completed <span class="stat-icon">✧</span></div><div class="stat-number" id="statDone">0</div><div class="stat-foot">Little wins count</div></div>
-          <div class="stat"><div class="stat-top">Favorites <span class="stat-icon">☆</span></div><div class="stat-number" id="statFav">0</div><div class="stat-foot">Your go-to apps</div></div>
-        </div>
-        <div class="section-head"><div><h2>Your apps</h2><p>Everything you need, just a click away.</p></div><button class="text-btn" data-go="apps">View all →</button></div>
-        <div class="apps-grid" id="homeApps"></div>
-        <div class="dashboard-columns">
-          <div class="panel"><div class="panel-head"><div><h2>Today's tasks</h2><p>Keep your momentum going.</p></div><button class="text-btn" data-go="tasks">Open →</button></div><div class="task-list" id="homeTasks"></div></div>
-          <div class="panel"><div class="panel-head"><div><h2>Quick notes</h2><p>Capture a thought before it slips away.</p></div><button class="text-btn" data-go="notes">Write →</button></div><div class="note-preview"><h3 id="homeNoteTitle">Your next great idea starts here.</h3><p id="homeNoteText">Create a note and keep your thoughts in one place.</p></div></div>
-        </div>
-      </section>
-
-      <section class="page" id="page-apps">
-        <div class="page-heading"><div><span class="eyebrow">YOUR TOOLKIT</span><h1>App launcher</h1><p>Your favorite destinations, organized in one place.</p></div><button class="btn btn-primary" id="addAppBtn">＋ Add custom app</button></div>
-        <div class="toolbar" style="margin-bottom:18px"><label class="searchbox" style="width:min(340px,100%)"><span>⌕</span><input id="appSearch" type="search" placeholder="Find an app..."></label></div>
-        <div class="filter-row" id="appFilters"><button class="filter-chip active" data-filter="All">All apps</button><button class="filter-chip" data-filter="Productivity">Productivity</button><button class="filter-chip" data-filter="Learning">Learning</button><button class="filter-chip" data-filter="Entertainment">Entertainment</button><button class="filter-chip" data-filter="Favorites">★ Favorites</button></div>
-        <div class="apps-grid" id="allApps"></div>
-      </section>
-
-      <section class="page" id="page-tasks">
-        <div class="page-heading"><div><span class="eyebrow">MAKE IT HAPPEN</span><h1>Task manager</h1><p>Small steps turn into big progress. Start with one.</p></div></div>
-        <div class="panel" style="margin-bottom:18px">
-          <form class="task-create" id="taskForm"><input class="field" id="taskInput" maxlength="180" required placeholder="What would you like to get done?"><button class="btn btn-primary" type="submit">＋ Add task</button></form>
-          <div class="filter-row" id="taskFilters"><button class="filter-chip active" data-task-filter="All">All tasks</button><button class="filter-chip" data-task-filter="Active">To do</button><button class="filter-chip" data-task-filter="Completed">Completed</button></div>
-          <div class="task-list" id="allTasks"></div>
-        </div>
-      </section>
-
-      <section class="page" id="page-notes">
-        <div class="page-heading"><div><span class="eyebrow">YOUR THOUGHTS, SAFE</span><h1>Quick notes</h1><p>Collect ideas, reminders and the little things worth remembering.</p></div><button class="btn btn-primary" id="newNoteBtn">＋ New note</button></div>
-        <div class="notes-layout">
-          <div class="note-list-panel"><div class="panel-head"><h2>Your notes</h2><span class="task-detail" id="noteCount">0 notes</span></div><div id="noteList"></div></div>
-          <div class="note-editor" id="noteEditor"><input id="noteTitle" class="field" maxlength="120" placeholder="Give your note a title..."><textarea id="noteBody" class="field" maxlength="20000" placeholder="Start writing something wonderful..."></textarea><div class="note-editor-footer"><span id="noteStatus">Saved in this browser</span><div class="toolbar"><button class="btn btn-small" id="deleteNoteBtn">Delete</button><button class="btn btn-small btn-primary" id="saveNoteBtn">Save note</button></div></div></div>
-        </div>
-      </section>
-
-      <section class="page" id="page-focus">
-        <div class="page-heading"><div><span class="eyebrow">PROTECT YOUR ATTENTION</span><h1>Focus studio</h1><p>One thing at a time. Give your best work your full attention.</p></div></div>
-        <div class="focus-layout">
-          <div class="focus-card"><span class="eyebrow">FOCUS SESSION</span><div class="timer-ring" id="timerRing" style="--progress:100%"><div class="timer-inner"><div class="timer-time" id="timerDisplay">25:00</div><div class="timer-label" id="timerLabel">Ready when you are</div></div></div><div class="duration-options"><button class="duration-btn active" data-minutes="25">25 min</button><button class="duration-btn" data-minutes="15">15 min</button><button class="duration-btn" data-minutes="5">5 min</button></div><div class="timer-actions"><button class="btn btn-primary" id="timerStart">▶ Start focus</button><button class="btn" id="timerReset">↻ Reset</button></div></div>
-          <div class="focus-side"><div class="panel"><div class="panel-head"><div><h2>Your focus</h2><p>A little progress adds up.</p></div><span class="stat-icon">✧</span></div><div class="focus-stat"><span>Sessions completed</span><strong id="focusSessions">0</strong></div><div class="focus-stat" style="margin-top:9px"><span>Minutes focused</span><strong id="focusMinutes">0</strong></div><div class="focus-stat" style="margin-top:9px"><span>Today's intention</span><strong>Show up</strong></div></div><div class="panel"><h2 style="font-size:16px">A tiny reminder</h2><p style="font-size:12px;line-height:1.9;color:var(--muted);margin:0">You don't need to finish everything today. Choose one meaningful thing, silence distractions and begin. Consistency beats perfection.</p></div></div>
-        </div>
-      </section>
-
-      <section class="page" id="page-discover">
-        <div class="page-heading"><div><span class="eyebrow">EXPLORE YOUR POTENTIAL</span><h1>Discover & guides</h1><p>Simple ways to make your workspace work harder for you.</p></div></div>
-        <div class="guide-grid">
-          <article class="guide-card"><div class="guide-art">🎯</div><span class="guide-tag">PRODUCTIVITY</span><h3>Plan a calmer day</h3><p>Write down your three most important tasks. Start with the smallest useful action and leave room for breaks.</p><button class="text-btn" data-go="tasks">Create a task list →</button></article>
-          <article class="guide-card"><div class="guide-art">🧠</div><span class="guide-tag">FOCUS</span><h3>Try a focus sprint</h3><p>Work on one thing for 25 minutes. Take a short break, stretch and repeat only when you feel ready.</p><button class="text-btn" data-go="focus">Start a focus session →</button></article>
-          <article class="guide-card"><div class="guide-art">✍️</div><span class="guide-tag">IDEAS</span><h3>Capture ideas quickly</h3><p>Don't rely on remembering every thought. Save the idea first and organize it when you have time.</p><button class="text-btn" data-go="notes">Write a note →</button></article>
-          <article class="guide-card"><div class="guide-art">🧹</div><span class="guide-tag">ORGANIZATION</span><h3>Keep your digital space tidy</h3><p>Favorite the apps you use most and remove shortcuts you no longer need. Less searching means less friction.</p><button class="text-btn" data-go="apps">Organize your apps →</button></article>
-          <article class="guide-card"><div class="guide-art">🌱</div><span class="guide-tag">HABITS</span><h3>Make progress visible</h3><p>Check off finished tasks. Small visible wins help you see what you've achieved instead of only what's left.</p><button class="text-btn" data-go="tasks">See your tasks →</button></article>
-          <article class="guide-card"><div class="guide-art">☁️</div><span class="guide-tag">PRIVACY</span><h3>Understand your data</h3><p>Your notes, tasks and preferences are saved locally in this browser. Clearing site data can erase them, so keep important backups.</p><button class="text-btn" id="exportDataBtn">Export my data ↓</button></article>
-        </div>
-      </section>
-
-      <footer class="footer"><div><strong>VYBE</strong> <span>· Version 3.0</span></div><div>Personal workspace · Your data stays in this browser</div></footer>
-    </div>
-  </main>
+<div class="intro" id="intro">
+ <div class="intro-inner">
+  <div class="logo-mark">V</div>
+  <h1>VYBE<span class="gradient">.</span></h1>
+  <p>YOUR SOCIAL UNIVERSE OS</p>
+  <div class="loader"></div>
+ </div>
 </div>
 
-<div class="modal-backdrop" id="appModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal"><div class="modal-head"><h2 id="modalTitle">Add a custom app</h2><button class="modal-close" data-close="appModal" aria-label="Close">✕</button></div>
-    <form class="modal-form" id="appForm">
-      <label>App name<input class="field" id="customAppName" maxlength="60" required placeholder="e.g. My portfolio"></label>
-      <label>Website URL<input class="field" id="customAppUrl" type="url" required placeholder="https://example.com"></label>
-      <label>Icon (emoji)<input class="field" id="customAppIcon" maxlength="8" value="🌐" placeholder="🌐"></label>
-      <label>Category<select class="field" id="customAppCategory"><option>Productivity</option><option>Learning</option><option>Entertainment</option><option>Other</option></select></label>
-      <button class="btn btn-primary" type="submit">Add to my workspace →</button>
-    </form>
+<header class="topbar">
+ <nav class="nav">
+  <a class="brand" href="#">
+   <span class="brand-icon">V</span>
+   <span class="brand-name">VYBE<span>.</span></span>
+  </a>
+  <div class="nav-search">
+   <span class="search-icon">⌕</span>
+   <input id="search" type="search" placeholder="Search apps (Press Ctrl+K)..." autocomplete="off">
+   <span class="shortcut">CTRL + K</span>
   </div>
+  <div class="nav-actions">
+   <button class="icon-btn" id="quickNotesBtn" title="Quick Notes">📝</button>
+   <button class="icon-btn" id="soundToggleBtn" title="Toggle Sound">🔊</button>
+   <button class="icon-btn desktop-action" id="favoritesShortcut" title="Favorites">♡</button>
+   <button class="icon-btn" id="themeBtn" title="Change theme">☼</button>
+  </div>
+ </nav>
+</header>
+
+<main>
+ <section class="hero" id="home">
+  <div class="hero-content">
+   <div style="display:flex;align-items:center;gap:10px;">
+     <span class="eyebrow"><span class="dot"></span> ONE HUB. ENDLESS POSSIBILITIES.</span>
+     <span class="clock-display" id="clockDisplay">00:00 AM</span>
+   </div>
+   <h1>Your digital life.<br><span class="gradient">One universe.</span></h1>
+   <p>Discover your favorite social platforms in one beautiful place. Search, explore and launch your everyday apps from one next-level dashboard.</p>
+   <div class="hero-buttons">
+    <button class="primary" id="exploreBtn">✦ Explore Apps &nbsp; ↗</button>
+    <button class="secondary" id="favoritesBtn">♡ Your Favorites</button>
+    <button class="action-btn" id="addCustomAppBtn">➕ Add Custom App</button>
+   </div>
+   <div class="hero-stats">
+    <div class="stat"><strong id="appCount">00</strong><span>PLATFORMS</span></div>
+    <div class="stat"><strong id="favCount">00</strong><span>YOUR FAVORITES</span></div>
+    <div class="stat"><strong id="recentCount">00</strong><span>RECENTLY OPENED</span></div>
+   </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+   <div class="art-card a">▶️</div>
+   <div class="art-card b">🌐</div>
+   <div class="art-card c">🚀</div>
+   <div class="art-card d">⚡</div>
+  </div>
+ </section>
+
+ <div class="ticker">
+  <div class="ticker-track">
+   <span>✦ <b>CONNECT</b> EVERYWHERE</span><span>✦ CREATOR ECONOMY</span>
+   <span>✦ YOUR DIGITAL WORLD</span><span>✦ ONE BEAUTIFUL HUB</span>
+   <span>✦ <b>CONNECT</b> EVERYWHERE</span><span>✦ CREATOR ECONOMY</span>
+   <span>✦ YOUR DIGITAL WORLD</span><span>✦ ONE BEAUTIFUL HUB</span>
+  </div>
+ </div>
+
+ <section id="appsSection">
+  <div class="section-head">
+   <div><h2 id="gridTitle">Explore the universe</h2><p id="gridDescription">Your favorite platforms, just one click away.</p></div>
+   <div class="section-right">
+    <button class="small-btn" id="exportBtn" title="Backup">📥 Backup</button>
+    <button class="small-btn" id="importBtn" title="Restore">📤 Restore</button>
+    <input type="file" id="importFile" accept=".json" class="hidden">
+    <button class="small-btn" id="resetFilters">↺ Reset</button>
+   </div>
+  </div>
+  <div class="categories" id="categories"></div>
+  <div class="apps-grid" id="appsGrid"></div>
+ </section>
+
+ <section id="recentSection" class="hidden">
+  <div class="section-head">
+   <div><h2>Recently opened</h2><p>Pick up where you left off.</p></div>
+   <button class="small-btn" id="clearRecent">Clear history</button>
+  </div>
+  <div class="history-grid" id="historyList"></div>
+ </section>
+
+ <footer>
+  <div class="footer-top">
+   <div class="footer-brand">
+    <a class="brand" href="#"><span class="brand-icon">V</span><span class="brand-name">VYBE<span>.</span></span></a>
+    <p>VYBE is an independent next-generation app dashboard designed for seamless navigation. All product trademarks belong to their respective owners.</p>
+   </div>
+   <div class="footer-links-group">
+    <div class="footer-column">
+     <h4>Platform</h4>
+     <ul>
+      <li><a href="#home">Home Launcher</a></li>
+      <li><a href="#appsSection">Explore Apps</a></li>
+      <li><a href="javascript:void(0)" id="openAboutModal">About VYBE</a></li>
+     </ul>
+    </div>
+    <div class="footer-column">
+     <h4>Legal & Privacy</h4>
+     <ul>
+      <li><a href="javascript:void(0)" id="openPrivacyModal">Privacy Policy</a></li>
+      <li><a href="javascript:void(0)" id="openTermsModal">Terms of Service</a></li>
+     </ul>
+    </div>
+    <div class="footer-column">
+     <h4>Support</h4>
+     <ul>
+      <li><a href="javascript:void(0)" id="openContactModal">Contact Us</a></li>
+     </ul>
+    </div>
+   </div>
+  </div>
+  <div class="footer-bottom">
+   <div>&copy; 2026 VYBE Social Universe. All rights reserved.</div>
+   <div><a href="#home" style="color:var(--muted);text-decoration:none">Back to top ↑</a></div>
+  </div>
+ </footer>
+</main>
+
+<!-- Launch Overlay Portal -->
+<div class="launch-overlay" id="launchOverlay">
+ <div class="launch-spinner"></div>
+ <h2 style="font-family:'Space Grotesk',sans-serif;margin:0;font-size:26px" id="launchAppName">Launching...</h2>
+ <p style="color:var(--muted);font-size:12px;margin-top:8px">Connecting to official secure platform</p>
 </div>
 
-<div class="modal-backdrop" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
-  <div class="modal"><div class="modal-head"><h2 id="taskModalTitle">Create a task</h2><button class="modal-close" data-close="taskModal" aria-label="Close">✕</button></div>
-    <form class="modal-form" id="quickTaskForm"><label>Task<input class="field" id="quickTaskInput" maxlength="180" required placeholder="What needs to get done?"></label><button class="btn btn-primary" type="submit">Create task →</button></form>
-  </div>
+<!-- Custom App Modal -->
+<div class="modal" id="customAppModal">
+ <div class="modal-content">
+  <h3>Add Custom App</h3>
+  <p>Add any website URL to your personal VYBE universe.</p>
+  <form id="customAppForm">
+   <div class="form-group">
+    <label>App Name</label>
+    <input type="text" id="customAppName" placeholder="e.g. My Portfolio" required>
+   </div>
+   <div class="form-group">
+    <label>Website URL</label>
+    <input type="url" id="customAppUrl" placeholder="https://example.com" required>
+   </div>
+   <div class="form-group">
+    <label>Category</label>
+    <select id="customAppCategory">
+      <option value="Tools">Tools</option>
+      <option value="Social">Social</option>
+      <option value="Creative">Creative</option>
+      <option value="Professional">Professional</option>
+    </select>
+   </div>
+   <div class="modal-buttons">
+    <button type="button" class="secondary" id="closeCustomModal">Cancel</button>
+    <button type="submit" class="primary">Add App ✦</button>
+   </div>
+  </form>
+ </div>
 </div>
-<div class="toast-area" id="toastArea" aria-live="polite"></div>
+
+<!-- Quick Notes Modal -->
+<div class="modal" id="notesModal">
+ <div class="modal-content">
+  <h3>Quick Pad & To-Do 📝</h3>
+  <p>Auto-saved local notes for your workflow.</p>
+  <div class="form-group">
+   <textarea id="quickNotesArea" rows="8" placeholder="Type quick notes, ideas or links here..."></textarea>
+  </div>
+  <div class="modal-buttons">
+   <button type="button" class="primary" id="closeNotesModal">Save & Close</button>
+  </div>
+ </div>
+</div>
+
+<!-- Info Modals (About, Privacy, Terms, Contact) -->
+<div class="modal" id="infoModal">
+ <div class="modal-content">
+  <h3 id="infoModalTitle">Information</h3>
+  <p id="infoModalBody">Content goes here...</p>
+  <div class="modal-buttons">
+   <button type="button" class="primary" id="closeInfoModal">Close</button>
+  </div>
+ </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-(() => {
-'use strict';
-const $ = (selector, root=document) => root.querySelector(selector);
-const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
-const STORAGE_KEY = 'vybe_workspace_v3';
-const defaultApps = [
-  {id:'google',name:'Google',description:'Search the web',url:'https://www.google.com/',icon:'🔎',category:'Productivity',favorite:false},
-  {id:'youtube',name:'YouTube',description:'Videos and creators',url:'https://www.youtube.com/',icon:'▶️',category:'Entertainment',favorite:false},
-  {id:'wikipedia',name:'Wikipedia',description:'Explore knowledge',url:'https://www.wikipedia.org/',icon:'🌐',category:'Learning',favorite:false},
-  {id:'gmail',name:'Gmail',description:'Email and messages',url:'https://mail.google.com/',icon:'✉️',category:'Productivity',favorite:false},
-  {id:'drive',name:'Google Drive',description:'Files and documents',url:'https://drive.google.com/',icon:'📁',category:'Productivity',favorite:false},
-  {id:'calendar',name:'Google Calendar',description:'Plan your schedule',url:'https://calendar.google.com/',icon:'📅',category:'Productivity',favorite:false},
-  {id:'khan',name:'Khan Academy',description:'Learn at your pace',url:'https://www.khanacademy.org/',icon:'🎓',category:'Learning',favorite:false},
-  {id:'canva',name:'Canva',description:'Design something great',url:'https://www.canva.com/',icon:'🎨',category:'Productivity',favorite:false}
-];
-const initialState = () => ({
-  apps: defaultApps.map(app=>({...app})),
-  tasks: [],
-  notes: [],
-  theme: 'dark',
-  focusSessions: 0,
-  focusMinutes: 0,
-  activeNoteId: null
-});
-let state = initialState();
-let appFilter = 'All';
-let taskFilter = 'All';
-let selectedMinutes = 25;
-let remainingSeconds = selectedMinutes*60;
-let timerInterval = null;
-let timerRunning = false;
-let activeNoteId = null;
-let noteSaveTimeout = null;
+"use strict";
 
-function loadState(){
-  try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(!saved) return;
-    const parsed = JSON.parse(saved);
-    if(parsed && typeof parsed==='object'){
-      state = {...initialState(),...parsed};
-      if(!Array.isArray(state.apps)) state.apps=defaultApps.map(a=>({...a}));
-      if(!Array.isArray(state.tasks)) state.tasks=[];
-      if(!Array.isArray(state.notes)) state.notes=[];
-      state.apps=state.apps.filter(a=>a&&typeof a.name==='string'&&safeUrl(a.url));
-      state.tasks=state.tasks.filter(t=>t&&typeof t.text==='string');
-      state.notes=state.notes.filter(n=>n&&typeof n.title==='string');
-    }
-  }catch(error){console.warn('VYBE could not load saved data',error)}
+/* Background Particle Canvas */
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+  }
+  draw() {
+    ctx.fillStyle = 'rgba(0, 240, 255, 0.35)';
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+  }
 }
-function saveState(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
-  catch(error){toast('Could not save data. Your browser storage may be full.','error')}
+for (let i = 0; i < 60; i++) particles.push(new Particle());
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
 }
-function safeUrl(value){
-  try{const url=new URL(value);return url.protocol==='https:'||url.protocol==='http:'}
-  catch{return false}
+animateParticles();
+
+/* Spotlight */
+const spotlight = document.getElementById('spotlight');
+window.addEventListener('mousemove', e => {
+  spotlight.style.left = e.clientX + 'px'; spotlight.style.top = e.clientY + 'px';
+});
+
+/* Sound Synth Engine */
+let soundEnabled = true;
+function playSound(freq=600, duration=0.08) {
+  if(!soundEnabled) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.frequency.value = freq; gain.gain.setValueAtTime(0.05, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + duration);
+  } catch{}
 }
-function escapeHtml(value){
-  return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
+document.getElementById('soundToggleBtn').onclick = () => {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundToggleBtn').textContent = soundEnabled ? '🔊' : '🔇';
+  toast(soundEnabled ? 'Sound FX Enabled' : 'Sound FX Muted');
+};
+
+/* Apps Data */
+const DEFAULT_APPS = [
+ {id:"instagram",name:"Instagram",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg",category:"Social",description:"Photos, Reels and stories.",url:"https://www.instagram.com/",color:"#e65b9b",bg:"linear-gradient(135deg,#8134af,#f77737)"},
+ {id:"facebook",name:"Facebook",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg",category:"Social",description:"Friends, communities and updates.",url:"https://www.facebook.com/",color:"#4385f5",bg:"linear-gradient(135deg,#1877f2,#55a3ff)"},
+ {id:"x",name:"X",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/x.svg",category:"Social",description:"Live conversations and breaking news.",url:"https://x.com/",color:"#9ea2b4",bg:"linear-gradient(135deg,#343746,#11121a)"},
+ {id:"threads",name:"Threads",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/threads.svg",category:"Social",description:"Join conversations and communities.",url:"https://www.threads.net/",color:"#b6a9ff",bg:"linear-gradient(135deg,#363440,#111118)"},
+ {id:"snapchat",name:"Snapchat",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/snapchat.svg",category:"Social",description:"Snaps, stories and chats.",url:"https://www.snapchat.com/",color:"#ffdf46",bg:"linear-gradient(135deg,#fff05a,#f3cc25)"},
+ {id:"pinterest",name:"Pinterest",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/pinterest.svg",category:"Creative",description:"Save ideas and discover inspiration.",url:"https://www.pinterest.com/",color:"#f05a70",bg:"linear-gradient(135deg,#e60023,#ff7185)"},
+ {id:"linkedin",name:"LinkedIn",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg",category:"Professional",description:"Build your professional network.",url:"https://www.linkedin.com/",color:"#56aaff",bg:"linear-gradient(135deg,#0a66c2,#45a9e8)"},
+ {id:"reddit",name:"Reddit",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/reddit.svg",category:"Community",description:"Discover communities and discussions.",url:"https://www.reddit.com/",color:"#ff986d",bg:"linear-gradient(135deg,#ff4500,#ff8659)"},
+ {id:"discord",name:"Discord",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/discord.svg",category:"Community",description:"Communities, servers and voice chat.",url:"https://discord.com/app",color:"#8a9bff",bg:"linear-gradient(135deg,#5865f2,#929dff)"},
+ {id:"telegram",name:"Telegram",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/telegram.svg",category:"Messaging",description:"Messaging, channels and groups.",url:"https://web.telegram.org/",color:"#52c7f7",bg:"linear-gradient(135deg,#229ed9,#69d6ff)"},
+ {id:"whatsapp",name:"WhatsApp",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg",category:"Messaging",description:"Personal and group messaging.",url:"https://web.whatsapp.com/",color:"#62e9a1",bg:"linear-gradient(135deg,#25d366,#8bea9e)"},
+ {id:"messenger",name:"Messenger",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/messenger.svg",category:"Messaging",description:"Connect with friends and family.",url:"https://www.messenger.com/",color:"#9f93ff",bg:"linear-gradient(135deg,#0866ff,#bd50ff)"},
+ {id:"youtube",name:"YouTube",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg",category:"Video",description:"Videos, creators and live streams.",url:"https://www.youtube.com/",color:"#ff6565",bg:"linear-gradient(135deg,#ff0033,#ff6767)"},
+ {id:"netflix",name:"Netflix",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/netflix.svg",category:"Entertainment",description:"Explore movies and series.",url:"https://www.netflix.com/",color:"#ff5656",bg:"linear-gradient(135deg,#e50914,#ff5252)"},
+ {id:"spotify",name:"Spotify",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/spotify.svg",category:"Music",description:"Music, playlists and podcasts.",url:"https://open.spotify.com/",color:"#55e69a",bg:"linear-gradient(135deg,#1db954,#80f5ae)"},
+ {id:"github",name:"GitHub",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg",category:"Professional",description:"Explore code and build projects.",url:"https://github.com/",color:"#b2b9cc",bg:"linear-gradient(135deg,#40445b,#171923)"},
+ {id:"google",name:"Google",icon:"https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/google.svg",category:"Tools",description:"Search the web and discover information.",url:"https://www.google.com/",color:"#83adff",bg:"linear-gradient(135deg,#4285f4,#64d7aa)"}
+];
+
+const CATEGORIES = ["All","Social","Messaging","Video","Entertainment","Music","Community","Gaming","Creative","Professional","Tools"];
+
+const $ = id => document.getElementById(id);
+const safeRead = (key,fallback) => {
+ try { const value=JSON.parse(localStorage.getItem(key)); return value ?? fallback; }
+ catch { return fallback; }
+};
+
+let customApps = safeRead("vybe_custom_apps", []);
+let APPS = [...DEFAULT_APPS, ...customApps];
+
+const state = {
+ category:"All", query:"", favorites:new Set(safeRead("vybe_favorites",[])),
+ recent:safeRead("vybe_recent",[]), onlyFavorites:false, focusedIndex: -1
+};
+
+function persist(){
+ try {
+  localStorage.setItem("vybe_favorites",JSON.stringify([...state.favorites]));
+  localStorage.setItem("vybe_recent",JSON.stringify(state.recent.slice(0,12)));
+  localStorage.setItem("vybe_custom_apps",JSON.stringify(customApps));
+ } catch(e) { console.warn("Storage unavailable",e); }
 }
-function toast(message,type='success'){
-  const item=document.createElement('div');
-  item.className='toast '+type;
-  item.textContent=message;
-  $('#toastArea').append(item);
-  setTimeout(()=>item.remove(),3200);
+
+function toast(message){
+ const el=$("toast");el.textContent=message;el.classList.add("show");
+ clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove("show"),2600);
 }
-function formatDate(date){
-  return new Intl.DateTimeFormat(undefined,{weekday:'long',month:'long',day:'numeric'}).format(date);
+
+function getApp(id){return APPS.find(a=>a.id===id)}
+function validUrl(url){ try{ const u=new URL(url); return u.protocol==="https:" || u.protocol==="http:"; }catch{return false} }
+function escapeHTML(value){ return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+function updateClock(){
+ const now = new Date(); const hours = now.getHours(); const minutes = String(now.getMinutes()).padStart(2, '0');
+ const ampm = hours >= 12 ? 'PM' : 'AM'; const formattedHours = hours % 12 || 12;
+ $("clockDisplay").textContent = `${formattedHours}:${minutes} ${ampm}`;
 }
-function navigate(page){
-  const target=$('#page-'+page);
-  if(!target)return;
-  $$('.page').forEach(el=>el.classList.remove('active'));
-  target.classList.add('active');
-  $$('.nav-btn[data-page]').forEach(el=>el.classList.toggle('active',el.dataset.page===page));
-  const activeNav=$('.nav-btn[data-page="'+page+'"]');
-  $('#crumb').textContent=activeNav?activeNav.textContent.trim():page;
-  $('#sidebar').classList.remove('open');
-  if(page==='overview')renderOverview();
-  if(page==='apps')renderApps();
-  if(page==='tasks')renderTasks();
-  if(page==='notes')renderNotes();
-  window.scrollTo({top:0,behavior:'smooth'});
+setInterval(updateClock, 1000); updateClock();
+
+function renderCategories(){
+ $("categories").innerHTML=CATEGORIES.map(cat=>`
+  <button class="cat ${state.category===cat?"active":""}" data-category="${escapeHTML(cat)}">${cat==="All"?"✦ All apps":escapeHTML(cat)}</button>
+ `).join("");
 }
-function appCard(app){
-  return `<article class="app-card">
-    <div class="app-card-top"><div class="app-logo">${escapeHtml(app.icon||'🌐')}</div>
-    <button class="favorite-btn ${app.favorite?'on':''}" data-favorite="${escapeHtml(app.id)}" title="${app.favorite?'Remove favorite':'Add favorite'}" aria-label="Toggle favorite">${app.favorite?'★':'☆'}</button></div>
-    <h3>${escapeHtml(app.name)}</h3><p>${escapeHtml(app.description||app.url)}</p>
-    <div class="app-card-bottom"><span class="category">${escapeHtml(app.category||'Other')}</span>
-    <a class="open-link" href="${escapeHtml(app.url)}" target="_blank" rel="noopener noreferrer">Open ↗</a></div>
-  </article>`;
-}
+
 function renderApps(){
-  const query=($('#appSearch')?.value||'').trim().toLowerCase();
-  const filtered=state.apps.filter(app=>{
-    const matchesText=[app.name,app.description,app.category].join(' ').toLowerCase().includes(query);
-    const matchesFilter=appFilter==='All'||(appFilter==='Favorites'?app.favorite:app.category===appFilter);
-    return matchesText&&matchesFilter;
+ const query=state.query.trim().toLowerCase();
+ let apps=APPS.filter(app=>{
+  const matchesCategory=state.category==="All"||app.category===state.category;
+  const matchesQuery=!query||[app.name,app.category,app.description].join(" ").toLowerCase().includes(query);
+  const matchesFavorites=!state.onlyFavorites||state.favorites.has(app.id);
+  return matchesCategory&&matchesQuery&&matchesFavorites;
+ });
+
+ $("gridTitle").textContent=state.onlyFavorites?"Your favorites":state.query?"Search results":state.category==="All"?"Explore the universe":state.category+" apps";
+ $("gridDescription").textContent=`${apps.length} ${apps.length===1?"platform":"platforms"} available.`;
+
+ if(!apps.length){
+  $("appsGrid").innerHTML=`<div class="empty"><div style="font-size:35px">🔍</div><h3>Nothing found</h3><button class="primary" id="emptyReset">Reset filters</button></div>`;
+  $("emptyReset").onclick=resetFilters; return;
+ }
+
+ $("appsGrid").innerHTML=apps.map((app,index)=>`
+  <article class="app-card ${state.focusedIndex===index?'focused':''}" data-id="${app.id}" data-index="${index}" style="--glow:${app.color}">
+   <div class="card-top">
+    <div class="app-icon" style="--appbg:${app.bg}">
+      ${app.icon.startsWith("http") ? `<img src="${app.icon}" alt="${escapeHTML(app.name)}" style="filter: brightness(0) invert(1);">` : app.icon}
+    </div>
+    <button class="fav ${state.favorites.has(app.id)?"active":""}" data-fav="${app.id}">${state.favorites.has(app.id)?"♥":"♡"}</button>
+   </div>
+   <h3>${escapeHTML(app.name)}</h3>
+   <p>${escapeHTML(app.description)}</p>
+   <div class="card-bottom">
+    <span class="app-tag">${escapeHTML(app.category.toUpperCase())}</span>
+    <button class="launch" data-launch="${app.id}">Launch ↗</button>
+   </div>
+  </article>
+ `).join("");
+
+ attach3DTilt();
+}
+
+function attach3DTilt(){
+ document.querySelectorAll('.app-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+   const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+   const centerX = rect.width / 2; const centerY = rect.height / 2;
+   const rotateX = ((y - centerY) / centerY) * -12; const rotateY = ((x - centerX) / centerX) * 12;
+   card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+   card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`); card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
   });
-  $('#allApps').innerHTML=filtered.length?filtered.map(appCard).join(''):'<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">⌕</div>No apps found. Try another search or add a custom app.</div>';
-  $('#navAppCount').textContent=state.apps.length;
+  card.addEventListener('mouseleave', () => {
+   card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale(1)`;
+  });
+ });
 }
-function renderHomeApps(){
-  const favorites=state.apps.filter(a=>a.favorite);
-  const apps=(favorites.length?favorites:state.apps).slice(0,4);
-  $('#homeApps').innerHTML=apps.length?apps.map(appCard).join(''):'<div class="empty-state" style="grid-column:1/-1">Add your first app in the app launcher.</div>';
-}
-function renderTasks(){
-  const list=state.tasks.filter(task=>taskFilter==='All'||(taskFilter==='Active'&&!task.done)||(taskFilter==='Completed'&&task.done));
-  $('#allTasks').innerHTML=list.length?list.map(task=>`<div class="task-row">
-    <input class="task-check" type="checkbox" data-task-check="${escapeHtml(task.id)}" ${task.done?'checked':''} aria-label="Complete task">
-    <div class="task-text ${task.done?'done':''}">${escapeHtml(task.text)}<div class="task-meta">${task.done?'Completed':'Added to your list'}</div></div>
-    <button class="task-delete" data-task-delete="${escapeHtml(task.id)}" title="Delete task" aria-label="Delete task">✕</button>
-  </div>`).join(''):'<div class="empty-state"><div class="empty-icon">✓</div><strong>No tasks here yet.</strong><br>Add a task and take your first step.</div>';
-  $('#navTaskCount').textContent=state.tasks.filter(t=>!t.done).length;
-}
-function renderHomeTasks(){
-  const list=state.tasks.filter(t=>!t.done).slice(0,3);
-  $('#homeTasks').innerHTML=list.length?list.map(task=>`<div class="task-row"><input class="task-check" type="checkbox" data-task-check="${escapeHtml(task.id)}" aria-label="Complete task"><div class="task-text">${escapeHtml(task.text)}<div class="task-meta">One step at a time</div></div><button class="task-delete" data-task-delete="${escapeHtml(task.id)}" aria-label="Delete task">✕</button></div>`).join(''):'<div class="empty-state"><div class="empty-icon">✧</div>No tasks yet. Add one to get started.</div>';
-}
+
 function renderStats(){
-  $('#statApps').textContent=state.apps.length;
-  $('#statTasks').textContent=state.tasks.filter(t=>!t.done).length;
-  $('#statDone').textContent=state.tasks.filter(t=>t.done).length;
-  $('#statFav').textContent=state.apps.filter(a=>a.favorite).length;
+ $("appCount").textContent=String(APPS.length).padStart(2,"0");
+ $("favCount").textContent=String(state.favorites.size).padStart(2,"0");
+ $("recentCount").textContent=String(state.recent.length).padStart(2,"0");
 }
-function renderHomeNote(){
-  const note=state.notes.find(n=>n.id===activeNoteId)||state.notes[0];
-  $('#homeNoteTitle').textContent=note?note.title:'Your next great idea starts here.';
-  $('#homeNoteText').textContent=note?(note.body||'An idea saved for later.'):'Create a note and keep your thoughts in one place.';
+
+function renderHistory(){
+ const list=state.recent.map(getApp).filter(Boolean);
+ $("recentSection").classList.toggle("hidden",list.length===0);
+ $("historyList").innerHTML=list.map(app=>`
+  <div class="history-card" data-history="${app.id}">
+   <div class="history-icon-box" style="background:${app.bg}">
+    ${app.icon.startsWith("http") ? `<img src="${app.icon}" alt="${escapeHTML(app.name)}" style="filter: brightness(0) invert(1);">` : app.icon}
+   </div>
+   <div class="history-info">
+    <span>${escapeHTML(app.name)}</span>
+   </div>
+   <div class="history-launch">↗</div>
+  </div>
+ `).join("");
 }
-function renderOverview(){
-  renderStats();renderHomeApps();renderHomeTasks();renderHomeNote();
-  $('#greeting').innerHTML='Make room for<br>your next big thing.';
+
+function resetFilters(){ playSound(400); state.category="All";state.query="";state.onlyFavorites=false;state.focusedIndex=-1; $("search").value=""; renderCategories();renderApps();renderStats(); }
+function toggleFavorite(id){ playSound(700); if(state.favorites.has(id)){state.favorites.delete(id);toast("Removed from favorites");}else{state.favorites.add(id);toast("Added to favorites ♥");} persist();renderCategories();renderApps();renderStats(); }
+
+function openApp(id){
+ const app=getApp(id); if(!app||!validUrl(app.url)){toast("Invalid URL.");return;}
+ playSound(900);
+ state.recent=[id,...state.recent.filter(x=>x!==id)].slice(0,12);
+ persist();renderHistory();renderStats();
+
+ $("launchAppName").textContent = `Launching ${app.name}...`;
+ $("launchOverlay").classList.add("show");
+ setTimeout(() => {
+  $("launchOverlay").classList.remove("show");
+  window.open(app.url,"_blank","noopener,noreferrer");
+ }, 600);
 }
-function renderNotes(){
-  const list=$('#noteList');
-  $('#noteCount').textContent=state.notes.length+' note'+(state.notes.length===1?'':'s');
-  list.innerHTML=state.notes.length?state.notes.map(note=>`<div class="note-item ${note.id===activeNoteId?'active':''}" data-select-note="${escapeHtml(note.id)}"><h4>${escapeHtml(note.title||'Untitled note')}</h4><p>${escapeHtml(note.body||'Empty note')}</p></div>`).join(''):'<div class="empty-state">No notes yet.<br>Create one to get started.</div>';
-  const current=state.notes.find(n=>n.id===activeNoteId);
-  $('#noteTitle').value=current?current.title:'';
-  $('#noteBody').value=current?current.body:'';
-  $('#deleteNoteBtn').disabled=!current;
-  $('#saveNoteBtn').disabled=!current;
-  $('#noteStatus').textContent=current?'Saved in this browser':'Create a note to begin';
+
+function showFavorites(){ playSound(500); state.onlyFavorites=true;state.category="All";state.query=""; $("search").value=""; renderCategories();renderApps(); $("appsSection").scrollIntoView({behavior:"smooth"}); }
+
+/* Custom App Modal */
+$("addCustomAppBtn").onclick=()=>{ playSound(550); $("customAppModal").classList.add("show"); };
+$("closeCustomModal").onclick=()=>{$("customAppModal").classList.remove("show");};
+$("customAppForm").onsubmit=(e)=>{
+ e.preventDefault();
+ const newApp={ id:"custom_"+Date.now(), name:$("customAppName").value.trim(), icon:"🌐", category:$("customAppCategory").value, description:"User created custom app.", url:$("customAppUrl").value.trim(), color:"#00f0ff", bg:"linear-gradient(135deg,#343746,#11121a)" };
+ customApps.push(newApp); APPS.push(newApp); persist(); $("customAppForm").reset(); $("customAppModal").classList.remove("show"); renderApps();renderStats(); toast("Custom App Added!");
+};
+
+/* Quick Notes Pad */
+$("quickNotesBtn").onclick = () => { $("notesModal").classList.add("show"); $("quickNotesArea").value = localStorage.getItem("vybe_quick_notes") || ""; };
+$("closeNotesModal").onclick = () => { localStorage.setItem("vybe_quick_notes", $("quickNotesArea").value); $("notesModal").classList.remove("show"); toast("Notes Saved!"); };
+
+/* Footer Info Modals Helper */
+function showInfoModal(title, bodyText) {
+ $("infoModalTitle").textContent = title;
+ $("infoModalBody").innerHTML = bodyText;
+ $("infoModal").classList.add("show");
 }
-function createTask(text){
-  const clean=text.trim();
-  if(!clean)return;
-  state.tasks.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),text:clean,done:false,createdAt:Date.now()});
-  saveState();renderTasks();renderOverview();toast('Task added to your list.');
-}
-function createNote(){
-  const note={id:crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()),title:'',body:'',updatedAt:Date.now()};
-  state.notes.unshift(note);activeNoteId=note.id;
-  saveState();renderNotes();$('#noteTitle').focus();toast('New note created.');
-}
-function persistCurrentNote(){
-  const note=state.notes.find(n=>n.id===activeNoteId);
-  if(!note)return;
-  note.title=$('#noteTitle').value.trim();
-  note.body=$('#noteBody').value;
-  note.updatedAt=Date.now();
-  saveState();renderNoteListOnly();renderHomeNote();
-  $('#noteStatus').textContent='Saved just now';
-}
-function renderNoteListOnly(){
-  const list=$('#noteList');
-  $('#noteCount').textContent=state.notes.length+' note'+(state.notes.length===1?'':'s');
-  list.innerHTML=state.notes.length?state.notes.map(note=>`<div class="note-item ${note.id===activeNoteId?'active':''}" data-select-note="${escapeHtml(note.id)}"><h4>${escapeHtml(note.title||'Untitled note')}</h4><p>${escapeHtml(note.body||'Empty note')}</p></div>`).join(''):'<div class="empty-state">No notes yet.<br>Create one to get started.</div>';
-}
-function toggleFavorite(id){
-  const app=state.apps.find(a=>a.id===id);if(!app)return;
-  app.favorite=!app.favorite;saveState();renderApps();renderOverview();
-}
-function renderTimer(){
-  const mins=Math.floor(remainingSeconds/60);
-  const secs=remainingSeconds%60;
-  $('#timerDisplay').textContent=String(mins).padStart(2,'0')+':'+String(secs).padStart(2,'0');
-  const total=selectedMinutes*60;
-  const progress=total?((total-remainingSeconds)/total)*100:0;
-  $('#timerRing').style.setProperty('--progress',progress+'%');
-  $('#timerLabel').textContent=timerRunning?'Stay in the flow':(remainingSeconds===0?'Session complete!':'Ready when you are');
-  $('#timerStart').textContent=timerRunning?'Ⅱ Pause focus':(remainingSeconds===0?'▶ Start again':'▶ Start focus');
-  $('#focusSessions').textContent=state.focusSessions;
-  $('#focusMinutes').textContent=state.focusMinutes;
-}
-function stopTimer(){
-  if(timerInterval){clearInterval(timerInterval);timerInterval=null}
-  timerRunning=false;
-}
-function resetTimer(){
-  stopTimer();remainingSeconds=selectedMinutes*60;renderTimer();
-}
-function startTimer(){
-  if(timerRunning){stopTimer();renderTimer();return}
-  if(remainingSeconds<=0)remainingSeconds=selectedMinutes*60;
-  timerRunning=true;renderTimer();
-  timerInterval=setInterval(()=>{
-    remainingSeconds--;
-    if(remainingSeconds<=0){
-      remainingSeconds=0;stopTimer();state.focusSessions++;state.focusMinutes+=selectedMinutes;
-      saveState();renderTimer();toast('Focus session complete. Great work!');return;
-    }
-    renderTimer();
-  },1000);
-}
-function showModal(id){$('#'+id).classList.add('show')}
-function closeModal(id){$('#'+id).classList.remove('show')}
-function exportData(){
-  const payload={...state,exportedAt:new Date().toISOString()};
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement('a');link.href=url;link.download='vybe-backup.json';link.click();
-  URL.revokeObjectURL(url);toast('Your workspace backup was exported.');
-}
-function globalSearch(query){
-  const clean=query.trim();
-  if(!clean)return;
-  const app=state.apps.find(a=>a.name.toLowerCase().includes(clean.toLowerCase()));
-  if(app){window.open(app.url,'_blank','noopener,noreferrer');return}
-  navigate('apps');$('#appSearch').value=clean;renderApps();
-}
-function bindEvents(){
-  $$('.nav-btn[data-page]').forEach(button=>button.addEventListener('click',()=>navigate(button.dataset.page)));
-  $$('[data-go]').forEach(button=>button.addEventListener('click',()=>navigate(button.dataset.go)));
-  $('#menuToggle').addEventListener('click',()=>$('#sidebar').classList.toggle('open'));
-  $('#themeToggle').addEventListener('click',toggleTheme);
-  $('#sidebarTheme').addEventListener('click',toggleTheme);
-  $('#quickAdd').addEventListener('click',()=>showModal('taskModal'));
-  $('#appSearch').addEventListener('input',renderApps);
-  $('#globalSearch').addEventListener('keydown',event=>{
-    if(event.key==='Enter'){globalSearch(event.target.value);event.target.blur()}
-  });
-  $('#appFilters').addEventListener('click',event=>{
-    const button=event.target.closest('[data-filter]');if(!button)return;
-    appFilter=button.dataset.filter;
-    $$('#appFilters [data-filter]').forEach(b=>b.classList.toggle('active',b===button));
-    renderApps();
-  });
-  document.addEventListener('click',event=>{
-    const fav=event.target.closest('[data-favorite]');
-    if(fav){toggleFavorite(fav.dataset.favorite);return}
-    const check=event.target.closest('[data-task-check]');
-    if(check){
-      const task=state.tasks.find(t=>t.id===check.dataset.taskCheck);
-      if(task){task.done=check.checked;saveState();renderTasks();renderOverview();renderStats();toast(task.done?'Task completed. Nice work!':'Task marked as active.')}
-      return;
-    }
-    const del=event.target.closest('[data-task-delete]');
-    if(del){
-      state.tasks=state.tasks.filter(t=>t.id!==del.dataset.taskDelete);
-      saveState();renderTasks();renderOverview();renderStats();toast('Task deleted.');return;
-    }
-    const note=event.target.closest('[data-select-note]');
-    if(note){
-      if(noteSaveTimeout){clearTimeout(noteSaveTimeout);noteSaveTimeout=null;persistCurrentNote()}
-      activeNoteId=note.dataset.selectNote;renderNotes();
-    }
-    const close=event.target.closest('[data-close]');
-    if(close)closeModal(close.dataset.close);
-  });
-  $('#taskForm').addEventListener('submit',event=>{
-    event.preventDefault();createTask($('#taskInput').value);$('#taskInput').value='';
-  });
-  $('#quickTaskForm').addEventListener('submit',event=>{
-    event.preventDefault();createTask($('#quickTaskInput').value);$('#quickTaskInput').value='';closeModal('taskModal');navigate('tasks');
-  });
-  $('#taskFilters').addEventListener('click',event=>{
-    const button=event.target.closest('[data-task-filter]');if(!button)return;
-    taskFilter=button.dataset.taskFilter;
-    $$('#taskFilters [data-task-filter]').forEach(b=>b.classList.toggle('active',b===button));
-    renderTasks();
-  });
-  $('#addAppBtn').addEventListener('click',()=>showModal('appModal'));
-  $('#appForm').addEventListener('submit',event=>{
-    event.preventDefault();
-    const name=$('#customAppName').value.trim();
-    const url=$('#customAppUrl').value.trim();
-    if(!name||!safeUrl(url)){toast('Enter a valid http or https website URL.','error');return}
-    state.apps.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name,url,description:'Custom shortcut',icon:$('#customAppIcon').value.trim()||'🌐',category:$('#customAppCategory').value,favorite:false});
-    saveState();renderApps();renderOverview();$('#appForm').reset();$('#customAppIcon').value='🌐';closeModal('appModal');toast('Custom app added.');
-  });
-  $('#newNoteBtn').addEventListener('click',createNote);
-  $('#saveNoteBtn').addEventListener('click',()=>{persistCurrentNote();toast('Note saved.')});
-  $('#deleteNoteBtn').addEventListener('click',()=>{
-    if(!activeNoteId)return;
-    state.notes=state.notes.filter(n=>n.id!==activeNoteId);
-    activeNoteId=state.notes[0]?.id||null;saveState();renderNotes();renderHomeNote();toast('Note deleted.');
-  });
-  ['noteTitle','noteBody'].forEach(id=>$('#'+id).addEventListener('input',()=>{
-    $('#noteStatus').textContent='Saving…';
-    if(noteSaveTimeout)clearTimeout(noteSaveTimeout);
-    noteSaveTimeout=setTimeout(()=>{persistCurrentNote();noteSaveTimeout=null},500);
-  }));
-  $$('.duration-btn').forEach(button=>button.addEventListener('click',()=>{
-    if(timerRunning){toast('Pause the timer before changing duration.','error');return}
-    selectedMinutes=Number(button.dataset.minutes);remainingSeconds=selectedMinutes*60;
-    $$('.duration-btn').forEach(b=>b.classList.toggle('active',b===button));renderTimer();
-  }));
-  $('#timerStart').addEventListener('click',startTimer);
-  $('#timerReset').addEventListener('click',resetTimer);
-  $('#exportDataBtn').addEventListener('click',exportData);
-  $$('.modal-backdrop').forEach(backdrop=>backdrop.addEventListener('click',event=>{
-    if(event.target===backdrop)closeModal(backdrop.id);
-  }));
-  document.addEventListener('keydown',event=>{
-    if(event.key==='Escape')$$('.modal-backdrop.show').forEach(modal=>closeModal(modal.id));
-    if(event.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
-      event.preventDefault();$('#globalSearch').focus();
-    }
-    if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){
-      event.preventDefault();$('#globalSearch').focus();
-    }
-  });
-}
-function toggleTheme(){
-  state.theme=state.theme==='dark'?'light':'dark';
-  document.body.classList.toggle('light',state.theme==='light');
-  $('#themeToggle').textContent=state.theme==='dark'?'☼':'☾';
-  saveState();
-}
-function init(){
-  loadState();
-  if(state.theme==='light')document.body.classList.add('light');
-  $('#themeToggle').textContent=state.theme==='dark'?'☼':'☾';
-  $('#todayDate')?.replaceChildren(document.createTextNode(formatDate(new Date())));
-  bindEvents();renderOverview();renderApps();renderTasks();renderNotes();renderTimer();
-  document.title='VYBE — Your Space. Your Flow.';
-}
-init();
-})();
+$("closeInfoModal").onclick = () => { $("infoModal").classList.remove("show"); };
+
+$("openAboutModal").onclick = () => {
+ showInfoModal("About VYBE", "VYBE is a next-generation Web Launcher and Productivity Dashboard that lets you organize, discover, and instantly access all your favorite social, messaging, and web applications in one unified space.");
+};
+$("openPrivacyModal").onclick = () => {
+ showInfoModal("Privacy Policy", "Your privacy is our highest priority. VYBE operates 100% locally on your browser. We do NOT track, collect, or transmit any personal data, usage history, or credentials. Everything is stored strictly inside your browser's local storage.");
+};
+$("openTermsModal").onclick = () => {
+ showInfoModal("Terms of Service", "VYBE is an independent project provided for personal utility. All brand logos, names, and trademarks belong to their respective official owners. External links redirect directly to official platform websites.");
+};
+$("openContactModal").onclick = () => {
+ showInfoModal("Contact Us", "Have suggestions or need help with VYBE? Feel free to reach out to our team at <strong>ayanmehdi773@gmail.com</strong>.");
+};
+
+/* Backup & Restore */
+$("exportBtn").onclick=()=>{ const data={favorites:[...state.favorites],recent:state.recent,customApps:customApps}; const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="VYBE_Backup.json"; a.click(); toast("Backup Saved!"); };
+$("importBtn").onclick=()=>{$("importFile").click();};
+$("importFile").onchange=(e)=>{ const file=e.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=(event)=>{ try{ const data=JSON.parse(event.target.result); if(data.favorites) state.favorites=new Set(data.favorites); if(data.recent) state.recent=data.recent; if(data.customApps){ customApps=data.customApps; APPS=[...DEFAULT_APPS, ...customApps]; } persist();renderCategories();renderApps();renderHistory();renderStats(); toast("Restored!"); }catch{ toast("Invalid File!"); } }; reader.readAsText(file); };
+
+/* Keyboard Shortcuts */
+document.addEventListener("keydown",e=>{
+ if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==="k"){ e.preventDefault();$("search").focus(); }
+ const cards=document.querySelectorAll(".app-card"); if(!cards.length) return;
+ if(e.key==="ArrowRight"){ state.focusedIndex=(state.focusedIndex+1)%cards.length; renderApps(); }
+ else if(e.key==="ArrowLeft"){ state.focusedIndex=(state.focusedIndex-1+cards.length)%cards.length; renderApps(); }
+ else if(e.key==="Enter" && state.focusedIndex>=0){ const selectedCard=cards[state.focusedIndex]; if(selectedCard) openApp(selectedCard.dataset.id); }
+});
+
+$("categories").addEventListener("click",e=>{ const btn=e.target.closest("[data-category]");if(!btn)return; state.category=btn.dataset.category;state.onlyFavorites=false; renderCategories();renderApps(); });
+$("appsGrid").addEventListener("click",e=>{ const fav=e.target.closest("[data-fav]"); if(fav){e.stopPropagation();toggleFavorite(fav.dataset.fav);return;} const launch=e.target.closest("[data-launch]"); if(launch){openApp(launch.dataset.launch);return;} const card=e.target.closest("[data-id]"); if(card)openApp(card.dataset.id); });
+$("recentSection").addEventListener("click",e=>{ const card=e.target.closest("[data-history]");if(card)openApp(card.dataset.history); });
+$("search").addEventListener("input",e=>{ state.query=e.target.value;state.onlyFavorites=false;state.focusedIndex=-1;renderApps(); });
+$("resetFilters").onclick=resetFilters; $("exploreBtn").onclick=()=>{ $("appsSection").scrollIntoView({behavior:"smooth"}); };
+$("favoritesBtn").onclick=showFavorites; $("favoritesShortcut").onclick=showFavorites; $("clearRecent").onclick=()=>{ state.recent=[];persist();renderHistory();renderStats();toast("History cleared"); };
+$("themeBtn").onclick=()=>{ document.body.classList.toggle("light"); const light=document.body.classList.contains("light"); $("themeBtn").textContent=light?"☾":"☼"; try{localStorage.setItem("vybe_theme",light?"light":"dark");}catch{} };
+
+renderCategories(); renderApps(); renderHistory(); renderStats();
+window.addEventListener("load",()=>{ setTimeout(()=>$("intro").classList.add("hide"),1000); });
+setTimeout(()=>$("intro").classList.add("hide"),3000);
 </script>
 </body>
 </html>
