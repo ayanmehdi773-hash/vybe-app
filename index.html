@@ -1,1249 +1,2100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b14">
-<meta name="description" content="VYBE — your personal digital workspace for apps, notes, tasks and projects.">
-<meta name="google-site-verification" content="olRFP4U0Am89seKBhrvUX_ST8l4SzBG4GYGEx8-DloI">
-<title>VYBE — Your Digital Universe</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="VYBE OS — your personal digital workspace for notes, tasks, projects, focus and everyday tools.">
+  <meta name="google-site-verification" content="olRFP4U0Am89seKBhrvUX_ST8l4SzBG4GYGEx8-DloI">
+  <title>VYBE OS — Your Digital Workspace</title>
 
-<!-- IMPORTANT:
-If your existing production website has a real Google AdSense script,
-preserve that exact script here. Do not add a made-up publisher ID. -->
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b12;
+      --surface: #0d121c;
+      --panel: #111825;
+      --panel-2: #151e2d;
+      --line: rgba(166, 188, 221, .12);
+      --text: #f2f6ff;
+      --muted: #8d9bb2;
+      --accent: #8c7bff;
+      --accent-2: #50e2d0;
+      --danger: #ff6b82;
+      --success: #58d9a2;
+      --warning: #ffc66e;
+      --radius: 18px;
+      --sidebar: 248px;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .24);
+    }
 
-<style>
-:root {
-  --bg:#080b14;
-  --panel:#101522;
-  --panel2:#141b2b;
-  --panel3:#1a2336;
-  --text:#f2f5ff;
-  --muted:#8994ac;
-  --line:rgba(255,255,255,.085);
-  --accent:#8b7cff;
-  --accent2:#51d8f2;
-  --good:#4ee0a1;
-  --danger:#ff6f91;
-  --shadow:0 20px 70px rgba(0,0,0,.25);
-  --radius:19px;
-}
-body.light {
-  --bg:#f3f5fb;
-  --panel:#fff;
-  --panel2:#f6f7fc;
-  --panel3:#eceffd;
-  --text:#182039;
-  --muted:#737d94;
-  --line:rgba(25,35,65,.10);
-  --shadow:0 15px 45px rgba(30,45,80,.08);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:14px;line-height:1.5;min-height:100vh;
-  transition:background .2s,color .2s;
-}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
-  outline:2px solid var(--accent2);outline-offset:3px;
-}
-a{color:inherit;text-decoration:none}
-button:disabled{opacity:.5;cursor:not-allowed}
-.app-shell{display:flex;min-height:100vh}
-.sidebar{
-  width:246px;flex-shrink:0;padding:25px 16px;
-  border-right:1px solid var(--line);
-  background:var(--panel);display:flex;flex-direction:column;
-  position:fixed;inset:0 auto 0 0;z-index:30;overflow-y:auto;
-}
-.brand{display:flex;align-items:center;gap:11px;padding:0 10px 30px}
-.brand-icon{
-  width:39px;height:39px;border-radius:13px;
-  display:grid;place-items:center;font-weight:950;font-size:21px;
-  background:linear-gradient(140deg,#a18bff,#5a65f5 55%,#42d9e9);
-  color:white;box-shadow:0 6px 24px #7669ff42;
-}
-.brand-name{font-size:20px;font-weight:900;letter-spacing:2px}
-.brand-sub{font-size:10px;color:var(--muted);letter-spacing:1.3px}
-.nav-label{
-  color:var(--muted);font-size:10px;letter-spacing:1.8px;
-  font-weight:800;padding:13px 12px 8px;
-}
-.nav-btn{
-  width:100%;display:flex;align-items:center;gap:12px;
-  border:1px solid transparent;background:transparent;color:var(--muted);
-  padding:11px 12px;border-radius:12px;text-align:left;margin:2px 0;
-  transition:.18s;
-}
-.nav-btn:hover{background:var(--panel2);color:var(--text)}
-.nav-btn.active{
-  background:linear-gradient(100deg,#8170ff22,#5c6ffb0b);
-  border-color:#8978ff36;color:var(--text);
-}
-.nav-icon{width:21px;text-align:center;font-size:17px}
-.nav-count{margin-left:auto;font-size:11px;color:var(--muted)}
-.sidebar-bottom{margin-top:auto;padding-top:25px}
-.local-status{
-  margin:12px 4px 0;padding:13px;border:1px solid var(--line);
-  border-radius:14px;background:var(--panel2);
-}
-.status-dot{display:inline-block;width:7px;height:7px;background:var(--good);border-radius:50%;margin-right:7px}
-.local-status strong{font-size:12px}
-.local-status p{font-size:11px;color:var(--muted);margin:6px 0 0}
-.main{margin-left:246px;width:calc(100% - 246px);min-width:0}
-.topbar{
-  min-height:76px;border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;padding:15px 35px;position:sticky;top:0;z-index:20;
-  background:color-mix(in srgb,var(--bg) 88%,transparent);
-  backdrop-filter:blur(18px);
-}
-.top-left{display:flex;align-items:center;gap:12px;min-width:0}
-.breadcrumb{color:var(--muted);font-size:12px}
-.breadcrumb strong{color:var(--text)}
-.search-trigger{
-  display:flex;align-items:center;gap:10px;min-width:260px;
-  padding:10px 13px;border:1px solid var(--line);border-radius:12px;
-  background:var(--panel);color:var(--muted);text-align:left;
-}
-.search-trigger span:last-child{margin-left:auto;font-size:11px;border:1px solid var(--line);padding:2px 5px;border-radius:5px}
-.top-actions{display:flex;align-items:center;gap:9px}
-.icon-btn,.btn{
-  border:1px solid var(--line);background:var(--panel);color:var(--text);
-  padding:9px 12px;border-radius:11px;transition:.18s;
-}
-.icon-btn{width:39px;height:39px;display:grid;place-items:center;padding:0}
-.icon-btn:hover,.btn:hover{border-color:#8978ff88;transform:translateY(-1px)}
-.btn.primary{
-  background:linear-gradient(120deg,#8975ff,#5d71f7);color:white;border-color:transparent;
-  box-shadow:0 6px 20px #7367ff28;
-}
-.btn.small{padding:7px 10px;font-size:12px}
-.mobile-menu{display:none}
-.content{max-width:1500px;margin:auto;padding:32px 35px 55px}
-.view{display:none;animation:fadeIn .25s ease}
-.view.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.eyebrow{font-size:10px;color:var(--accent2);font-weight:850;letter-spacing:2px;text-transform:uppercase}
-h1,h2,h3,p{margin-top:0}
-h1{font-size:clamp(27px,3vw,40px);letter-spacing:-1.5px;line-height:1.15;margin:9px 0 10px}
-h2{font-size:20px;letter-spacing:-.5px;margin-bottom:5px}
-h3{font-size:14px;margin-bottom:5px}
-.subtext{color:var(--muted);font-size:13px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:29px 0 15px}
-.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}
-.hero{
-  border:1px solid #9b8bff27;border-radius:24px;overflow:hidden;
-  padding:34px;position:relative;
-  background:radial-gradient(ellipse at 85% 20%,#7166ff30,transparent 40%),
-    radial-gradient(ellipse at 70% 100%,#32d4ee12,transparent 35%),var(--panel);
-}
-.hero:after{
-  content:"";position:absolute;width:240px;height:240px;right:6%;top:10%;
-  border:1px solid #9e90ff20;border-radius:50%;
-  box-shadow:0 0 0 25px #9180ff08,0 0 0 55px #9180ff05;
-  pointer-events:none;
-}
-.hero-inner{position:relative;z-index:1;max-width:620px}
-.hero h1{font-size:clamp(34px,4.2vw,53px);max-width:580px}
-.gradient-text{background:linear-gradient(100deg,#b8aaff,#6fdbf8);background-clip:text;-webkit-background-clip:text;color:transparent}
-.hero p{max-width:520px;color:var(--muted);line-height:1.8;font-size:14px}
-.hero-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:23px}
-.hero-meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:28px}
-.hero-meta div{font-size:11px;color:var(--muted)}
-.hero-meta strong{display:block;color:var(--text);font-size:17px;margin-bottom:3px}
-.grid{display:grid;gap:15px}
-.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:20px}
-.stat-card,.card{
-  border:1px solid var(--line);background:var(--panel);
-  border-radius:var(--radius);padding:19px;min-width:0;
-}
-.stat-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.stat-icon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--panel3);font-size:17px}
-.stat-value{font-size:29px;font-weight:850;letter-spacing:-1px;margin:14px 0 0}
-.stat-label{color:var(--muted);font-size:12px;margin-top:2px}
-.panel-grid{grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr)}
-.panel-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
-.panel-title h2{font-size:16px;margin:0}
-.text-link{background:none;border:0;color:var(--accent2);font-size:12px;padding:5px}
-.quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
-.quick-action{
-  padding:17px 10px;text-align:center;border-radius:14px;
-  border:1px solid var(--line);background:var(--panel2);color:var(--text);
-  transition:.2s;min-width:0;
-}
-.quick-action:hover{transform:translateY(-3px);border-color:#9283ff88}
-.quick-action .qicon{font-size:23px;display:block;margin-bottom:10px}
-.quick-action strong{font-size:11px;display:block}
-.quick-action small{font-size:10px;color:var(--muted)}
-.list{display:flex;flex-direction:column;gap:8px}
-.list-item{
-  display:flex;align-items:center;gap:11px;padding:11px;
-  border-radius:12px;background:var(--panel2);border:1px solid transparent;
-}
-.list-item:hover{border-color:var(--line)}
-.list-icon{width:35px;height:35px;flex-shrink:0;display:grid;place-items:center;background:var(--panel3);border-radius:11px;font-size:16px}
-.list-main{flex:1;min-width:0}
-.list-main strong{display:block;font-size:12px;overflow-wrap:anywhere}
-.list-main small{color:var(--muted);font-size:11px}
-.task-check{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
-.pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:7px;font-size:10px;background:var(--panel3);color:var(--muted);white-space:nowrap}
-.pill.green{color:var(--good);background:#4ee0a111}
-.pill.purple{color:#b6aaff;background:#8b7cff18}
-.empty-state{padding:25px 10px;text-align:center;color:var(--muted);font-size:12px}
-.empty-state span{display:block;font-size:28px;margin-bottom:8px}
-.progress{height:5px;background:var(--panel3);border-radius:20px;overflow:hidden;margin-top:12px}
-.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s}
-.apps-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
-.field{
-  width:100%;background:var(--panel2);border:1px solid var(--line);
-  border-radius:11px;padding:11px 12px;color:var(--text);min-width:0;
-}
-.field::placeholder{color:var(--muted)}
-.search-field{flex:1;min-width:180px}
-.filter-select{width:auto;min-width:130px}
-.apps-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-.app-card{position:relative;transition:.2s}
-.app-card:hover{transform:translateY(-3px);border-color:#8978ff5c}
-.app-head{display:flex;align-items:center;gap:11px;margin-bottom:14px}
-.app-logo{
-  width:43px;height:43px;border-radius:13px;display:grid;place-items:center;
-  background:var(--panel3);font-size:21px;flex-shrink:0;
-}
-.app-name{font-weight:800;font-size:13px}
-.app-category{color:var(--muted);font-size:10px}
-.app-desc{color:var(--muted);font-size:12px;min-height:37px}
-.app-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:15px}
-.app-actions{display:flex;gap:6px}
-.favorite-btn{background:none;border:0;color:var(--muted);font-size:19px;padding:0 4px}
-.favorite-btn.active{color:#ff7ea5}
-.launch-btn{font-size:11px;padding:7px 10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px}
-.launch-btn:hover{border-color:var(--accent)}
-.chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{border:1px solid var(--line);border-radius:9px;padding:7px 11px;background:var(--panel);color:var(--muted);font-size:11px}
-.chip.active{background:var(--panel3);border-color:#8b7cff75;color:var(--text)}
-.two-column{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.65fr);gap:16px}
-.editor{min-height:280px;resize:vertical;line-height:1.8}
-.note-list-item{cursor:pointer}
-.note-list-item.selected{border-color:var(--accent)}
-.note-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:15px}
-.note-editor{min-height:350px;resize:vertical;line-height:1.8}
-.field-label{display:block;color:var(--muted);font-size:11px;margin:12px 0 6px}
-.task-input-row{display:flex;gap:8px;margin-bottom:14px}
-.task-input-row .field{flex:1}
-.task-row{display:flex;align-items:center;gap:11px;padding:13px;border-bottom:1px solid var(--line)}
-.task-row:last-child{border-bottom:0}
-.task-row .task-text{flex:1;overflow-wrap:anywhere}
-.task-row.done .task-text{text-decoration:line-through;color:var(--muted)}
-.delete-btn{background:none;border:0;color:var(--muted);padding:5px 8px}
-.delete-btn:hover{color:var(--danger)}
-.project-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.project-card{display:flex;flex-direction:column;gap:13px}
-.project-icon{font-size:23px}
-.project-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
-.bookmark-row{display:flex;gap:10px;align-items:center}
-.bookmark-row .field{flex:1}
-.settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.setting-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}
-.setting-row:last-child{border-bottom:0}
-.setting-row strong{display:block;font-size:12px}
-.setting-row small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-.toggle{width:42px;height:24px;border:0;border-radius:30px;background:var(--panel3);padding:3px;flex-shrink:0}
-.toggle:after{content:"";display:block;width:18px;height:18px;background:var(--muted);border-radius:50%;transition:.2s}
-.toggle.on{background:var(--accent)}
-.toggle.on:after{transform:translateX(18px);background:white}
-.footer{border-top:1px solid var(--line);padding:20px 35px;display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:11px}
-.footer strong{color:var(--text)}
-.toast{
-  position:fixed;bottom:24px;right:24px;z-index:100;
-  padding:13px 17px;border-radius:13px;background:var(--panel3);
-  color:var(--text);border:1px solid var(--line);box-shadow:var(--shadow);
-  opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;
-  max-width:calc(100vw - 40px);font-size:12px;
-}
-.toast.show{opacity:1;transform:translateY(0)}
-.modal-backdrop{
-  position:fixed;inset:0;background:#02040bbd;z-index:90;
-  display:none;align-items:center;justify-content:center;padding:20px;
-  backdrop-filter:blur(8px);
-}
-.modal-backdrop.open{display:flex}
-.modal{
-  width:min(540px,100%);max-height:85vh;overflow:auto;
-  background:var(--panel);border:1px solid var(--line);border-radius:20px;
-  padding:24px;box-shadow:var(--shadow);
-}
-.modal-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
-.modal-header h2{margin:0}
-.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}
-.command-results{display:flex;flex-direction:column;gap:6px;margin-top:14px}
-.command-result{display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid transparent;border-radius:11px;background:var(--panel2);color:var(--text)}
-.command-result:hover{border-color:var(--accent)}
-.command-result span:last-child{margin-left:auto;color:var(--muted);font-size:11px}
-.focus-wrap{text-align:center;padding:24px 5px}
-.focus-time{font-size:clamp(48px,9vw,82px);font-weight:850;letter-spacing:-4px;margin:24px 0}
-.focus-ring{width:190px;height:190px;margin:25px auto;border:4px solid var(--panel3);border-top-color:var(--accent);border-right-color:var(--accent2);border-radius:50%;display:grid;place-items:center}
-.focus-ring .focus-time{font-size:42px;letter-spacing:-2px;margin:0}
-@media(max-width:1200px){
-  .apps-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:900px){
-  .sidebar{transform:translateX(-100%);transition:transform .22s;box-shadow:var(--shadow)}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0;width:100%}
-  .mobile-menu{display:grid}
-  .topbar{padding:13px 18px}
-  .content{padding:24px 18px 40px}
-  .footer{padding:18px}
-  .panel-grid,.two-column{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .breadcrumb{display:none}
-  .search-trigger{min-width:0;width:42px;justify-content:center;padding:10px}
-  .search-trigger .search-label,.search-trigger span:last-child{display:none}
-  .top-actions{gap:6px}
-  .topbar{gap:8px;padding:12px}
-  .hero{padding:24px 20px}
-  .hero:after{right:-130px;top:30px}
-  .hero h1{font-size:35px}
-  .hero-meta{gap:14px}
-  .apps-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .app-card{padding:13px}
-  .app-logo{width:36px;height:36px;font-size:18px}
-  .app-head{gap:8px}
-  .app-desc{font-size:11px}
-  .project-grid,.settings-grid{grid-template-columns:1fr}
-  .note-layout{grid-template-columns:1fr}
-  .note-sidebar{max-height:200px;overflow:auto}
-  .stat-card{padding:14px}
-  .stat-value{font-size:24px}
-  .footer{flex-direction:column}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
-</style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(107, 83, 255, .10), transparent 35%),
+        radial-gradient(ellipse at 90% 12%, rgba(45, 209, 195, .06), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible {
+      outline: 2px solid var(--accent-2);
+      outline-offset: 3px;
+    }
+
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    a { color: inherit; text-decoration: none; }
+    .hidden { display: none !important; }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .mono { font-variant-numeric: tabular-nums; }
+    .eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .17em;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .app-shell { min-height: 100vh; }
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: var(--sidebar);
+      padding: 23px 15px 16px;
+      background: rgba(10, 14, 23, .94);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      z-index: 30;
+      backdrop-filter: blur(22px);
+      transition: transform .25s ease;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 2px 8px 24px;
+    }
+
+    .brand-mark {
+      width: 37px;
+      height: 37px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(140deg, #a18bff, #5b55e9 58%, #36d8c7);
+      box-shadow: 0 6px 24px rgba(125, 101, 255, .25);
+      color: white;
+      font-weight: 950;
+      font-size: 19px;
+      letter-spacing: -.08em;
+    }
+
+    .brand-name { font-weight: 900; font-size: 19px; letter-spacing: .10em; }
+    .brand-sub { color: var(--muted); font-size: 10px; letter-spacing: .16em; }
+
+    .workspace-label {
+      padding: 8px 10px;
+      margin-bottom: 5px;
+      color: #64718a;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .nav-list { display: grid; gap: 4px; }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 12px;
+      padding: 11px 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      color: #9ca9bd;
+      cursor: pointer;
+      text-align: left;
+      transition: .18s ease;
+    }
+
+    .nav-btn:hover { color: var(--text); background: rgba(255,255,255,.035); }
+    .nav-btn.active {
+      color: white;
+      background: linear-gradient(100deg, rgba(140,123,255,.17), rgba(80,226,208,.055));
+      border-color: rgba(140,123,255,.22);
+    }
+
+    .nav-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 21px;
+      font-size: 16px;
+    }
+
+    .nav-count {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .sidebar-bottom { margin-top: auto; }
+    .storage-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: linear-gradient(145deg, rgba(140,123,255,.09), rgba(80,226,208,.035));
+    }
+
+    .storage-head { display: flex; justify-content: space-between; gap: 8px; }
+    .storage-track {
+      height: 5px;
+      border-radius: 99px;
+      background: #273144;
+      margin: 12px 0 9px;
+      overflow: hidden;
+    }
+    .storage-fill {
+      width: 34%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .local-label {
+      margin-top: 12px;
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      color: #95a4b9;
+      font-size: 11px;
+    }
+    .online-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 9px rgba(88,217,162,.4);
+    }
+
+    .main {
+      margin-left: var(--sidebar);
+      min-width: 0;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      min-height: 76px;
+      padding: 14px 32px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      background: rgba(8,11,18,.67);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-left, .topbar-right, .inline, .section-heading,
+    .row-between, .button-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .row-between, .section-heading { justify-content: space-between; }
+    .topbar-right { justify-content: flex-end; }
+    .page-title { font-size: 15px; font-weight: 800; }
+    .top-subtitle { color: var(--muted); font-size: 11px; }
+
+    .search-trigger {
+      width: min(310px, 30vw);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #0e1420;
+      color: #8592a8;
+      padding: 10px 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .search-trigger:hover { border-color: rgba(140,123,255,.45); }
+    .kbd {
+      font-size: 10px;
+      padding: 2px 5px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      margin-left: auto;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .icon-btn, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: #121a28;
+      border-radius: 10px;
+      padding: 9px 12px;
+      cursor: pointer;
+      transition: .18s ease;
+      white-space: nowrap;
+    }
+
+    .icon-btn { width: 38px; height: 38px; padding: 0; font-size: 16px; }
+    .icon-btn:hover, .btn:hover { border-color: rgba(140,123,255,.5); transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(110deg, #8b76ff, #6965f2);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 6px 22px rgba(115,97,255,.16);
+    }
+    .btn-secondary { background: rgba(255,255,255,.035); }
+    .btn-danger { color: var(--danger); }
+    .btn-small { font-size: 12px; padding: 7px 10px; }
+    .menu-toggle { display: none; }
+
+    .content {
+      max-width: 1560px;
+      padding: 29px 32px 55px;
+      margin: 0 auto;
+    }
+
+    .view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(25px, 3vw, 37px); line-height: 1.12; letter-spacing: -.045em; margin-bottom: 9px; }
+    h2 { font-size: 17px; letter-spacing: -.02em; margin-bottom: 0; }
+    h3 { font-size: 14px; margin-bottom: 7px; }
+    p { color: var(--muted); }
+
+    .gradient-text {
+      background: linear-gradient(100deg, #c7baff, #8fdbff 65%, #65ead7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .grid { display: grid; gap: 17px; }
+    .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 20px; }
+    .dashboard-grid { grid-template-columns: minmax(0, 1.5fr) minmax(290px, 1fr); }
+    .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .panel {
+      min-width: 0;
+      background: linear-gradient(145deg, rgba(18,26,40,.94), rgba(12,18,29,.94));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-pad { padding: 20px; }
+    .stat-card { padding: 19px; position: relative; overflow: hidden; }
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--glow, rgba(140,123,255,.1));
+      filter: blur(30px);
+      right: -40px;
+      top: -40px;
+      pointer-events: none;
+    }
+
+    .stat-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .stat-icon {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(140,123,255,.12);
+      color: #c3b7ff;
+      font-size: 16px;
+    }
+
+    .stat-value { font-size: 30px; font-weight: 850; letter-spacing: -.05em; margin: 14px 0 2px; }
+    .stat-label { color: var(--muted); font-size: 12px; }
+    .stat-foot { margin-top: 9px; font-size: 11px; color: #a8b4c8; }
+
+    .hero-panel {
+      position: relative;
+      padding: 25px;
+      min-height: 230px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 85% 5%, rgba(80,226,208,.15), transparent 35%),
+        radial-gradient(ellipse at 70% 90%, rgba(140,123,255,.2), transparent 42%),
+        linear-gradient(130deg, #15152a, #101a29 70%, #10232c);
+    }
+
+    .hero-panel::after {
+      content: "V";
+      position: absolute;
+      right: 28px;
+      bottom: -60px;
+      font-size: 245px;
+      font-weight: 950;
+      letter-spacing: -.12em;
+      color: rgba(180,196,255,.035);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .hero-panel > * { position: relative; z-index: 1; }
+    .hero-panel h2 { font-size: clamp(23px, 2.8vw, 34px); max-width: 520px; line-height: 1.15; margin: 14px 0 10px; }
+    .hero-panel p { max-width: 520px; margin-bottom: 20px; font-size: 13px; }
+    .status-pill, .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 750;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: #c4cde0;
+    }
+    .status-pill { color: #a5f3df; border-color: rgba(80,226,208,.18); background: rgba(80,226,208,.07); }
+
+    .panel-heading { padding: 18px 20px; border-bottom: 1px solid var(--line); }
+    .panel-body { padding: 18px 20px; }
+    .section-gap { margin-top: 22px; }
+
+    .quick-actions { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+    .quick-action {
+      display: grid;
+      justify-items: start;
+      gap: 11px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255,255,255,.02);
+      cursor: pointer;
+      text-align: left;
+      min-width: 0;
+    }
+    .quick-action:hover { background: rgba(140,123,255,.07); border-color: rgba(140,123,255,.28); }
+    .quick-action-icon { font-size: 20px; }
+    .quick-action strong { font-size: 12px; }
+    .quick-action span:last-child { color: var(--muted); font-size: 10px; }
+
+    .list { display: grid; gap: 10px; }
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.018);
+      border-radius: 12px;
+      min-width: 0;
+    }
+
+    .list-main { flex: 1; min-width: 0; }
+    .list-title { font-size: 12px; font-weight: 750; overflow-wrap: anywhere; }
+    .list-sub { color: var(--muted); font-size: 11px; margin-top: 4px; overflow-wrap: anywhere; }
+    .list-actions { display: flex; gap: 5px; flex-shrink: 0; }
+    .mini-btn {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .mini-btn:hover { border-color: var(--line); background: rgba(255,255,255,.05); color: var(--text); }
+
+    .check {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
+      margin-top: 2px;
+    }
+    .completed .list-title { text-decoration: line-through; color: #718097; }
+    .priority-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+    .priority-high { background: var(--danger); }
+    .priority-medium { background: var(--warning); }
+    .priority-low { background: var(--success); }
+
+    .progress-track { height: 6px; background: #222d3d; border-radius: 99px; overflow: hidden; margin-top: 11px; }
+    .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .25s ease; }
+
+    .note-card, .project-card, .app-card {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: linear-gradient(145deg, rgba(21,30,45,.8), rgba(12,18,29,.7));
+      min-width: 0;
+      transition: border-color .2s, transform .2s;
+    }
+    .note-card:hover, .project-card:hover, .app-card:hover { border-color: rgba(140,123,255,.35); transform: translateY(-2px); }
+    .note-card { cursor: pointer; }
+    .note-preview { font-size: 12px; line-height: 1.6; margin: 10px 0 14px; overflow-wrap: anywhere; white-space: pre-wrap; }
+    .note-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .color-chip { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+    .note-color-0 { background: #a18bff; }
+    .note-color-1 { background: #55d7c5; }
+    .note-color-2 { background: #ffc66e; }
+    .note-color-3 { background: #ff819d; }
+    .note-color-4 { background: #76b9ff; }
+
+    .toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+    .field, .select-field, .textarea-field {
+      width: 100%;
+      background: #0a101a;
+      border: 1px solid #293447;
+      border-radius: 10px;
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+    }
+    .field:focus, .select-field:focus, .textarea-field:focus { border-color: var(--accent); }
+    .textarea-field { min-height: 120px; resize: vertical; }
+    .field-label { display: block; color: #b4c0d3; font-size: 11px; font-weight: 700; margin-bottom: 7px; }
+    .form-group { display: grid; gap: 6px; }
+    .form-stack { display: grid; gap: 15px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .filter-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-btn {
+      padding: 7px 11px;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .filter-btn.active { background: rgba(140,123,255,.12); border-color: rgba(140,123,255,.34); color: #d8d1ff; }
+
+    .focus-panel {
+      padding: 28px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(140,123,255,.15), transparent 45%),
+        var(--panel);
+    }
+    .focus-ring {
+      width: min(290px, 72vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      margin: 24px auto;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background: conic-gradient(var(--accent) var(--progress, 0%), #263044 0);
+    }
+    .focus-ring::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: #101725; }
+    .focus-time { position: relative; z-index: 1; font-size: clamp(36px, 7vw, 54px); font-weight: 850; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+    .focus-caption { position: relative; z-index: 1; color: var(--muted); font-size: 11px; }
+    .duration-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 7px; }
+    .focus-controls { display: flex; justify-content: center; gap: 9px; margin-top: 17px; }
+
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 7px; }
+    .day-card { padding: 12px 5px; text-align: center; border: 1px solid var(--line); border-radius: 11px; background: rgba(255,255,255,.02); }
+    .day-card.today { border-color: var(--accent); background: rgba(140,123,255,.12); }
+    .day-num { font-size: 17px; font-weight: 800; margin-top: 5px; }
+    .day-name { font-size: 10px; color: var(--muted); }
+    .day-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent-2); margin: 7px auto 0; }
+
+    .app-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+    .app-card { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .app-icon { width: 43px; height: 43px; display: grid; place-items: center; flex-shrink: 0; border-radius: 13px; font-size: 21px; background: rgba(140,123,255,.12); }
+    .app-card strong { display: block; font-size: 12px; }
+    .app-card span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; overflow-wrap: anywhere; }
+
+    .empty-state { text-align: center; padding: 30px 14px; border: 1px dashed #2a3548; border-radius: 13px; color: var(--muted); }
+    .empty-icon { font-size: 25px; margin-bottom: 9px; }
+    .empty-state strong { display: block; color: #cbd5e5; margin-bottom: 5px; }
+    .empty-state p { font-size: 12px; margin-bottom: 13px; }
+
+    .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 17px 0; border-bottom: 1px solid var(--line); }
+    .settings-row:last-child { border-bottom: 0; }
+    .settings-title { font-weight: 750; font-size: 13px; }
+    .settings-desc { color: var(--muted); font-size: 11px; margin-top: 4px; max-width: 500px; }
+    .switch { width: 42px; height: 24px; position: relative; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch-track { position: absolute; inset: 0; border-radius: 99px; background: #303b4e; cursor: pointer; transition: .2s; }
+    .switch-track::after { content: ""; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: .2s; }
+    .switch input:checked + .switch-track { background: var(--accent); }
+    .switch input:checked + .switch-track::after { transform: translateX(18px); }
+
+    .footer { padding: 22px 0 5px; color: #66748a; font-size: 11px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .toast-container { position: fixed; right: 22px; bottom: 22px; display: grid; gap: 9px; z-index: 100; }
+    .toast {
+      max-width: min(350px, calc(100vw - 44px));
+      background: #182335;
+      border: 1px solid #344158;
+      box-shadow: var(--shadow);
+      border-radius: 12px;
+      padding: 12px 15px;
+      font-size: 12px;
+      animation: toastIn .2s ease;
+    }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,5,11,.72);
+      backdrop-filter: blur(8px);
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+    .modal {
+      width: min(560px, 100%);
+      max-height: min(85vh, 850px);
+      overflow: auto;
+      background: #101725;
+      border: 1px solid #2a3549;
+      border-radius: 18px;
+      box-shadow: 0 30px 100px rgba(0,0,0,.55);
+    }
+    .modal-wide { width: min(760px, 100%); }
+    .modal-header { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
+    .modal-header h2 { margin: 0; }
+    .modal-body { padding: 20px; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding-top: 18px; }
+    .command-modal { width: min(600px, 100%); align-self: start; margin-top: 10vh; }
+    .command-search { display: flex; gap: 10px; padding: 15px; border-bottom: 1px solid var(--line); }
+    .command-search input { background: transparent; border: 0; color: white; outline: 0; width: 100%; font-size: 15px; }
+    .command-results { padding: 8px; max-height: 50vh; overflow: auto; }
+    .command-item { display: flex; gap: 11px; align-items: center; width: 100%; border: 0; border-radius: 10px; background: transparent; text-align: left; padding: 12px; cursor: pointer; }
+    .command-item:hover, .command-item.selected { background: rgba(140,123,255,.13); }
+    .command-item small { display: block; color: var(--muted); margin-top: 2px; }
+    .command-footer { display: flex; gap: 12px; flex-wrap: wrap; padding: 11px 15px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+
+    body.light-mode {
+      color-scheme: light;
+      --bg: #f2f5fb;
+      --surface: #fff;
+      --panel: #fff;
+      --panel-2: #f0f3fa;
+      --line: rgba(48,62,90,.13);
+      --text: #172034;
+      --muted: #6b7890;
+      --shadow: 0 12px 35px rgba(35,48,75,.08);
+      background: radial-gradient(ellipse at 10% 0%, rgba(120,100,255,.08), transparent 35%), #f2f5fb;
+    }
+    .light-mode .sidebar { background: rgba(255,255,255,.94); }
+    .light-mode .topbar { background: rgba(255,255,255,.78); }
+    .light-mode .search-trigger, .light-mode .field,
+    .light-mode .select-field, .light-mode .textarea-field { background: #fff; color: var(--text); }
+    .light-mode .panel, .light-mode .note-card,
+    .light-mode .project-card, .light-mode .app-card { background: rgba(255,255,255,.88); }
+    .light-mode .hero-panel { background: linear-gradient(130deg, #e9e5ff, #e9f8ff); }
+    .light-mode .hero-panel p { color: #59657c; }
+    .light-mode .hero-panel .eyebrow { color: #5b5a8d; }
+    .light-mode .btn, .light-mode .icon-btn { background: #fff; color: var(--text); }
+    .light-mode .btn-primary { background: linear-gradient(110deg, #7965ed, #5d60e8); color: white; }
+    .light-mode .nav-btn.active { color: #4f45bc; }
+    .light-mode .nav-btn { color: #64718a; }
+    .light-mode .focus-ring::before { background: #fff; }
+    .light-mode .focus-panel { background: #fff; }
+    .light-mode .modal { background: #fff; }
+    .light-mode .command-search input { color: var(--text); }
+    .light-mode .command-item:hover, .light-mode .command-item.selected { background: #f0edff; }
+    .light-mode .empty-state strong { color: var(--text); }
+
+    @media (max-width: 1180px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .app-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .quick-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      :root { --sidebar: 248px; }
+      .sidebar { transform: translateX(-105%); box-shadow: var(--shadow); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .menu-toggle { display: inline-flex; }
+      .topbar { padding: 13px 18px; }
+      .content { padding: 23px 18px 42px; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .three-col { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 600px) {
+      .topbar { gap: 9px; }
+      .topbar-right { gap: 6px; }
+      .top-subtitle, .search-trigger .search-text, .kbd, .hide-mobile { display: none; }
+      .search-trigger { width: 39px; height: 39px; justify-content: center; padding: 0; }
+      .search-trigger .search-symbol { display: block; }
+      .content { padding: 20px 13px 34px; }
+      .view-header { align-items: flex-start; flex-direction: column; }
+      .stats-grid { gap: 10px; }
+      .stat-card { padding: 14px; }
+      .stat-value { font-size: 25px; }
+      .stat-icon { width: 31px; height: 31px; }
+      .hero-panel { padding: 19px; }
+      .quick-actions { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .three-col, .app-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .app-card { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .calendar-grid { gap: 4px; }
+      .day-card { padding: 9px 2px; }
+      .day-num { font-size: 14px; }
+      .form-row { grid-template-columns: 1fr; }
+      .panel-pad { padding: 15px; }
+      .panel-heading, .panel-body { padding: 15px; }
+      .focus-panel { padding: 18px; }
+      .focus-ring { width: min(250px, 70vw); }
+      .footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="app-shell">
-
-<aside class="sidebar" id="sidebar">
-  <a class="brand" href="#home" aria-label="VYBE home">
-    <span class="brand-icon">V</span>
-    <span><span class="brand-name">VYBE</span><br><span class="brand-sub">DIGITAL WORKSPACE</span></span>
-  </a>
-
-  <div class="nav-label">WORKSPACE</div>
-  <button class="nav-btn active" data-view="home"><span class="nav-icon">◈</span>Command Center</button>
-  <button class="nav-btn" data-view="apps"><span class="nav-icon">▦</span>App Universe<span class="nav-count" id="navAppCount">17</span></button>
-  <button class="nav-btn" data-view="notes"><span class="nav-icon">▤</span>My Notes<span class="nav-count" id="navNoteCount">0</span></button>
-  <button class="nav-btn" data-view="tasks"><span class="nav-icon">✓</span>Tasks & Goals<span class="nav-count" id="navTaskCount">0</span></button>
-  <button class="nav-btn" data-view="projects"><span class="nav-icon">◇</span>Projects</button>
-  <button class="nav-btn" data-view="bookmarks"><span class="nav-icon">⌑</span>Bookmarks</button>
-
-  <div class="nav-label">PERSONAL</div>
-  <button class="nav-btn" data-view="favorites"><span class="nav-icon">♡</span>Favorites</button>
-  <button class="nav-btn" data-view="activity"><span class="nav-icon">◷</span>Recent Activity</button>
-  <button class="nav-btn" data-view="focus"><span class="nav-icon">◎</span>Focus Studio</button>
-
-  <div class="sidebar-bottom">
-    <button class="nav-btn" data-view="settings"><span class="nav-icon">⚙</span>Settings & Backup</button>
-    <div class="local-status">
-      <span class="status-dot"></span><strong>Local workspace</strong>
-      <p>Your notes and tasks are saved in this browser. Cloud sync is not enabled.</p>
-    </div>
-  </div>
-</aside>
-
-<main class="main">
-<header class="topbar">
-  <div class="top-left">
-    <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open navigation">☰</button>
-    <div class="breadcrumb">VYBE <span style="opacity:.5">/</span> <strong id="breadcrumb">Command Center</strong></div>
-  </div>
-  <div class="top-actions">
-    <button class="search-trigger" id="searchOpen" aria-label="Search workspace">
-      <span>⌕</span><span class="search-label">Search anything...</span><span>Ctrl K</span>
-    </button>
-    <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">☼</button>
-    <button class="icon-btn" id="quickNoteBtn" title="New note" aria-label="Create a note">＋</button>
-  </div>
-</header>
-
-<div class="content">
-
-<section class="view active" id="view-home">
-  <div class="hero">
-    <div class="hero-inner">
-      <div class="eyebrow">YOUR PERSONAL COMMAND CENTER</div>
-      <h1>One workspace.<br><span class="gradient-text">Infinite possibilities.</span></h1>
-      <p>Bring your digital life together. Launch your favorite platforms, organize your thoughts, manage your tasks and build your next big idea — all from one place.</p>
-      <div class="hero-buttons">
-        <button class="btn primary" data-go="apps">Explore app universe ↗</button>
-        <button class="btn" data-go="projects">Open my workspace</button>
-      </div>
-      <div class="hero-meta">
-        <div><strong id="heroApps">17</strong>CONNECTED PLATFORMS</div>
-        <div><strong id="heroTasks">0</strong>OPEN TASKS</div>
-        <div><strong id="heroNotes">0</strong>PERSONAL NOTES</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid stats-grid">
-    <div class="stat-card"><div class="stat-top"><span class="subtext">My notes</span><span class="stat-icon">▤</span></div><div class="stat-value" id="statNotes">0</div><div class="stat-label">Ideas saved locally</div></div>
-    <div class="stat-card"><div class="stat-top"><span class="subtext">Tasks completed</span><span class="stat-icon">✓</span></div><div class="stat-value" id="statDone">0</div><div class="stat-label">Goals you've checked off</div></div>
-    <div class="stat-card"><div class="stat-top"><span class="subtext">Favorites</span><span class="stat-icon">♡</span></div><div class="stat-value" id="statFavorites">0</div><div class="stat-label">Your go-to platforms</div></div>
-    <div class="stat-card"><div class="stat-top"><span class="subtext">Recently opened</span><span class="stat-icon">◷</span></div><div class="stat-value" id="statRecent">0</div><div class="stat-label">Apps in your activity</div></div>
-  </div>
-
-  <div class="section-head"><div><h2>Quick actions</h2><p>Your most useful tools, one click away.</p></div></div>
-  <div class="quick-grid">
-    <button class="quick-action" data-action="note"><span class="qicon">✎</span><strong>Quick note</strong><small>Capture an idea</small></button>
-    <button class="quick-action" data-action="task"><span class="qicon">☑</span><strong>Add a task</strong><small>Move forward</small></button>
-    <button class="quick-action" data-action="focus"><span class="qicon">◎</span><strong>Focus session</strong><small>Work distraction-free</small></button>
-    <button class="quick-action" data-action="bookmark"><span class="qicon">⌑</span><strong>Save a link</strong><small>Keep it for later</small></button>
-  </div>
-
-  <div class="section-head"><div><h2>Your workspace</h2><p>A live overview of your personal productivity.</p></div></div>
-  <div class="grid panel-grid">
-    <div class="card">
-      <div class="panel-title"><h2>Today's priorities</h2><button class="text-link" data-go="tasks">View all →</button></div>
-      <div id="homeTasks" class="list"></div>
-    </div>
-    <div class="card">
-      <div class="panel-title"><h2>Recently opened</h2><button class="text-link" data-go="activity">History →</button></div>
-      <div id="homeRecent" class="list"></div>
-    </div>
-  </div>
-
-  <div class="section-head"><div><h2>Favorite platforms</h2><p>Your pinned destinations.</p></div><button class="text-link" data-go="favorites">All favorites →</button></div>
-  <div class="grid apps-grid" id="homeFavorites"></div>
-</section>
-
-<section class="view" id="view-apps">
-  <div class="eyebrow">YOUR DIGITAL ECOSYSTEM</div>
-  <h1>App Universe</h1>
-  <p class="subtext">Your digital destinations, organized in one place.</p>
-  <div class="apps-toolbar">
-    <input class="field search-field" id="appSearch" placeholder="Search apps, categories..." aria-label="Search apps">
-    <select class="field filter-select" id="appCategory" aria-label="Filter category">
-      <option value="All">All categories</option>
-      <option>Social</option><option>Messaging</option><option>Video</option><option>Entertainment</option>
-      <option>Music</option><option>Community</option><option>Creative</option><option>Professional</option><option>Tools</option><option>Productivity</option><option>Custom</option>
-    </select>
-    <button class="btn primary" id="addAppBtn">＋ Add app</button>
-  </div>
-  <div class="section-head"><div><h2 id="appsHeading">All platforms</h2><p id="appResultCount"></p></div></div>
-  <div class="grid apps-grid" id="appsGrid"></div>
-</section>
-
-<section class="view" id="view-notes">
-  <div class="eyebrow">YOUR IDEAS, YOUR SPACE</div>
-  <h1>My Notes</h1>
-  <p class="subtext">Write ideas, keep plans and save important thoughts. Notes are stored locally in this browser.</p>
-  <div class="section-head"><div><h2>Notes workspace</h2><p>Changes save automatically.</p></div><button class="btn primary" id="newNoteBtn">＋ New note</button></div>
-  <div class="note-layout">
-    <div class="card note-sidebar"><div class="panel-title"><h2>All notes</h2><span class="pill" id="noteCountPill">0</span></div><div id="noteList" class="list"></div></div>
-    <div class="card">
-      <div id="noteEditorEmpty" class="empty-state"><span>✎</span>Choose a note or create a new one.</div>
-      <div id="noteEditor" hidden>
-        <label class="field-label" for="noteTitle">NOTE TITLE</label>
-        <input class="field" id="noteTitle" maxlength="160" placeholder="Give your note a title">
-        <label class="field-label" for="noteBody">YOUR THOUGHTS</label>
-        <textarea class="field note-editor" id="noteBody" placeholder="Start writing..."></textarea>
-        <div class="project-footer" style="margin-top:15px">
-          <small class="subtext" id="noteSaveStatus">Saved locally</small>
-          <button class="btn small" id="deleteNoteBtn">Delete note</button>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" data-view="dashboard" aria-label="VYBE OS home">
+        <div class="brand-mark">V</div>
+        <div>
+          <div class="brand-name">VYBE</div>
+          <div class="brand-sub">PERSONAL OS</div>
         </div>
+      </a>
+
+      <div class="workspace-label">Workspace</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-btn active" data-view="dashboard"><span class="nav-icon">◈</span>Overview</button>
+        <button class="nav-btn" data-view="tasks"><span class="nav-icon">☑</span>Tasks<span class="nav-count" id="navTaskCount">0</span></button>
+        <button class="nav-btn" data-view="notes"><span class="nav-icon">▤</span>Notes<span class="nav-count" id="navNoteCount">0</span></button>
+        <button class="nav-btn" data-view="projects"><span class="nav-icon">◫</span>Projects</button>
+        <button class="nav-btn" data-view="planner"><span class="nav-icon">▦</span>Planner</button>
+        <button class="nav-btn" data-view="focus"><span class="nav-icon">◷</span>Focus room</button>
+      </nav>
+
+      <div class="workspace-label" style="margin-top:22px">Your tools</div>
+      <nav class="nav-list" aria-label="Tools">
+        <button class="nav-btn" data-view="apps"><span class="nav-icon">⠿</span>App launcher</button>
+        <button class="nav-btn" data-view="settings"><span class="nav-icon">⚙</span>Settings</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="storage-card">
+          <div class="storage-head">
+            <strong style="font-size:12px">Your workspace</strong>
+            <span style="color:var(--accent-2)">●</span>
+          </div>
+          <div class="small muted" style="margin-top:5px">Private to this browser</div>
+          <div class="storage-track"><div class="storage-fill"></div></div>
+          <div class="row-between small muted"><span id="storageCount">Local data</span><span>Local</span></div>
+        </div>
+        <div class="local-label"><span class="online-dot"></span>Local workspace active</div>
       </div>
-    </div>
-  </div>
-</section>
+    </aside>
 
-<section class="view" id="view-tasks">
-  <div class="eyebrow">MAKE PROGRESS EVERY DAY</div>
-  <h1>Tasks & Goals</h1>
-  <p class="subtext">Turn big ambitions into small, manageable actions.</p>
-  <div class="grid stats-grid">
-    <div class="stat-card"><div class="stat-label">ALL TASKS</div><div class="stat-value" id="taskAllCount">0</div></div>
-    <div class="stat-card"><div class="stat-label">COMPLETED</div><div class="stat-value" id="taskDoneCount">0</div></div>
-    <div class="stat-card"><div class="stat-label">IN PROGRESS</div><div class="stat-value" id="taskOpenCount">0</div></div>
-    <div class="stat-card"><div class="stat-label">COMPLETION</div><div class="stat-value" id="taskPercent">0%</div></div>
-  </div>
-  <div class="section-head"><div><h2>My task list</h2><p>Check tasks off as you finish them.</p></div></div>
-  <div class="card">
-    <form class="task-input-row" id="taskForm"><input class="field" id="taskInput" maxlength="200" placeholder="What do you want to get done?" required><button class="btn primary" type="submit">＋ Add task</button></form>
-    <div class="progress"><div id="taskProgress"></div></div>
-    <div class="chips" style="margin:17px 0">
-      <button class="chip active" data-task-filter="all">All tasks</button>
-      <button class="chip" data-task-filter="open">In progress</button>
-      <button class="chip" data-task-filter="done">Completed</button>
-    </div>
-    <div id="taskList"></div>
-  </div>
-</section>
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+          <div>
+            <div class="page-title" id="topPageTitle">Overview</div>
+            <div class="top-subtitle" id="topDate">Your space, your pace.</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="search-trigger" id="openCommand" aria-label="Open search and commands">
+            <span class="search-symbol">⌕</span>
+            <span class="search-text">Search anything...</span>
+            <span class="kbd">Ctrl K</span>
+          </button>
+          <button class="icon-btn" id="themeToggle" title="Toggle light and dark mode" aria-label="Toggle theme">☼</button>
+          <button class="icon-btn" id="quickCreate" title="Create new item" aria-label="Create new item">＋</button>
+          <div class="brand-mark" style="width:35px;height:35px;border-radius:11px;font-size:15px" title="VYBE workspace">V</div>
+        </div>
+      </header>
 
-<section class="view" id="view-projects">
-  <div class="eyebrow">BUILD SOMETHING MEANINGFUL</div>
-  <h1>Projects</h1>
-  <p class="subtext">Keep your ambitions organized and your next steps visible.</p>
-  <div class="section-head"><div><h2>My projects</h2><p>Create a space for each idea you're developing.</p></div><button class="btn primary" id="newProjectBtn">＋ New project</button></div>
-  <div class="grid project-grid" id="projectGrid"></div>
-</section>
+      <div class="content">
+        <section class="view" id="view-dashboard">
+          <div class="view-header">
+            <div>
+              <div class="eyebrow" id="greeting">YOUR PERSONAL WORKSPACE</div>
+              <h1 id="welcomeTitle">Make room for <span class="gradient-text">great ideas.</span></h1>
+              <p style="margin-bottom:0">Your projects, plans and thoughts — connected in one place.</p>
+            </div>
+            <div class="toolbar">
+              <button class="btn btn-secondary" data-action="export">⇩ Export data</button>
+              <button class="btn btn-primary" data-action="create-task">＋ New task</button>
+            </div>
+          </div>
 
-<section class="view" id="view-bookmarks">
-  <div class="eyebrow">SAVE IT FOR LATER</div>
-  <h1>Bookmarks</h1>
-  <p class="subtext">Keep useful websites and resources together.</p>
-  <div class="section-head"><div><h2>Saved links</h2><p>Links stay in this browser until you export your workspace.</p></div></div>
-  <div class="card">
-    <form id="bookmarkForm">
-      <label class="field-label" for="bookmarkTitle">LINK NAME</label>
-      <input class="field" id="bookmarkTitle" maxlength="120" placeholder="e.g. My learning resource" required>
-      <label class="field-label" for="bookmarkUrl">WEBSITE URL</label>
-      <input class="field" id="bookmarkUrl" type="url" maxlength="2000" placeholder="https://example.com" required>
-      <div style="margin-top:12px"><button class="btn primary" type="submit">＋ Save bookmark</button></div>
-    </form>
-  </div>
-  <div class="section-head"><div><h2>My collection</h2><p id="bookmarkCount"></p></div></div>
-  <div class="card"><div id="bookmarkList" class="list"></div></div>
-</section>
+          <div class="grid stats-grid">
+            <div class="panel stat-card" style="--glow:rgba(140,123,255,.15)">
+              <div class="stat-top"><span class="stat-label">Open tasks</span><span class="stat-icon">☑</span></div>
+              <div class="stat-value" id="statTasks">0</div>
+              <div class="stat-foot" id="statTasksFoot">Ready when you are</div>
+            </div>
+            <div class="panel stat-card" style="--glow:rgba(80,226,208,.13)">
+              <div class="stat-top"><span class="stat-label">Notes captured</span><span class="stat-icon" style="color:var(--accent-2);background:rgba(80,226,208,.1)">▤</span></div>
+              <div class="stat-value" id="statNotes">0</div>
+              <div class="stat-foot">Your ideas, kept together</div>
+            </div>
+            <div class="panel stat-card" style="--glow:rgba(255,198,110,.13)">
+              <div class="stat-top"><span class="stat-label">Active projects</span><span class="stat-icon" style="color:var(--warning);background:rgba(255,198,110,.1)">◫</span></div>
+              <div class="stat-value" id="statProjects">0</div>
+              <div class="stat-foot">Small steps build momentum</div>
+            </div>
+            <div class="panel stat-card" style="--glow:rgba(88,217,162,.13)">
+              <div class="stat-top"><span class="stat-label">Focus minutes</span><span class="stat-icon" style="color:var(--success);background:rgba(88,217,162,.1)">◷</span></div>
+              <div class="stat-value" id="statFocus">0</div>
+              <div class="stat-foot" id="statFocusFoot">Time invested today</div>
+            </div>
+          </div>
 
-<section class="view" id="view-favorites">
-  <div class="eyebrow">YOUR PERSONAL SHORTLIST</div><h1>Favorites</h1>
-  <p class="subtext">The platforms you want close at hand.</p>
-  <div class="section-head"><div><h2>Pinned platforms</h2><p>Tap the heart on an app to add or remove it.</p></div><button class="btn" data-go="apps">Explore apps</button></div>
-  <div class="grid apps-grid" id="favoritesGrid"></div>
-</section>
+          <div class="grid dashboard-grid">
+            <div class="grid">
+              <div class="panel hero-panel">
+                <span class="status-pill"><span class="online-dot"></span> YOUR SPACE IS READY</span>
+                <h2>A calmer way to <span class="gradient-text">get things done.</span></h2>
+                <p>Capture an idea, move a project forward or protect time for deep work. VYBE brings your daily workflow into focus.</p>
+                <div class="button-row">
+                  <button class="btn btn-primary" data-view="tasks">Open my tasks ↗</button>
+                  <button class="btn btn-secondary" data-action="create-note">✎ Capture an idea</button>
+                </div>
+              </div>
 
-<section class="view" id="view-activity">
-  <div class="eyebrow">YOUR DIGITAL FOOTPRINT</div><h1>Recent Activity</h1>
-  <p class="subtext">A local history of the platforms you've opened from VYBE.</p>
-  <div class="section-head"><div><h2>Recently opened</h2><p id="activityCount"></p></div><button class="btn small" id="clearActivityBtn">Clear history</button></div>
-  <div class="card"><div id="activityList" class="list"></div></div>
-</section>
+              <div class="panel">
+                <div class="panel-heading row-between">
+                  <div><h2>Quick launch</h2><div class="small muted" style="margin-top:4px">Jump into your workflow</div></div>
+                  <button class="btn btn-secondary btn-small" data-view="apps">All tools ↗</button>
+                </div>
+                <div class="panel-body">
+                  <div class="quick-actions">
+                    <button class="quick-action" data-action="create-note"><span class="quick-action-icon">✎</span><strong>Quick note</strong><span>Capture an idea</span></button>
+                    <button class="quick-action" data-action="create-task"><span class="quick-action-icon">☑</span><strong>New task</strong><span>Plan your next step</span></button>
+                    <button class="quick-action" data-view="focus"><span class="quick-action-icon">◷</span><strong>Focus room</strong><span>Start a session</span></button>
+                    <button class="quick-action" data-action="create-project"><span class="quick-action-icon">◫</span><strong>New project</strong><span>Build something</span></button>
+                  </div>
+                </div>
+              </div>
 
-<section class="view" id="view-focus">
-  <div class="eyebrow">MAKE SPACE FOR DEEP WORK</div><h1>Focus Studio</h1>
-  <p class="subtext">A simple focus timer to help you work in intentional sessions.</p>
-  <div class="card focus-wrap">
-    <span class="pill purple">FOCUS SESSION</span>
-    <div class="focus-ring"><div class="focus-time" id="focusTime">25:00</div></div>
-    <p class="subtext" id="focusMessage">Choose a duration and begin your session.</p>
-    <div class="chips" style="justify-content:center;margin:18px 0">
-      <button class="chip active" data-duration="25">25 minutes</button>
-      <button class="chip" data-duration="15">15 minutes</button>
-      <button class="chip" data-duration="5">5-minute break</button>
-    </div>
-    <div style="display:flex;justify-content:center;gap:9px">
-      <button class="btn primary" id="focusStart">▶ Start focus</button>
-      <button class="btn" id="focusReset">↺ Reset</button>
-    </div>
-    <p class="subtext" style="margin-top:22px">Keep this tab open while the timer runs.</p>
-  </div>
-</section>
+              <div class="panel">
+                <div class="panel-heading row-between">
+                  <div><h2>My tasks</h2><div class="small muted" style="margin-top:4px">Your next steps at a glance</div></div>
+                  <button class="btn btn-secondary btn-small" data-view="tasks">View all ↗</button>
+                </div>
+                <div class="panel-body"><div class="list" id="dashboardTasks"></div></div>
+              </div>
+            </div>
 
-<section class="view" id="view-settings">
-  <div class="eyebrow">YOUR WORKSPACE, YOUR RULES</div><h1>Settings & Backup</h1>
-  <p class="subtext">Personalize VYBE and manage a backup of your local workspace.</p>
-  <div class="grid settings-grid" style="margin-top:24px">
-    <div class="card">
-      <div class="panel-title"><h2>Appearance</h2><span>◐</span></div>
-      <div class="setting-row"><div><strong>Light theme</strong><small>Switch between light and dark mode.</small></div><button class="toggle" id="themeToggle" aria-label="Toggle light theme" aria-pressed="false"></button></div>
-      <div class="setting-row"><div><strong>Workspace information</strong><small>VYBE runs in your browser.</small></div><span class="pill green">Local</span></div>
-    </div>
-    <div class="card">
-      <div class="panel-title"><h2>Data management</h2><span>⇄</span></div>
-      <p class="subtext">Export your notes, tasks, projects, bookmarks and preferences into a JSON backup. Import it later to restore them.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:17px">
-        <button class="btn primary" id="exportBtn">↓ Export backup</button>
-        <button class="btn" id="importBtn">↑ Import backup</button>
-        <input type="file" id="importFile" accept=".json,application/json" hidden>
+            <div class="grid">
+              <div class="panel">
+                <div class="panel-heading row-between">
+                  <div><h2>Weekly rhythm</h2><div class="small muted" style="margin-top:4px">A simple look at the days ahead</div></div>
+                  <span class="tag">THIS WEEK</span>
+                </div>
+                <div class="panel-body"><div class="calendar-grid" id="miniCalendar"></div><div class="small muted" style="margin-top:15px">Use the planner to keep track of your upcoming tasks.</div></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading row-between">
+                  <div><h2>Recent notes</h2><div class="small muted" style="margin-top:4px">Thoughts worth keeping</div></div>
+                  <button class="btn btn-secondary btn-small" data-view="notes">All notes ↗</button>
+                </div>
+                <div class="panel-body"><div class="list" id="dashboardNotes"></div></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-heading row-between">
+                  <div><h2>Project pulse</h2><div class="small muted" style="margin-top:4px">Progress in motion</div></div>
+                  <button class="btn btn-secondary btn-small" data-view="projects">Projects ↗</button>
+                </div>
+                <div class="panel-body"><div class="list" id="dashboardProjects"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="footer"><span>VYBE OS · Personal workspace</span><span>Your workspace data stays in this browser unless you export it.</span></div>
+        </section>
+
+        <section class="view hidden" id="view-tasks">
+          <div class="view-header">
+            <div><div class="eyebrow">MAKE PROGRESS</div><h1>Task <span class="gradient-text">manager.</span></h1><p style="margin-bottom:0">Turn your plans into clear next steps.</p></div>
+            <button class="btn btn-primary" data-action="create-task">＋ Create task</button>
+          </div>
+          <div class="panel panel-pad">
+            <div class="row-between" style="flex-wrap:wrap;margin-bottom:18px">
+              <div class="filter-row" id="taskFilters">
+                <button class="filter-btn active" data-filter="all">All tasks</button>
+                <button class="filter-btn" data-filter="open">Open</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+              </div>
+              <span class="small muted" id="taskSummary"></span>
+            </div>
+            <div class="list" id="taskList"></div>
+          </div>
+          <div class="footer"><span>Tip: give tasks a due date and priority to make planning easier.</span><span>Stored locally</span></div>
+        </section>
+
+        <section class="view hidden" id="view-notes">
+          <div class="view-header">
+            <div><div class="eyebrow">YOUR SECOND BRAIN</div><h1>Notes & <span class="gradient-text">ideas.</span></h1><p style="margin-bottom:0">Keep drafts, thoughts and useful information in one space.</p></div>
+            <button class="btn btn-primary" data-action="create-note">＋ New note</button>
+          </div>
+          <div class="toolbar" style="margin-bottom:17px">
+            <input class="field" id="noteSearch" placeholder="Search your notes..." style="max-width:360px">
+            <span class="small muted" id="noteSummary"></span>
+          </div>
+          <div class="grid three-col" id="noteGrid"></div>
+          <div class="footer"><span>Notes are saved in this browser automatically.</span><span>Export a backup from Settings.</span></div>
+        </section>
+
+        <section class="view hidden" id="view-projects">
+          <div class="view-header">
+            <div><div class="eyebrow">BUILD WITH INTENTION</div><h1>My <span class="gradient-text">projects.</span></h1><p style="margin-bottom:0">Give your bigger ideas a home and a next step.</p></div>
+            <button class="btn btn-primary" data-action="create-project">＋ New project</button>
+          </div>
+          <div class="grid three-col" id="projectGrid"></div>
+        </section>
+
+        <section class="view hidden" id="view-planner">
+          <div class="view-header">
+            <div><div class="eyebrow">TIME WITH PURPOSE</div><h1>Your <span class="gradient-text">planner.</span></h1><p style="margin-bottom:0">See the week ahead and what needs your attention.</p></div>
+            <button class="btn btn-primary" data-action="create-task">＋ Schedule a task</button>
+          </div>
+          <div class="panel panel-pad">
+            <div class="row-between" style="margin-bottom:17px">
+              <div><h2 id="plannerMonth"></h2><div class="small muted">Select a day to see its tasks.</div></div>
+              <div class="button-row"><button class="icon-btn" id="prevMonth" aria-label="Previous month">‹</button><button class="icon-btn" id="nextMonth" aria-label="Next month">›</button></div>
+            </div>
+            <div class="calendar-grid" id="fullCalendar" style="margin-bottom:18px"></div>
+            <div class="row-between" style="margin-bottom:13px"><h2 id="selectedDayTitle">Selected day</h2><span class="small muted" id="selectedDayCount"></span></div>
+            <div class="list" id="plannerTasks"></div>
+          </div>
+        </section>
+
+        <section class="view hidden" id="view-focus">
+          <div class="view-header">
+            <div><div class="eyebrow">PROTECT YOUR ATTENTION</div><h1>Focus <span class="gradient-text">room.</span></h1><p style="margin-bottom:0">One thing at a time. Take a breath and begin.</p></div>
+          </div>
+          <div class="grid dashboard-grid">
+            <div class="panel focus-panel">
+              <span class="status-pill" id="focusStatus">● READY TO FOCUS</span>
+              <div class="focus-ring" id="focusRing" style="--progress:0%">
+                <div><div class="focus-time" id="focusTime">25:00</div><div class="focus-caption" id="focusCaption">MINUTES OF FOCUS</div></div>
+              </div>
+              <div class="duration-buttons">
+                <button class="filter-btn active" data-duration="25">25 min</button>
+                <button class="filter-btn" data-duration="15">15 min</button>
+                <button class="filter-btn" data-duration="45">45 min</button>
+                <button class="filter-btn" data-duration="5">5 min break</button>
+              </div>
+              <div class="focus-controls">
+                <button class="btn btn-primary" id="focusStart">▶ Start focus</button>
+                <button class="btn btn-secondary" id="focusReset">↺ Reset</button>
+              </div>
+              <p class="small muted" style="margin:16px 0 0">Keep this tab open while the timer runs.</p>
+            </div>
+            <div class="grid">
+              <div class="panel panel-pad">
+                <h2>Set an intention</h2>
+                <p class="small" style="margin-top:7px">What do you want to work on this session?</p>
+                <textarea class="textarea-field" id="focusIntention" placeholder="e.g. Finish one lesson, write a page, solve five problems..."></textarea>
+                <button class="btn btn-secondary" id="saveIntention" style="margin-top:10px">Save intention</button>
+              </div>
+              <div class="panel panel-pad">
+                <div class="row-between"><h2>Today's focus</h2><span class="tag">LOCAL LOG</span></div>
+                <div class="stat-value" id="focusTodayTotal">0 min</div>
+                <p class="small">Completed focus time recorded on this device today.</p>
+                <div class="progress-track"><div class="progress-fill" id="focusTodayBar" style="width:0%"></div></div>
+              </div>
+              <div class="panel panel-pad">
+                <h2>A gentle reminder</h2>
+                <p style="font-size:12px;line-height:1.8;margin:10px 0 0">You don't need to finish everything today. Choose one useful step, give it your attention, and let progress build over time.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view hidden" id="view-apps">
+          <div class="view-header">
+            <div><div class="eyebrow">YOUR DIGITAL TOOLKIT</div><h1>App <span class="gradient-text">launcher.</span></h1><p style="margin-bottom:0">Open useful tools and add your own shortcuts.</p></div>
+            <button class="btn btn-primary" data-action="create-app">＋ Add shortcut</button>
+          </div>
+          <div class="toolbar" style="margin-bottom:18px">
+            <input class="field" id="appSearch" placeholder="Find a tool..." style="max-width:340px">
+          </div>
+          <div class="app-grid" id="appGrid"></div>
+          <p class="small muted" style="margin-top:18px">External services open on their own websites. VYBE does not own or operate those services.</p>
+        </section>
+
+        <section class="view hidden" id="view-settings">
+          <div class="view-header">
+            <div><div class="eyebrow">MAKE IT YOURS</div><h1>Workspace <span class="gradient-text">settings.</span></h1><p style="margin-bottom:0">Control the look of VYBE and manage your local data.</p></div>
+          </div>
+          <div class="grid dashboard-grid">
+            <div class="panel panel-pad">
+              <h2>Appearance & workspace</h2>
+              <div class="settings-row">
+                <div><div class="settings-title">Light appearance</div><div class="settings-desc">Switch between dark and light themes.</div></div>
+                <label class="switch"><input id="lightSwitch" type="checkbox" aria-label="Enable light appearance"><span class="switch-track"></span></label>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-title">Workspace name</div><div class="settings-desc">Give your personal space a name.</div></div>
+                <button class="btn btn-secondary btn-small" id="editWorkspaceName">Edit name</button>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-title">Focus intention</div><div class="settings-desc" id="settingsIntention">No intention saved yet.</div></div>
+                <button class="btn btn-secondary btn-small" data-view="focus">Open focus</button>
+              </div>
+            </div>
+            <div class="panel panel-pad">
+              <h2>Data & privacy</h2>
+              <p class="small" style="margin-top:7px">Your notes, tasks and projects are saved in this browser's local storage. This is not cloud storage.</p>
+              <div class="settings-row">
+                <div><div class="settings-title">Export workspace</div><div class="settings-desc">Download a JSON backup of your data.</div></div>
+                <button class="btn btn-secondary btn-small" data-action="export">⇩ Export</button>
+              </div>
+              <div class="settings-row">
+                <div><div class="settings-title">Import workspace</div><div class="settings-desc">Restore data from a VYBE JSON backup.</div></div>
+                <button class="btn btn-secondary btn-small" id="importButton">⇧ Import</button>
+              </div>
+              <input type="file" id="importFile" accept=".json,application/json" class="hidden">
+              <div class="settings-row">
+                <div><div class="settings-title">Reset workspace</div><div class="settings-desc">Delete local VYBE data from this browser.</div></div>
+                <button class="btn btn-danger btn-small" id="resetButton">Reset data</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-pad section-gap">
+            <div class="eyebrow">ABOUT THIS VERSION</div>
+            <h2 style="margin-top:9px">VYBE OS — Personal Workspace</h2>
+            <p style="font-size:12px;line-height:1.8;margin:10px 0 0">This is a browser-based frontend. It supports local notes, tasks, projects, planning, focus sessions, app shortcuts and JSON backup/restore. It does not provide user accounts, server storage, cross-device sync, shared workspaces or real-time collaboration. Never use it to store passwords or highly sensitive information.</p>
+            <div class="toolbar" style="margin-top:14px"><span class="tag">VERSION 1.0</span><span class="tag">LOCAL-FIRST</span><span class="tag">NO API KEY</span></div>
+          </div>
+          <div class="footer"><span>VYBE OS · Built for everyday work</span><span>Keep your own backup of important data.</span></div>
+        </section>
       </div>
-    </div>
-    <div class="card">
-      <div class="panel-title"><h2>Workspace health</h2><span>◈</span></div>
-      <div class="setting-row"><div><strong>Local notes</strong><small>Stored on this browser.</small></div><span id="healthNotes" class="pill">0</span></div>
-      <div class="setting-row"><div><strong>Tasks</strong><small>Your personal checklist.</small></div><span id="healthTasks" class="pill">0</span></div>
-      <div class="setting-row"><div><strong>Bookmarks</strong><small>Your saved websites.</small></div><span id="healthBookmarks" class="pill">0</span></div>
-    </div>
-    <div class="card">
-      <div class="panel-title"><h2>About VYBE</h2><span>ⓘ</span></div>
-      <p class="subtext">VYBE is an independent digital workspace concept. External platforms belong to their respective owners.</p>
-      <p class="subtext">This version stores workspace data locally. It does not include cloud sync, user accounts, or a remote database.</p>
-      <button class="btn small" id="resetBtn">Reset local workspace</button>
+    </main>
+  </div>
+
+  <div class="overlay hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" id="modalBox">
+      <div class="modal-header"><h2 id="modalTitle">Create item</h2><button class="icon-btn" id="closeModal" aria-label="Close dialog">×</button></div>
+      <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
-</section>
 
-</div>
-<footer class="footer"><span><strong>VYBE</strong> · Your digital workspace</span><span>Built to bring your digital life together.</span></footer>
-</main>
-</div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <div class="modal-header"><h2 id="modalTitle">Create something</h2><button class="icon-btn" id="modalClose" aria-label="Close dialog">×</button></div>
-    <div id="modalContent"></div>
-    <div class="modal-actions" id="modalActions"></div>
-  </div>
-</div>
-
-<div class="modal-backdrop" id="searchBackdrop" role="dialog" aria-modal="true" aria-label="Search VYBE">
-  <div class="modal">
-    <div class="modal-header"><h2>⌕ Search VYBE</h2><button class="icon-btn" id="searchClose" aria-label="Close search">×</button></div>
-    <input class="field" id="globalSearch" placeholder="Search apps, notes, tasks, projects..." autocomplete="off">
-    <div class="command-results" id="searchResults"></div>
-    <p class="subtext" style="margin:15px 0 0">Tip: press Esc to close. Use Ctrl+K to search from anywhere.</p>
-  </div>
-</div>
-
-<script>
-(() => {
-"use strict";
-
-const $ = (selector, root=document) => root.querySelector(selector);
-const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
-const STORAGE_KEY = "vybe.workspace.v3";
-
-const DEFAULT_APPS = [
- {id:"instagram",name:"Instagram",category:"Social",icon:"◎",description:"Photos, reels and stories.",url:"https://www.instagram.com"},
- {id:"facebook",name:"Facebook",category:"Social",icon:"f",description:"Friends, communities and updates.",url:"https://www.facebook.com"},
- {id:"x",name:"X",category:"Social",icon:"𝕏",description:"Live conversations and breaking news.",url:"https://x.com"},
- {id:"threads",name:"Threads",category:"Social",icon:"@",description:"Join conversations and communities.",url:"https://www.threads.net"},
- {id:"snapchat",name:"Snapchat",category:"Social",icon:"👻",description:"Snaps, stories and chats.",url:"https://www.snapchat.com"},
- {id:"pinterest",name:"Pinterest",category:"Creative",icon:"P",description:"Save ideas and discover inspiration.",url:"https://www.pinterest.com"},
- {id:"linkedin",name:"LinkedIn",category:"Professional",icon:"in",description:"Build your professional network.",url:"https://www.linkedin.com"},
- {id:"reddit",name:"Reddit",category:"Community",icon:"◉",description:"Discover communities and discussions.",url:"https://www.reddit.com"},
- {id:"discord",name:"Discord",category:"Community",icon:"◈",description:"Communities, servers and voice chat.",url:"https://discord.com/app"},
- {id:"telegram",name:"Telegram",category:"Messaging",icon:"➤",description:"Messaging, channels and groups.",url:"https://web.telegram.org"},
- {id:"whatsapp",name:"WhatsApp",category:"Messaging",icon:"◉",description:"Personal and group messaging.",url:"https://web.whatsapp.com"},
- {id:"messenger",name:"Messenger",category:"Messaging",icon:"ϟ",description:"Connect with friends and family.",url:"https://www.messenger.com"},
- {id:"youtube",name:"YouTube",category:"Video",icon:"▶",description:"Videos, creators and live streams.",url:"https://www.youtube.com"},
- {id:"netflix",name:"Netflix",category:"Entertainment",icon:"N",description:"Explore movies and series.",url:"https://www.netflix.com"},
- {id:"spotify",name:"Spotify",category:"Music",icon:"♫",description:"Music, playlists and podcasts.",url:"https://open.spotify.com"},
- {id:"github",name:"GitHub",category:"Professional",icon:"⌘",description:"Explore code and build projects.",url:"https://github.com"},
- {id:"google",name:"Google",category:"Tools",icon:"G",description:"Search the web and discover information.",url:"https://www.google.com"},
- {id:"notion",name:"Notion",category:"Productivity",icon:"N",description:"Organize docs, projects and ideas.",url:"https://www.notion.so"},
- {id:"figma",name:"Figma",category:"Creative",icon:"◧",description:"Design and collaborate on interfaces.",url:"https://www.figma.com"},
- {id:"canva",name:"Canva",category:"Creative",icon:"✿",description:"Create designs and presentations.",url:"https://www.canva.com"},
- {id:"chatgpt",name:"ChatGPT",category:"Tools",icon:"✳",description:"Explore an AI assistant.",url:"https://chatgpt.com"},
- {id:"drive",name:"Google Drive",category:"Productivity",icon:"△",description:"Access your files and documents.",url:"https://drive.google.com"},
- {id:"calendar",name:"Google Calendar",category:"Productivity",icon:"▦",description:"Plan your schedule and events.",url:"https://calendar.google.com"},
- {id:"figma-community",name:"Figma Community",category:"Creative",icon:"◇",description:"Discover designs and resources.",url:"https://www.figma.com/community"}
-];
-
-const validId = value => typeof value==="string" && /^[a-zA-Z0-9_-]{1,80}$/.test(value);
-const uid = prefix => prefix+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
-const cleanText = (value,max=2000) => typeof value==="string" ? value.slice(0,max) : "";
-const safeUrl = value => {
-  try {
-    const url = new URL(value);
-    return ["https:","http:"].includes(url.protocol) ? url.href : null;
-  } catch { return null; }
-};
-const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
-
-function defaultState(){
-  return {
-    version:3,theme:"dark",favorites:[],recent:[],
-    notes:[],tasks:[],projects:[],bookmarks:[],customApps:[]
-  };
-}
-function readStored(){
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return defaultState();
-    const data=JSON.parse(raw);
-    if(!data || typeof data!=="object" || Array.isArray(data)) return defaultState();
-    const s=defaultState();
-    s.theme=data.theme==="light"?"light":"dark";
-    s.favorites=Array.isArray(data.favorites)?data.favorites.filter(validId).slice(0,500):[];
-    s.recent=Array.isArray(data.recent)?data.recent.filter(x=>x && validId(x.id)).slice(0,50).map(x=>({id:x.id,time:Number(x.time)||Date.now()})):[];
-    s.notes=Array.isArray(data.notes)?data.notes.filter(x=>x && validId(x.id)).slice(0,500).map(x=>({id:x.id,title:cleanText(x.title,160),body:cleanText(x.body,20000),updated:Number(x.updated)||Date.now()})):[];
-    s.tasks=Array.isArray(data.tasks)?data.tasks.filter(x=>x && validId(x.id)).slice(0,1000).map(x=>({id:x.id,text:cleanText(x.text,200),done:!!x.done,created:Number(x.created)||Date.now()})):[];
-    s.projects=Array.isArray(data.projects)?data.projects.filter(x=>x && validId(x.id)).slice(0,300).map(x=>({id:x.id,name:cleanText(x.name,120),description:cleanText(x.description,600),icon:cleanText(x.icon,8)||"◇",created:Number(x.created)||Date.now()})):[];
-    s.bookmarks=Array.isArray(data.bookmarks)?data.bookmarks.filter(x=>x && validId(x.id) && safeUrl(x.url)).slice(0,500).map(x=>({id:x.id,title:cleanText(x.title,120),url:safeUrl(x.url),created:Number(x.created)||Date.now()})):[];
-    s.customApps=Array.isArray(data.customApps)?data.customApps.filter(x=>x && validId(x.id) && safeUrl(x.url) && cleanText(x.name,80)).slice(0,200).map(x=>({
-      id:x.id,name:cleanText(x.name,80),category:"Custom",description:cleanText(x.description,180),
-      icon:cleanText(x.icon,8)||"✦",url:safeUrl(x.url)
-    })):[];
-    return s;
-  } catch {
-    return defaultState();
-  }
-}
-let state=readStored();
-let selectedNoteId=null;
-let taskFilter="all";
-let toastTimeout=null;
-let focusDuration=25*60;
-let focusRemaining=focusDuration;
-let focusInterval=null;
-let focusRunning=false;
-
-function save(){
-  try {
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
-    return true;
-  } catch {
-    notify("Could not save. Browser storage may be full or disabled.");
-    return false;
-  }
-}
-function notify(message){
-  const toast=$("#toast");
-  toast.textContent=message;
-  toast.classList.add("show");
-  clearTimeout(toastTimeout);
-  toastTimeout=setTimeout(()=>toast.classList.remove("show"),2600);
-}
-function dateLabel(timestamp){
-  try {return new Date(timestamp).toLocaleDateString(undefined,{month:"short",day:"numeric"});}
-  catch{return "";}
-}
-function timeLabel(timestamp){
-  try {return new Date(timestamp).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});}
-  catch{return "";}
-}
-function apps(){
-  return [...DEFAULT_APPS,...state.customApps];
-}
-function appById(id){
-  return apps().find(app=>app.id===id);
-}
-function applyTheme(){
-  document.body.classList.toggle("light",state.theme==="light");
-  $("#themeBtn").textContent=state.theme==="light"?"☾":"☼";
-  $("#themeToggle").classList.toggle("on",state.theme==="light");
-  $("#themeToggle").setAttribute("aria-pressed",String(state.theme==="light"));
-  document.querySelector('meta[name="theme-color"]').content=state.theme==="light"?"#f3f5fb":"#080b14";
-}
-function toggleTheme(){
-  state.theme=state.theme==="light"?"dark":"light";
-  applyTheme();save();
-}
-function go(view){
-  const target=$("#view-"+view);
-  if(!target) return;
-  $$(".view").forEach(el=>el.classList.toggle("active",el===target));
-  $$(".nav-btn[data-view]").forEach(el=>el.classList.toggle("active",el.dataset.view===view));
-  const activeButton=$(`.nav-btn[data-view="${view}"]`);
-  $("#breadcrumb").textContent=activeButton?activeButton.textContent.trim():view;
-  $("#sidebar").classList.remove("open");
-  if(view==="apps")renderApps();
-  if(view==="notes")renderNotes();
-  if(view==="tasks")renderTasks();
-  if(view==="projects")renderProjects();
-  if(view==="bookmarks")renderBookmarks();
-  if(view==="favorites")renderFavorites();
-  if(view==="activity")renderActivity();
-  if(view==="settings")renderSettings();
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-$$("[data-view]").forEach(btn=>btn.addEventListener("click",()=>go(btn.dataset.view)));
-$$("[data-go]").forEach(btn=>btn.addEventListener("click",()=>go(btn.dataset.go)));
-$("#menuBtn").addEventListener("click",()=>$("#sidebar").classList.toggle("open"));
-$("#themeBtn").addEventListener("click",toggleTheme);
-$("#themeToggle").addEventListener("click",toggleTheme);
-
-function appCard(app){
-  const fav=state.favorites.includes(app.id);
-  return `<article class="card app-card">
-    <div class="app-head">
-      <div class="app-logo">${escapeHtml(app.icon||"✦")}</div>
-      <div style="min-width:0"><div class="app-name">${escapeHtml(app.name)}</div><div class="app-category">${escapeHtml(app.category)}</div></div>
+  <div class="overlay hidden" id="commandOverlay" role="dialog" aria-modal="true" aria-label="Search and commands">
+    <div class="modal command-modal">
+      <div class="command-search"><span>⌕</span><input id="commandInput" placeholder="Search or type a command..." autocomplete="off"><span class="kbd">ESC</span></div>
+      <div class="command-results" id="commandResults"></div>
+      <div class="command-footer"><span>↵ Open</span><span>↑↓ Navigate</span><span>ESC Close</span><span>Search tasks, notes and tools</span></div>
     </div>
-    <div class="app-desc">${escapeHtml(app.description||"Open this platform.")}</div>
-    <div class="app-footer">
-      <button class="launch-btn" data-launch="${escapeHtml(app.id)}">Launch ↗</button>
-      <div class="app-actions">
-        <button class="favorite-btn ${fav?"active":""}" data-favorite="${escapeHtml(app.id)}" aria-label="${fav?"Remove from":"Add to"} favorites">${fav?"♥":"♡"}</button>
-        ${app.category==="Custom"?`<button class="delete-btn" data-delete-app="${escapeHtml(app.id)}" aria-label="Delete custom app">×</button>`:""}
-      </div>
-    </div>
-  </article>`;
-}
-function bindAppCards(root=document){
-  $$("[data-launch]",root).forEach(btn=>btn.addEventListener("click",()=>launchApp(btn.dataset.launch)));
-  $$("[data-favorite]",root).forEach(btn=>btn.addEventListener("click",()=>{
-    const id=btn.dataset.favorite;
-    state.favorites=state.favorites.includes(id)?state.favorites.filter(x=>x!==id):[...state.favorites,id];
-    save();renderAll();
-  }));
-  $$("[data-delete-app]",root).forEach(btn=>btn.addEventListener("click",()=>{
-    const id=btn.dataset.deleteApp;
-    if(!confirm("Delete this custom app from VYBE?"))return;
-    state.customApps=state.customApps.filter(x=>x.id!==id);
-    state.favorites=state.favorites.filter(x=>x!==id);
-    state.recent=state.recent.filter(x=>x.id!==id);
-    save();renderAll();renderApps();notify("Custom app deleted.");
-  }));
-}
-function launchApp(id){
-  const app=appById(id);
-  if(!app)return;
-  const url=safeUrl(app.url);
-  if(!url){notify("This app has an invalid URL.");return;}
-  // Open immediately during the user's click to avoid popup blocking.
-  const tab=window.open(url,"_blank","noopener,noreferrer");
-  if(!tab)notify("Your browser blocked the new tab. Allow pop-ups for VYBE.");
-  state.recent=[{id:app.id,time:Date.now()},...state.recent.filter(x=>x.id!==app.id)].slice(0,30);
-  save();renderAll();
-}
-function renderApps(){
-  const query=($("#appSearch").value||"").trim().toLowerCase();
-  const category=$("#appCategory").value;
-  const list=apps().filter(app=>{
-    const matchText=[app.name,app.category,app.description].join(" ").toLowerCase().includes(query);
-    const matchCategory=category==="All"||app.category===category;
-    return matchText&&matchCategory;
-  });
-  $("#appsHeading").textContent=category==="All"?"All platforms":category+" platforms";
-  $("#appResultCount").textContent=`${list.length} platform${list.length===1?"":"s"} available`;
-  $("#appsGrid").innerHTML=list.length?list.map(appCard).join(""):'<div class="empty-state"><span>⌕</span>No apps match your search.</div>';
-  bindAppCards($("#appsGrid"));
-}
-$("#appSearch").addEventListener("input",renderApps);
-$("#appCategory").addEventListener("change",renderApps);
+  </div>
 
-function renderFavorites(){
-  const list=apps().filter(a=>state.favorites.includes(a.id));
-  $("#favoritesGrid").innerHTML=list.length?list.map(appCard).join(""):'<div class="card empty-state"><span>♡</span>No favorites yet. Open App Universe and tap the heart on an app.</div>';
-  bindAppCards($("#favoritesGrid"));
-}
-function renderRecent(container,limit=8){
-  const items=state.recent.slice(0,limit).map(item=>({...item,app:appById(item.id)})).filter(item=>item.app);
-  $(container).innerHTML=items.length?items.map(item=>`
-    <div class="list-item">
-      <div class="list-icon">${escapeHtml(item.app.icon)}</div>
-      <div class="list-main"><strong>${escapeHtml(item.app.name)}</strong><small>${escapeHtml(timeLabel(item.time))}</small></div>
-      <button class="launch-btn" data-launch="${escapeHtml(item.app.id)}">Open ↗</button>
-    </div>`).join(""):'<div class="empty-state"><span>◷</span>Your recently opened apps will appear here.</div>';
-  bindAppCards($(container));
-}
-function renderActivity(){
-  $("#activityCount").textContent=`${state.recent.length} recent entries`;
-  renderRecent("#activityList",30);
-}
-$("#clearActivityBtn").addEventListener("click",()=>{
-  if(!state.recent.length){notify("History is already empty.");return;}
-  if(confirm("Clear your recent activity?")){
-    state.recent=[];save();renderAll();renderActivity();notify("Activity cleared.");
-  }
-});
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-function createNote(){
-  const note={id:uid("note"),title:"Untitled note",body:"",updated:Date.now()};
-  state.notes.unshift(note);selectedNoteId=note.id;save();renderAll();renderNotes();
-  $("#noteTitle").focus();$("#noteTitle").select();
-}
-function renderNotes(){
-  $("#noteCountPill").textContent=state.notes.length;
-  $("#noteList").innerHTML=state.notes.length?state.notes.map(note=>`
-    <button class="list-item note-list-item ${note.id===selectedNoteId?"selected":""}" data-note="${escapeHtml(note.id)}" style="width:100%;text-align:left;color:var(--text)">
-      <span class="list-icon">▤</span><span class="list-main"><strong>${escapeHtml(note.title||"Untitled note")}</strong><small>${escapeHtml(dateLabel(note.updated))}</small></span>
-    </button>`).join(""):'<div class="empty-state"><span>✎</span>No notes yet.</div>';
-  $$("[data-note]",$("#noteList")).forEach(btn=>btn.addEventListener("click",()=>{
-    selectedNoteId=btn.dataset.note;renderNotes();
-  }));
-  const note=state.notes.find(n=>n.id===selectedNoteId);
-  $("#noteEditor").hidden=!note;
-  $("#noteEditorEmpty").hidden=!!note;
-  if(note){
-    $("#noteTitle").value=note.title;
-    $("#noteBody").value=note.body;
-    $("#noteSaveStatus").textContent="Saved locally · "+timeLabel(note.updated);
-  }
-}
-function saveSelectedNote(){
-  const note=state.notes.find(n=>n.id===selectedNoteId);
-  if(!note)return;
-  note.title=$("#noteTitle").value.slice(0,160);
-  note.body=$("#noteBody").value.slice(0,20000);
-  note.updated=Date.now();
-  save();
-  $("#noteSaveStatus").textContent="Saved locally · "+timeLabel(note.updated);
-  renderNoteListOnly();
-  updateDashboard();
-}
-function renderNoteListOnly(){
-  const selected=selectedNoteId;
-  $("#noteList").innerHTML=state.notes.length?state.notes.map(note=>`
-    <button class="list-item note-list-item ${note.id===selected?"selected":""}" data-note="${escapeHtml(note.id)}" style="width:100%;text-align:left;color:var(--text)">
-      <span class="list-icon">▤</span><span class="list-main"><strong>${escapeHtml(note.title||"Untitled note")}</strong><small>${escapeHtml(dateLabel(note.updated))}</small></span>
-    </button>`).join(""):'<div class="empty-state"><span>✎</span>No notes yet.</div>';
-  $$("[data-note]",$("#noteList")).forEach(btn=>btn.addEventListener("click",()=>{
-    selectedNoteId=btn.dataset.note;renderNotes();
-  }));
-  $("#noteCountPill").textContent=state.notes.length;
-}
-$("#noteTitle").addEventListener("input",saveSelectedNote);
-$("#noteBody").addEventListener("input",saveSelectedNote);
-$("#newNoteBtn").addEventListener("click",createNote);
-$("#quickNoteBtn").addEventListener("click",()=>{go("notes");createNote();});
-$("#deleteNoteBtn").addEventListener("click",()=>{
-  if(!selectedNoteId)return;
-  if(!confirm("Delete this note permanently from this browser?"))return;
-  state.notes=state.notes.filter(n=>n.id!==selectedNoteId);
-  selectedNoteId=state.notes[0]?.id||null;
-  save();renderNotes();renderAll();notify("Note deleted.");
-});
+  <script>
+    "use strict";
 
-function renderTasks(){
-  const all=state.tasks.length,done=state.tasks.filter(t=>t.done).length,open=all-done;
-  $("#taskAllCount").textContent=all;
-  $("#taskDoneCount").textContent=done;
-  $("#taskOpenCount").textContent=open;
-  $("#taskPercent").textContent=all?Math.round(done/all*100)+"%":"0%";
-  $("#taskProgress").style.width=(all?done/all*100:0)+"%";
-  $$("[data-task-filter]").forEach(b=>b.classList.toggle("active",b.dataset.taskFilter===taskFilter));
-  const tasks=state.tasks.filter(t=>taskFilter==="all"||(taskFilter==="done"?t.done:!t.done));
-  $("#taskList").innerHTML=tasks.length?tasks.map(task=>`
-    <div class="task-row ${task.done?"done":""}">
-      <input class="task-check" type="checkbox" data-task-toggle="${escapeHtml(task.id)}" ${task.done?"checked":""} aria-label="Mark task complete">
-      <span class="task-text">${escapeHtml(task.text)}</span>
-      <small class="subtext">${escapeHtml(dateLabel(task.created))}</small>
-      <button class="delete-btn" data-task-delete="${escapeHtml(task.id)}" aria-label="Delete task">×</button>
-    </div>`).join(""):'<div class="empty-state"><span>✓</span>No tasks in this view.</div>';
-  $$("[data-task-toggle]",$("#taskList")).forEach(input=>input.addEventListener("change",()=>{
-    const task=state.tasks.find(t=>t.id===input.dataset.taskToggle);
-    if(task)task.done=input.checked;
-    save();renderAll();renderTasks();
-  }));
-  $$("[data-task-delete]",$("#taskList")).forEach(btn=>btn.addEventListener("click",()=>{
-    state.tasks=state.tasks.filter(t=>t.id!==btn.dataset.taskDelete);
-    save();renderAll();renderTasks();
-  }));
-}
-function addTask(text){
-  const value=cleanText(text,200).trim();
-  if(!value)return;
-  state.tasks.unshift({id:uid("task"),text:value,done:false,created:Date.now()});
-  save();renderAll();renderTasks();notify("Task added.");
-}
-$("#taskForm").addEventListener("submit",e=>{
-  e.preventDefault();addTask($("#taskInput").value);$("#taskInput").value="";
-});
-$$("[data-task-filter]").forEach(btn=>btn.addEventListener("click",()=>{
-  taskFilter=btn.dataset.taskFilter;renderTasks();
-}));
+    const STORAGE_KEY = "vybe_os_workspace_v1";
 
-function renderProjects(){
-  $("#projectGrid").innerHTML=state.projects.length?state.projects.map(p=>`
-    <article class="card project-card">
-      <span class="project-icon">${escapeHtml(p.icon)}</span>
-      <div><h3>${escapeHtml(p.name)}</h3><p class="subtext">${escapeHtml(p.description||"Your next big idea starts here.")}</p></div>
-      <div class="project-footer"><span class="pill">${escapeHtml(dateLabel(p.created))}</span><button class="delete-btn" data-project-delete="${escapeHtml(p.id)}">Delete ×</button></div>
-    </article>`).join(""):'<div class="card empty-state"><span>◇</span>No projects yet. Create a space for your next idea.</div>';
-  $$("[data-project-delete]").forEach(btn=>btn.addEventListener("click",()=>{
-    if(!confirm("Delete this project?"))return;
-    state.projects=state.projects.filter(p=>p.id!==btn.dataset.projectDelete);
-    save();renderProjects();notify("Project deleted.");
-  }));
-}
-function openModal(title,content,actions){
-  $("#modalTitle").textContent=title;
-  $("#modalContent").innerHTML=content;
-  $("#modalActions").replaceChildren();
-  actions.forEach(action=>{
-    const btn=document.createElement("button");
-    btn.className="btn "+(action.primary?"primary":"");
-    btn.textContent=action.label;
-    btn.addEventListener("click",action.run);
-    $("#modalActions").append(btn);
-  });
-  $("#modalBackdrop").classList.add("open");
-  setTimeout(()=>$("#modalContent input")?.focus(),50);
-}
-function closeModal(){$("#modalBackdrop").classList.remove("open")}
-$("#modalClose").addEventListener("click",closeModal);
-$("#modalBackdrop").addEventListener("click",e=>{if(e.target===$("#modalBackdrop"))closeModal()});
-function addProject(){
-  openModal("Create a project",`
-    <label class="field-label" for="projectName">PROJECT NAME</label>
-    <input class="field" id="projectName" maxlength="120" placeholder="e.g. My next startup" required>
-    <label class="field-label" for="projectDescription">DESCRIPTION</label>
-    <textarea class="field" id="projectDescription" maxlength="600" placeholder="What are you building?"></textarea>
-    <label class="field-label" for="projectIcon">ICON (OPTIONAL)</label>
-    <input class="field" id="projectIcon" maxlength="8" value="◇">`,
-    [{label:"Cancel",run:closeModal},{label:"Create project",primary:true,run:()=>{
-      const name=$("#projectName").value.trim();
-      if(!name){notify("Add a project name first.");return;}
-      state.projects.unshift({id:uid("project"),name:cleanText(name,120),description:cleanText($("#projectDescription").value,600),icon:cleanText($("#projectIcon").value,8)||"◇",created:Date.now()});
-      save();closeModal();renderProjects();notify("Project created.");
-    }}]);
-}
-$("#newProjectBtn").addEventListener("click",addProject);
+    const DEFAULT_APPS = [
+      { id: "google", name: "Google", url: "https://google.com", icon: "🔎", category: "Search" },
+      { id: "youtube", name: "YouTube", url: "https://youtube.com", icon: "▶️", category: "Video" },
+      { id: "github", name: "GitHub", url: "https://github.com", icon: "💻", category: "Development" },
+      { id: "spotify", name: "Spotify", url: "https://open.spotify.com", icon: "🎵", category: "Music" },
+      { id: "figma", name: "Figma", url: "https://figma.com", icon: "🎨", category: "Design" },
+      { id: "notion", name: "Notion", url: "https://notion.so", icon: "📓", category: "Productivity" },
+      { id: "canva", name: "Canva", url: "https://canva.com", icon: "🖌️", category: "Design" },
+      { id: "drive", name: "Google Drive", url: "https://drive.google.com", icon: "📁", category: "Files" },
+      { id: "gmail", name: "Gmail", url: "https://mail.google.com", icon: "✉️", category: "Communication" },
+      { id: "calendar", name: "Google Calendar", url: "https://calendar.google.com", icon: "📅", category: "Planning" },
+      { id: "chatgpt", name: "ChatGPT", url: "https://chatgpt.com", icon: "✳️", category: "AI tools" },
+      { id: "discord", name: "Discord", url: "https://discord.com/app", icon: "🎧", category: "Community" }
+    ];
 
-function addCustomApp(){
-  openModal("Add a platform",`
-    <label class="field-label" for="customName">APP NAME</label>
-    <input class="field" id="customName" maxlength="80" placeholder="e.g. My learning portal" required>
-    <label class="field-label" for="customUrl">WEBSITE URL</label>
-    <input class="field" id="customUrl" type="url" maxlength="2000" placeholder="https://example.com" required>
-    <label class="field-label" for="customCategory">CATEGORY</label>
-    <select class="field" id="customCategory"><option>Custom</option><option>Productivity</option><option>Social</option><option>Tools</option><option>Creative</option><option>Professional</option></select>
-    <label class="field-label" for="customIcon">ICON</label>
-    <input class="field" id="customIcon" maxlength="8" value="✦" placeholder="✦">
-    <label class="field-label" for="customDescription">DESCRIPTION</label>
-    <input class="field" id="customDescription" maxlength="180" placeholder="What is this platform for?">`,
-    [{label:"Cancel",run:closeModal},{label:"Add platform",primary:true,run:()=>{
-      const name=$("#customName").value.trim();
-      const url=safeUrl($("#customUrl").value.trim());
-      if(!name||!url){notify("Enter a name and a valid HTTP/HTTPS URL.");return;}
-      if(apps().some(a=>a.name.toLowerCase()===name.toLowerCase())){notify("An app with this name already exists.");return;}
-      state.customApps.unshift({id:uid("app"),name:cleanText(name,80),url,category:$("#customCategory").value,icon:cleanText($("#customIcon").value,8)||"✦",description:cleanText($("#customDescription").value,180)});
-      save();closeModal();renderAll();renderApps();notify("Platform added.");
-    }}]);
-}
-$("#addAppBtn").addEventListener("click",addCustomApp);
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-$("#bookmarkForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const title=$("#bookmarkTitle").value.trim();
-  const url=safeUrl($("#bookmarkUrl").value.trim());
-  if(!title||!url){notify("Enter a valid HTTP/HTTPS URL.");return;}
-  state.bookmarks.unshift({id:uid("bookmark"),title:cleanText(title,120),url,created:Date.now()});
-  save();$("#bookmarkTitle").value="";$("#bookmarkUrl").value="";
-  renderBookmarks();renderAll();notify("Bookmark saved.");
-});
-function renderBookmarks(){
-  $("#bookmarkCount").textContent=`${state.bookmarks.length} saved links`;
-  $("#bookmarkList").innerHTML=state.bookmarks.length?state.bookmarks.map(b=>`
-    <div class="list-item bookmark-row">
-      <span class="list-icon">↗</span>
-      <div class="list-main"><strong>${escapeHtml(b.title)}</strong><small>${escapeHtml(b.url)}</small></div>
-      <a class="launch-btn" href="${escapeHtml(b.url)}" target="_blank" rel="noopener noreferrer">Open ↗</a>
-      <button class="delete-btn" data-bookmark-delete="${escapeHtml(b.id)}" aria-label="Delete bookmark">×</button>
-    </div>`).join(""):'<div class="empty-state"><span>⌑</span>No bookmarks yet. Save a useful website above.</div>';
-  $$("[data-bookmark-delete]").forEach(btn=>btn.addEventListener("click",()=>{
-    state.bookmarks=state.bookmarks.filter(b=>b.id!==btn.dataset.bookmarkDelete);
-    save();renderBookmarks();renderAll();notify("Bookmark deleted.");
-  }));
-}
-
-function renderSettings(){
-  $("#healthNotes").textContent=state.notes.length;
-  $("#healthTasks").textContent=state.tasks.length;
-  $("#healthBookmarks").textContent=state.bookmarks.length;
-}
-function renderHomeTasks(){
-  const tasks=state.tasks.filter(t=>!t.done).slice(0,5);
-  $("#homeTasks").innerHTML=tasks.length?tasks.map(t=>`
-    <div class="list-item">
-      <input class="task-check" type="checkbox" data-home-task="${escapeHtml(t.id)}" aria-label="Complete task">
-      <div class="list-main"><strong>${escapeHtml(t.text)}</strong><small>Added ${escapeHtml(dateLabel(t.created))}</small></div>
-    </div>`).join(""):'<div class="empty-state"><span>✓</span>You are all caught up. Add a task to get started.</div>';
-  $$("[data-home-task]").forEach(input=>input.addEventListener("change",()=>{
-    const task=state.tasks.find(t=>t.id===input.dataset.homeTask);
-    if(task)task.done=input.checked;
-    save();renderAll();
-  }));
-}
-function updateDashboard(){
-  const done=state.tasks.filter(t=>t.done).length;
-  $("#heroApps").textContent=apps().length;
-  $("#heroTasks").textContent=state.tasks.filter(t=>!t.done).length;
-  $("#heroNotes").textContent=state.notes.length;
-  $("#statNotes").textContent=state.notes.length;
-  $("#statDone").textContent=done;
-  $("#statFavorites").textContent=state.favorites.filter(id=>!!appById(id)).length;
-  $("#statRecent").textContent=state.recent.length;
-  $("#navAppCount").textContent=apps().length;
-  $("#navNoteCount").textContent=state.notes.length;
-  $("#navTaskCount").textContent=state.tasks.filter(t=>!t.done).length;
-}
-function renderAll(){
-  updateDashboard();
-  renderHomeTasks();
-  renderRecent("#homeRecent",5);
-  const fav=apps().filter(a=>state.favorites.includes(a.id)).slice(0,4);
-  $("#homeFavorites").innerHTML=fav.length?fav.map(appCard).join(""):'<div class="card empty-state"><span>♡</span>Pin your favorite platforms to see them here.</div>';
-  bindAppCards($("#homeFavorites"));
-  if($("#view-favorites").classList.contains("active"))renderFavorites();
-  if($("#view-activity").classList.contains("active"))renderActivity();
-  renderSettings();
-}
-
-$$("[data-action]").forEach(btn=>btn.addEventListener("click",()=>{
-  const action=btn.dataset.action;
-  if(action==="note"){go("notes");createNote();}
-  if(action==="task"){
-    go("tasks");$("#taskInput").focus();
-  }
-  if(action==="focus")go("focus");
-  if(action==="bookmark")go("bookmarks");
-}));
-
-function updateFocusDisplay(){
-  const mins=Math.floor(focusRemaining/60).toString().padStart(2,"0");
-  const secs=(focusRemaining%60).toString().padStart(2,"0");
-  $("#focusTime").textContent=mins+":"+secs;
-  $("#focusStart").textContent=focusRunning?"Ⅱ Pause focus":"▶ Start focus";
-  $("#focusMessage").textContent=focusRunning?"Focus session in progress. One thing at a time.":"Ready when you are.";
-}
-function stopFocus(){
-  if(focusInterval)clearInterval(focusInterval);
-  focusInterval=null;focusRunning=false;
-}
-function startPauseFocus(){
-  if(focusRunning){stopFocus();updateFocusDisplay();return;}
-  if(focusRemaining<=0)focusRemaining=focusDuration;
-  focusRunning=true;updateFocusDisplay();
-  focusInterval=setInterval(()=>{
-    focusRemaining--;
-    if(focusRemaining<=0){
-      focusRemaining=0;stopFocus();updateFocusDisplay();
-      $("#focusMessage").textContent="Session complete. Take a breath before your next task.";
-      notify("Focus session complete!");
-      return;
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
     }
-    updateFocusDisplay();
-  },1000);
-}
-$("#focusStart").addEventListener("click",startPauseFocus);
-$("#focusReset").addEventListener("click",()=>{
-  stopFocus();focusRemaining=focusDuration;updateFocusDisplay();
-});
-$$("[data-duration]").forEach(btn=>btn.addEventListener("click",()=>{
-  stopFocus();
-  focusDuration=Number(btn.dataset.duration)*60;
-  focusRemaining=focusDuration;
-  $$("[data-duration]").forEach(b=>b.classList.toggle("active",b===btn));
-  updateFocusDisplay();
-}));
 
-function exportBackup(){
-  const blob=new Blob([JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download="vybe-backup-"+new Date().toISOString().slice(0,10)+".json";
-  document.body.append(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-  notify("Backup downloaded.");
-}
-$("#exportBtn").addEventListener("click",exportBackup);
-$("#importBtn").addEventListener("click",()=>$("#importFile").click());
-$("#importFile").addEventListener("change",async e=>{
-  const file=e.target.files?.[0];
-  if(!file)return;
-  try{
-    if(file.size>5*1024*1024)throw new Error("Backup file must be under 5 MB.");
-    const imported=JSON.parse(await file.text());
-    if(!imported||typeof imported!=="object"||Array.isArray(imported))throw new Error("This file is not a valid VYBE backup.");
-    if(!confirm("Import this backup? Your current local workspace will be replaced."))return;
-    // Normalize all imported fields through the same validator used on startup.
-    const previous=state;
-    try{
-      localStorage.setItem(STORAGE_KEY,JSON.stringify(imported));
-      state=readStored();
-      save();
-    }catch(error){
-      state=previous;
-      throw error;
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[ch]);
     }
-    selectedNoteId=null;
-    applyTheme();renderAll();renderApps();renderNotes();renderTasks();renderProjects();renderBookmarks();
-    notify("Backup imported.");
-  }catch(error){
-    notify(error.message||"Could not import this backup.");
-  }finally{
-    e.target.value="";
-  }
-});
-$("#resetBtn").addEventListener("click",()=>{
-  if(!confirm("Reset all VYBE data saved in this browser? Export a backup first if you need it."))return;
-  state=defaultState();selectedNoteId=null;taskFilter="all";stopFocus();
-  save();applyTheme();renderAll();renderApps();renderNotes();renderTasks();renderProjects();renderBookmarks();renderFavorites();renderActivity();
-  go("home");notify("Workspace reset.");
-});
 
-function openSearch(){
-  $("#searchBackdrop").classList.add("open");
-  $("#globalSearch").value="";
-  renderSearchResults("");
-  setTimeout(()=>$("#globalSearch").focus(),40);
-}
-function closeSearch(){$("#searchBackdrop").classList.remove("open")}
-$("#searchOpen").addEventListener("click",openSearch);
-$("#searchClose").addEventListener("click",closeSearch);
-$("#searchBackdrop").addEventListener("click",e=>{if(e.target===$("#searchBackdrop"))closeSearch()});
+    function validDate(value) {
+      return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ""));
+    }
 
-function renderSearchResults(query){
-  const q=query.trim().toLowerCase();
-  const results=[];
-  const add=(icon,title,desc,run)=>results.push({icon,title,desc,run});
-  const views=[
-    ["home","◈","Command Center","Your workspace overview"],
-    ["apps","▦","App Universe","Browse all platforms"],
-    ["notes","▤","My Notes","Your saved ideas"],
-    ["tasks","✓","Tasks & Goals","Your to-do list"],
-    ["projects","◇","Projects","Your projects"],
-    ["bookmarks","⌑","Bookmarks","Your saved links"],
-    ["favorites","♡","Favorites","Pinned apps"],
-    ["activity","◷","Recent Activity","Your recent apps"],
-    ["focus","◎","Focus Studio","Start a focus session"],
-    ["settings","⚙","Settings & Backup","Workspace preferences"]
-  ];
-  views.forEach(([id,icon,title,desc])=>{
-    if(!q||`${title} ${desc}`.toLowerCase().includes(q))add(icon,title,desc,()=>{closeSearch();go(id)});
-  });
-  apps().forEach(app=>{
-    if(q&&`${app.name} ${app.category} ${app.description}`.toLowerCase().includes(q))add(app.icon,app.name,app.category,()=>{closeSearch();launchApp(app.id)});
-  });
-  state.notes.forEach(note=>{
-    if(q&&`${note.title} ${note.body}`.toLowerCase().includes(q))add("▤",note.title||"Untitled note","Open note",()=>{closeSearch();selectedNoteId=note.id;go("notes")});
-  });
-  state.tasks.forEach(task=>{
-    if(q&&task.text.toLowerCase().includes(q))add(task.done?"✓":"☐",task.text,task.done?"Completed task":"Task",()=>{closeSearch();go("tasks")});
-  });
-  state.projects.forEach(project=>{
-    if(q&&`${project.name} ${project.description}`.toLowerCase().includes(q))add("◇",project.name,"Project",()=>{closeSearch();go("projects")});
-  });
-  const sliced=results.slice(0,12);
-  $("#searchResults").innerHTML=sliced.length?sliced.map((r,i)=>`
-    <button class="command-result" data-search-result="${i}">
-      <span class="list-icon">${escapeHtml(r.icon)}</span><strong>${escapeHtml(r.title)}</strong><span>${escapeHtml(r.desc)}</span>
-    </button>`).join(""):'<div class="empty-state"><span>⌕</span>No results found.</div>';
-  $$("[data-search-result]",$("#searchResults")).forEach(btn=>btn.addEventListener("click",()=>sliced[Number(btn.dataset.searchResult)]?.run()));
-}
-$("#globalSearch").addEventListener("input",e=>renderSearchResults(e.target.value));
+    function todayISO(date = new Date()) {
+      const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+      return local.toISOString().slice(0, 10);
+    }
 
-document.addEventListener("keydown",e=>{
-  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){
-    e.preventDefault();openSearch();
-  }
-  if(e.key==="Escape"){
-    closeSearch();closeModal();$("#sidebar").classList.remove("open");
-  }
-  if(e.key==="n"&&(e.ctrlKey||e.metaKey)){
-    e.preventDefault();go("notes");createNote();
-  }
-});
+    function safeURL(value) {
+      try {
+        const url = new URL(String(value));
+        if (url.protocol !== "https:" && url.protocol !== "http:") return "";
+        return url.href;
+      } catch {
+        return "";
+      }
+    }
 
-applyTheme();
-renderAll();
-renderApps();
-renderNotes();
-renderTasks();
-renderProjects();
-renderBookmarks();
-updateFocusDisplay();
-})();
-</script>
+    function defaultState() {
+      return {
+        version: 1,
+        workspaceName: "My Workspace",
+        theme: "dark",
+        tasks: [],
+        notes: [],
+        projects: [],
+        apps: DEFAULT_APPS.map(app => ({ ...app })),
+        focusSessions: [],
+        focusIntention: "",
+        recentApps: [],
+        createdAt: new Date().toISOString()
+      };
+    }
+
+    function normalizeState(input) {
+      const base = defaultState();
+      if (!input || typeof input !== "object" || Array.isArray(input)) return base;
+
+      const validItems = (items, type) => {
+        if (!Array.isArray(items)) return [];
+        return items.slice(0, 1000).filter(item =>
+          item && typeof item === "object" && !Array.isArray(item)
+        ).map(item => {
+          if (type === "task") {
+            return {
+              id: safeText(item.id, 80) || uid(),
+              title: safeText(item.title, 180) || "Untitled task",
+              due: validDate(item.due) ? item.due : "",
+              priority: ["low", "medium", "high"].includes(item.priority) ? item.priority : "medium",
+              completed: Boolean(item.completed),
+              createdAt: safeText(item.createdAt, 40) || new Date().toISOString()
+            };
+          }
+          if (type === "note") {
+            return {
+              id: safeText(item.id, 80) || uid(),
+              title: safeText(item.title, 180) || "Untitled note",
+              content: safeText(item.content, 30000),
+              color: Math.max(0, Math.min(4, Number(item.color) || 0)),
+              updatedAt: safeText(item.updatedAt, 40) || new Date().toISOString()
+            };
+          }
+          if (type === "project") {
+            return {
+              id: safeText(item.id, 80) || uid(),
+              name: safeText(item.name, 180) || "Untitled project",
+              description: safeText(item.description, 1000),
+              status: ["active", "paused", "completed"].includes(item.status) ? item.status : "active",
+              progress: Math.max(0, Math.min(100, Number(item.progress) || 0)),
+              createdAt: safeText(item.createdAt, 40) || new Date().toISOString()
+            };
+          }
+          if (type === "app") {
+            const url = safeURL(item.url);
+            if (!url) return null;
+            return {
+              id: safeText(item.id, 80) || uid(),
+              name: safeText(item.name, 100) || "Custom shortcut",
+              url,
+              icon: safeText(item.icon, 8) || "🌐",
+              category: safeText(item.category, 40) || "Custom"
+            };
+          }
+          return null;
+        }).filter(Boolean);
+      };
+
+      base.workspaceName = safeText(input.workspaceName, 80) || base.workspaceName;
+      base.theme = input.theme === "light" ? "light" : "dark";
+      base.tasks = validItems(input.tasks, "task");
+      base.notes = validItems(input.notes, "note");
+      base.projects = validItems(input.projects, "project");
+      const importedApps = validItems(input.apps, "app");
+      base.apps = importedApps.length ? importedApps : base.apps;
+
+      base.focusSessions = Array.isArray(input.focusSessions)
+        ? input.focusSessions.filter(s => s && validDate(s.date))
+          .slice(-500).map(s => ({
+            date: s.date,
+            minutes: Math.max(0, Math.min(240, Number(s.minutes) || 0))
+          }))
+        : [];
+
+      base.focusIntention = safeText(input.focusIntention, 1000);
+      base.recentApps = Array.isArray(input.recentApps)
+        ? input.recentApps.map(id => safeText(id, 80)).filter(Boolean).slice(0, 20)
+        : [];
+      return base;
+    }
+
+    function safeText(value, maxLength = 1000) {
+      if (typeof value !== "string" && typeof value !== "number") return "";
+      return String(value).replace(/\u0000/g, "").slice(0, maxLength);
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? normalizeState(JSON.parse(raw)) : defaultState();
+      } catch (error) {
+        console.warn("VYBE local data could not be loaded.", error);
+        return defaultState();
+      }
+    }
+
+    let state = loadState();
+    let currentView = "dashboard";
+    let taskFilter = "all";
+    let selectedDate = todayISO();
+    let calendarMonth = new Date();
+    let commandIndex = 0;
+    let commandItems = [];
+    let focusDuration = 25 * 60;
+    let focusRemaining = focusDuration;
+    let focusRunning = false;
+    let focusInterval = null;
+    let focusStartedAt = null;
+    let focusInitialDuration = focusDuration;
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        updateStorageLabel();
+      } catch (error) {
+        toast("Could not save data. Browser storage may be full.", "error");
+      }
+    }
+
+    function updateStorageLabel() {
+      const size = new Blob([JSON.stringify(state)]).size;
+      $("#storageCount").textContent = size < 1024 ? `${size} B used` : `${(size / 1024).toFixed(1)} KB used`;
+    }
+
+    function toast(message) {
+      const node = document.createElement("div");
+      node.className = "toast";
+      node.textContent = message;
+      $("#toastContainer").appendChild(node);
+      setTimeout(() => node.remove(), 3200);
+    }
+
+    function formatDate(dateString) {
+      if (!validDate(dateString)) return "No due date";
+      const date = new Date(dateString + "T12:00:00");
+      return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+    }
+
+    function formatShortDate(dateString) {
+      if (!validDate(dateString)) return "No date";
+      return new Date(dateString + "T12:00:00").toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    }
+
+    function timeAgo(value) {
+      const time = new Date(value).getTime();
+      if (!Number.isFinite(time)) return "Recently";
+      const minutes = Math.max(0, Math.floor((Date.now() - time) / 60000));
+      if (minutes < 1) return "Just now";
+      if (minutes < 60) return `${minutes}m ago`;
+      if (minutes < 1440) return `${Math.floor(minutes / 60)}h ago`;
+      return `${Math.floor(minutes / 1440)}d ago`;
+    }
+
+    function focusMinutesFor(date) {
+      return state.focusSessions.filter(s => s.date === date).reduce((sum, s) => sum + s.minutes, 0);
+    }
+
+    function setView(view) {
+      const target = document.getElementById("view-" + view);
+      if (!target) return;
+      currentView = view;
+      $$(".view").forEach(section => section.classList.toggle("hidden", section !== target));
+      $$(".nav-btn").forEach(button => button.classList.toggle("active", button.dataset.view === view));
+      $("#topPageTitle").textContent = ({
+        dashboard: "Overview", tasks: "Task manager", notes: "Notes & ideas",
+        projects: "Projects", planner: "Planner", focus: "Focus room",
+        apps: "App launcher", settings: "Settings"
+      })[view] || "VYBE OS";
+      $("#topDate").textContent = new Date().toLocaleDateString(undefined, {
+        weekday: "short", month: "short", day: "numeric"
+      }) + " · " + state.workspaceName;
+      $("#sidebar").classList.remove("open");
+      if (view === "planner") renderPlanner();
+      if (view === "focus") renderFocus();
+      if (view === "apps") renderApps();
+      if (view === "settings") renderSettings();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function applyTheme() {
+      document.body.classList.toggle("light-mode", state.theme === "light");
+      $("#themeToggle").textContent = state.theme === "light" ? "☾" : "☼";
+      $("#lightSwitch").checked = state.theme === "light";
+      const meta = $('meta[name="theme-color"]');
+      if (meta) meta.content = state.theme === "light" ? "#f2f5fb" : "#080b12";
+    }
+
+    function renderGreeting() {
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? "GOOD MORNING" : hour < 17 ? "GOOD AFTERNOON" : "GOOD EVENING";
+      $("#greeting").textContent = greeting + " · " + state.workspaceName.toUpperCase();
+    }
+
+    function emptyState(icon, title, text, action, buttonLabel) {
+      return `<div class="empty-state"><div class="empty-icon">${icon}</div><strong>${escapeHTML(title)}</strong><p>${escapeHTML(text)}</p>${action ? `<button class="btn btn-secondary btn-small" data-action="${escapeHTML(action)}">${escapeHTML(buttonLabel || "Get started")}</button>` : ""}</div>`;
+    }
+
+    function renderTaskItem(task, compact = false) {
+      const dueLabel = task.due
+        ? (task.due < todayISO() && !task.completed ? "Overdue · " : "") + formatShortDate(task.due)
+        : "No due date";
+      return `<div class="list-item ${task.completed ? "completed" : ""}">
+        <input class="check" type="checkbox" data-task-check="${escapeHTML(task.id)}" ${task.completed ? "checked" : ""} aria-label="Complete ${escapeHTML(task.title)}">
+        <span class="priority-dot priority-${escapeHTML(task.priority)}" title="${escapeHTML(task.priority)} priority"></span>
+        <div class="list-main">
+          <div class="list-title">${escapeHTML(task.title)}</div>
+          <div class="list-sub">${escapeHTML(dueLabel)} · ${escapeHTML(task.priority)} priority</div>
+        </div>
+        ${compact ? "" : `<div class="list-actions"><button class="mini-btn" data-task-edit="${escapeHTML(task.id)}" title="Edit task">✎</button><button class="mini-btn" data-task-delete="${escapeHTML(task.id)}" title="Delete task">×</button></div>`}
+      </div>`;
+    }
+
+    function renderNoteItem(note) {
+      return `<div class="list-item">
+        <span class="stat-icon" style="width:34px;height:34px">▤</span>
+        <div class="list-main"><div class="list-title">${escapeHTML(note.title)}</div><div class="list-sub">${escapeHTML(timeAgo(note.updatedAt))}</div></div>
+        <button class="mini-btn" data-note-edit="${escapeHTML(note.id)}" title="Open note">↗</button>
+      </div>`;
+    }
+
+    function renderProjectItem(project) {
+      return `<div class="list-item">
+        <span class="stat-icon" style="width:34px;height:34px">◫</span>
+        <div class="list-main">
+          <div class="list-title">${escapeHTML(project.name)}</div>
+          <div class="list-sub">${escapeHTML(project.status)} · ${project.progress}% complete</div>
+          <div class="progress-track"><div class="progress-fill" style="width:${project.progress}%"></div></div>
+        </div>
+      </div>`;
+    }
+
+    function renderDashboard() {
+      const openTasks = state.tasks.filter(t => !t.completed);
+      const activeProjects = state.projects.filter(p => p.status === "active");
+      const todayMinutes = focusMinutesFor(todayISO());
+
+      $("#statTasks").textContent = openTasks.length;
+      $("#statNotes").textContent = state.notes.length;
+      $("#statProjects").textContent = activeProjects.length;
+      $("#statFocus").textContent = todayMinutes;
+      $("#statTasksFoot").textContent = state.tasks.filter(t => t.completed).length + " completed so far";
+      $("#statFocusFoot").textContent = todayMinutes ? "Minutes invested today" : "A little focus goes a long way";
+
+      $("#navTaskCount").textContent = openTasks.length;
+      $("#navNoteCount").textContent = state.notes.length;
+      $("#welcomeTitle").innerHTML = `Make room for <span class="gradient-text">great ideas.</span>`;
+      renderGreeting();
+
+      const upcoming = [...openTasks].sort((a, b) => {
+        if (a.due && b.due) return a.due.localeCompare(b.due);
+        if (a.due) return -1;
+        if (b.due) return 1;
+        return b.createdAt.localeCompare(a.createdAt);
+      }).slice(0, 4);
+      $("#dashboardTasks").innerHTML = upcoming.length
+        ? upcoming.map(t => renderTaskItem(t, true)).join("")
+        : emptyState("☑", "Clear runway", "Add a task to give your next step a home.", "create-task", "Create a task");
+
+      const recentNotes = [...state.notes].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 3);
+      $("#dashboardNotes").innerHTML = recentNotes.length
+        ? recentNotes.map(renderNoteItem).join("")
+        : emptyState("✎", "Capture an idea", "Your notes will show up here.", "create-note", "Write a note");
+
+      const recentProjects = [...state.projects].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 3);
+      $("#dashboardProjects").innerHTML = recentProjects.length
+        ? recentProjects.map(renderProjectItem).join("")
+        : emptyState("◫", "Start something", "Give your next big idea a project space.", "create-project", "Create project");
+
+      renderMiniCalendar();
+      updateStorageLabel();
+    }
+
+    function renderMiniCalendar() {
+      const now = new Date();
+      const mondayOffset = (now.getDay() + 6) % 7;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - mondayOffset);
+      const days = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        days.push(d);
+      }
+      $("#miniCalendar").innerHTML = days.map(d => {
+        const iso = todayISO(d);
+        const hasTask = state.tasks.some(t => !t.completed && t.due === iso);
+        return `<div class="day-card ${iso === todayISO() ? "today" : ""}">
+          <div class="day-name">${d.toLocaleDateString(undefined, { weekday: "short" })}</div>
+          <div class="day-num">${d.getDate()}</div>
+          ${hasTask ? '<div class="day-dot"></div>' : ""}
+        </div>`;
+      }).join("");
+    }
+
+    function renderTasks() {
+      const list = [...state.tasks].sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        if (a.due && b.due) return a.due.localeCompare(b.due);
+        if (a.due) return -1;
+        if (b.due) return 1;
+        return b.createdAt.localeCompare(a.createdAt);
+      });
+      const filtered = list.filter(t => taskFilter === "all" || (taskFilter === "open" ? !t.completed : t.completed));
+      $("#taskSummary").textContent = `${state.tasks.filter(t => !t.completed).length} open · ${state.tasks.filter(t => t.completed).length} completed`;
+      $("#taskList").innerHTML = filtered.length
+        ? filtered.map(t => renderTaskItem(t)).join("")
+        : emptyState("☑", taskFilter === "completed" ? "Nothing completed yet" : "No tasks here", "Create a task to turn your plans into action.", "create-task", "Create task");
+      $$("#taskFilters .filter-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.filter === taskFilter));
+    }
+
+    function renderNotes() {
+      const query = ($("#noteSearch").value || "").trim().toLowerCase();
+      const notes = [...state.notes].filter(n => (n.title + " " + n.content).toLowerCase().includes(query))
+        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+      $("#noteSummary").textContent = `${notes.length} note${notes.length === 1 ? "" : "s"}`;
+      $("#noteGrid").innerHTML = notes.length ? notes.map(note => `
+        <article class="note-card" data-note-edit="${escapeHTML(note.id)}" tabindex="0" role="button" aria-label="Edit note ${escapeHTML(note.title)}">
+          <div class="row-between"><span class="tag"><span class="color-chip note-color-${note.color}"></span> NOTE</span><button class="mini-btn" data-note-delete="${escapeHTML(note.id)}" title="Delete note" aria-label="Delete note">×</button></div>
+          <h3 style="margin-top:16px">${escapeHTML(note.title)}</h3>
+          <div class="note-preview">${escapeHTML(note.content || "An empty note. Click to add your thoughts.")}</div>
+          <div class="note-card-footer"><span class="small muted">${escapeHTML(timeAgo(note.updatedAt))}</span><span class="small muted">Edit ↗</span></div>
+        </article>`).join("")
+        : emptyState("✎", query ? "No matching notes" : "Your ideas start here", query ? "Try another search." : "Create your first note and keep it close.", "create-note", "New note");
+    }
+
+    function renderProjects() {
+      const projects = [...state.projects].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      $("#projectGrid").innerHTML = projects.length ? projects.map(p => `
+        <article class="project-card">
+          <div class="row-between"><span class="tag">${escapeHTML(p.status.toUpperCase())}</span><button class="mini-btn" data-project-edit="${escapeHTML(p.id)}" title="Edit project">✎</button></div>
+          <h3 style="font-size:16px;margin-top:18px">${escapeHTML(p.name)}</h3>
+          <p class="small" style="min-height:36px;overflow-wrap:anywhere">${escapeHTML(p.description || "No description added yet.")}</p>
+          <div class="row-between"><span class="small muted">Progress</span><strong class="small">${p.progress}%</strong></div>
+          <div class="progress-track"><div class="progress-fill" style="width:${p.progress}%"></div></div>
+          <div class="button-row" style="margin-top:15px">
+            <button class="btn btn-secondary btn-small" data-project-progress="${escapeHTML(p.id)}">＋ Progress</button>
+            <button class="btn btn-secondary btn-small" data-project-delete="${escapeHTML(p.id)}">Delete</button>
+          </div>
+        </article>`).join("")
+        : emptyState("◫", "Give your idea a home", "Projects help you keep the bigger picture in view.", "create-project", "Create project");
+    }
+
+    function renderPlanner() {
+      const year = calendarMonth.getFullYear();
+      const month = calendarMonth.getMonth();
+      $("#plannerMonth").textContent = calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+      const firstDay = new Date(year, month, 1);
+      const startOffset = (firstDay.getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const headers = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+      let html = headers.map(day => `<div class="day-name" style="text-align:center;padding:5px">${day}</div>`).join("");
+      for (let i = 0; i < startOffset; i++) html += `<div></div>`;
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(year, month, day);
+        const iso = todayISO(date);
+        const hasTask = state.tasks.some(t => !t.completed && t.due === iso);
+        html += `<button class="day-card ${iso === todayISO() ? "today" : ""}" data-calendar-date="${iso}" style="${iso === selectedDate ? "border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)" : ""};cursor:pointer">
+          <div class="day-num">${day}</div>${hasTask ? '<div class="day-dot"></div>' : ""}
+        </button>`;
+      }
+      $("#fullCalendar").innerHTML = html;
+      const tasks = state.tasks.filter(t => t.due === selectedDate).sort((a, b) => Number(a.completed) - Number(b.completed));
+      $("#selectedDayTitle").textContent = formatDate(selectedDate);
+      $("#selectedDayCount").textContent = `${tasks.length} task${tasks.length === 1 ? "" : "s"}`;
+      $("#plannerTasks").innerHTML = tasks.length
+        ? tasks.map(t => renderTaskItem(t)).join("")
+        : emptyState("▦", "Nothing scheduled", "Add a task and give it this date.", "create-task", "Schedule a task");
+    }
+
+    function renderFocus() {
+      $("#focusIntention").value = state.focusIntention || "";
+      $("#settingsIntention").textContent = state.focusIntention || "No intention saved yet.";
+      const minutes = focusMinutesFor(todayISO());
+      $("#focusTodayTotal").textContent = `${minutes} min`;
+      $("#focusTodayBar").style.width = Math.min(100, minutes / 120 * 100) + "%";
+      updateFocusDisplay();
+    }
+
+    function updateFocusDisplay() {
+      const mins = Math.floor(focusRemaining / 60);
+      const secs = focusRemaining % 60;
+      $("#focusTime").textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      const progress = focusInitialDuration > 0 ? (1 - focusRemaining / focusInitialDuration) * 100 : 0;
+      $("#focusRing").style.setProperty("--progress", `${progress}%`);
+      $("#focusStatus").textContent = focusRunning ? "● SESSION IN PROGRESS" : "● READY WHEN YOU ARE";
+      $("#focusStart").textContent = focusRunning ? "Ⅱ Pause session" : "▶ Start focus";
+    }
+
+    function stopFocusTimer() {
+      if (focusInterval) clearInterval(focusInterval);
+      focusInterval = null;
+      focusRunning = false;
+      updateFocusDisplay();
+    }
+
+    function startFocusTimer() {
+      if (focusRunning) {
+        stopFocusTimer();
+        toast("Focus session paused.");
+        return;
+      }
+      focusRunning = true;
+      focusStartedAt = Date.now();
+      updateFocusDisplay();
+      focusInterval = setInterval(() => {
+        if (!focusRunning) return;
+        focusRemaining = Math.max(0, focusRemaining - 1);
+        updateFocusDisplay();
+        if (focusRemaining <= 0) {
+          const completedMinutes = Math.round(focusInitialDuration / 60);
+          if (completedMinutes > 0) {
+            state.focusSessions.push({ date: todayISO(), minutes: completedMinutes });
+            state.focusSessions = state.focusSessions.slice(-500);
+            saveState();
+          }
+          stopFocusTimer();
+          toast("Session complete. Take a short break.");
+          renderDashboard();
+          renderFocus();
+        }
+      }, 1000);
+      toast("Focus session started.");
+    }
+
+    function resetFocusTimer() {
+      stopFocusTimer();
+      focusRemaining = focusDuration;
+      focusInitialDuration = focusDuration;
+      updateFocusDisplay();
+    }
+
+    function renderApps() {
+      const query = ($("#appSearch").value || "").trim().toLowerCase();
+      const apps = state.apps.filter(app => (app.name + " " + app.category).toLowerCase().includes(query));
+      $("#appGrid").innerHTML = apps.length ? apps.map(app => `
+        <article class="app-card" data-app-open="${escapeHTML(app.id)}" tabindex="0" role="button" aria-label="Open ${escapeHTML(app.name)}">
+          <div class="app-icon">${escapeHTML(app.icon)}</div>
+          <div style="min-width:0;flex:1"><strong>${escapeHTML(app.name)}</strong><span>${escapeHTML(app.category)}</span></div>
+          ${app.id.startsWith("custom-") ? `<button class="mini-btn" data-app-delete="${escapeHTML(app.id)}" title="Remove shortcut">×</button>` : ""}
+        </article>`).join("")
+        : emptyState("⠿", "No tools found", "Try another search or add a shortcut.", "create-app", "Add shortcut");
+    }
+
+    function renderSettings() {
+      $("#lightSwitch").checked = state.theme === "light";
+      $("#settingsIntention").textContent = state.focusIntention || "No intention saved yet.";
+    }
+
+    function renderAll() {
+      renderDashboard();
+      renderTasks();
+      renderNotes();
+      renderProjects();
+      renderApps();
+      renderPlanner();
+      renderSettings();
+      applyTheme();
+    }
+
+    function openModal(title, bodyHTML, onSubmit, wide = false) {
+      $("#modalTitle").textContent = title;
+      $("#modalBody").innerHTML = bodyHTML;
+      $("#modalBox").classList.toggle("modal-wide", wide);
+      $("#modalOverlay").classList.remove("hidden");
+      const form = $("#modalBody form");
+      if (form) {
+        form.addEventListener("submit", event => {
+          event.preventDefault();
+          if (typeof onSubmit === "function") onSubmit(new FormData(form));
+        });
+        const first = $("input:not([type=hidden]), textarea, select", form);
+        if (first) setTimeout(() => first.focus(), 30);
+      }
+    }
+
+    function closeModal() {
+      $("#modalOverlay").classList.add("hidden");
+    }
+
+    function taskForm(task = {}) {
+      const editing = Boolean(task.id);
+      openModal(editing ? "Edit task" : "Create a task", `
+        <form>
+          <div class="form-stack">
+            <div class="form-group"><label class="field-label" for="taskTitle">Task name</label><input class="field" id="taskTitle" name="title" maxlength="180" required placeholder="What needs to get done?" value="${escapeHTML(task.title || "")}"></div>
+            <div class="form-row">
+              <div class="form-group"><label class="field-label" for="taskDue">Due date</label><input class="field" id="taskDue" name="due" type="date" value="${escapeHTML(task.due || "")}"></div>
+              <div class="form-group"><label class="field-label" for="taskPriority">Priority</label><select class="select-field" id="taskPriority" name="priority"><option value="low" ${task.priority === "low" ? "selected" : ""}>Low</option><option value="medium" ${!task.priority || task.priority === "medium" ? "selected" : ""}>Medium</option><option value="high" ${task.priority === "high" ? "selected" : ""}>High</option></select></div>
+            </div>
+          </div>
+          <div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-primary" type="submit">${editing ? "Save changes" : "Create task"}</button></div>
+        </form>`,
+        data => {
+          const title = safeText(data.get("title"), 180).trim();
+          if (!title) return;
+          const record = {
+            id: task.id || uid(), title,
+            due: validDate(data.get("due")) ? data.get("due") : "",
+            priority: ["low", "medium", "high"].includes(data.get("priority")) ? data.get("priority") : "medium",
+            completed: Boolean(task.completed),
+            createdAt: task.createdAt || new Date().toISOString()
+          };
+          const index = state.tasks.findIndex(t => t.id === record.id);
+          if (index >= 0) state.tasks[index] = record;
+          else state.tasks.unshift(record);
+          saveState(); closeModal(); renderAll();
+          toast(editing ? "Task updated." : "Task created.");
+        });
+    }
+
+    function noteForm(note = {}) {
+      const editing = Boolean(note.id);
+      const colors = [0,1,2,3,4].map(n =>
+        `<option value="${n}" ${Number(note.color || 0) === n ? "selected" : ""}>${["Violet","Mint","Amber","Rose","Blue"][n]}</option>`
+      ).join("");
+      openModal(editing ? "Edit note" : "Capture a note", `
+        <form>
+          <div class="form-stack">
+            <div class="form-group"><label class="field-label" for="noteTitleInput">Title</label><input class="field" id="noteTitleInput" name="title" maxlength="180" required placeholder="Give this idea a name" value="${escapeHTML(note.title || "")}"></div>
+            <div class="form-group"><label class="field-label" for="noteContentInput">Your thoughts</label><textarea class="textarea-field" id="noteContentInput" name="content" maxlength="30000" placeholder="Write anything worth remembering...">${escapeHTML(note.content || "")}</textarea></div>
+            <div class="form-group"><label class="field-label" for="noteColorInput">Note accent</label><select class="select-field" id="noteColorInput" name="color">${colors}</select></div>
+          </div>
+          <div class="modal-footer">${editing ? `<button type="button" class="btn btn-danger" data-note-delete="${escapeHTML(note.id)}">Delete</button>` : ""}<button type="button" class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-primary" type="submit">Save note</button></div>
+        </form>`,
+        data => {
+          const title = safeText(data.get("title"), 180).trim();
+          if (!title) return;
+          const record = {
+            id: note.id || uid(), title,
+            content: safeText(data.get("content"), 30000),
+            color: Math.max(0, Math.min(4, Number(data.get("color")) || 0)),
+            updatedAt: new Date().toISOString()
+          };
+          const index = state.notes.findIndex(n => n.id === record.id);
+          if (index >= 0) state.notes[index] = record;
+          else state.notes.unshift(record);
+          saveState(); closeModal(); renderAll(); toast("Note saved.");
+        }, true);
+    }
+
+    function projectForm(project = {}) {
+      const editing = Boolean(project.id);
+      openModal(editing ? "Edit project" : "Create a project", `
+        <form>
+          <div class="form-stack">
+            <div class="form-group"><label class="field-label" for="projectName">Project name</label><input class="field" id="projectName" name="name" maxlength="180" required placeholder="Your next big idea" value="${escapeHTML(project.name || "")}"></div>
+            <div class="form-group"><label class="field-label" for="projectDescription">Description</label><textarea class="textarea-field" id="projectDescription" name="description" maxlength="1000" placeholder="What are you building?">${escapeHTML(project.description || "")}</textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label class="field-label" for="projectStatus">Status</label><select class="select-field" id="projectStatus" name="status"><option value="active" ${!project.status || project.status === "active" ? "selected" : ""}>Active</option><option value="paused" ${project.status === "paused" ? "selected" : ""}>Paused</option><option value="completed" ${project.status === "completed" ? "selected" : ""}>Completed</option></select></div>
+              <div class="form-group"><label class="field-label" for="projectProgress">Progress (%)</label><input class="field" id="projectProgress" name="progress" type="number" min="0" max="100" value="${Number(project.progress) || 0}"></div>
+            </div>
+          </div>
+          <div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-primary" type="submit">${editing ? "Save changes" : "Create project"}</button></div>
+        </form>`,
+        data => {
+          const name = safeText(data.get("name"), 180).trim();
+          if (!name) return;
+          const record = {
+            id: project.id || uid(), name,
+            description: safeText(data.get("description"), 1000),
+            status: ["active", "paused", "completed"].includes(data.get("status")) ? data.get("status") : "active",
+            progress: Math.max(0, Math.min(100, Number(data.get("progress")) || 0)),
+            createdAt: project.createdAt || new Date().toISOString()
+          };
+          const index = state.projects.findIndex(p => p.id === record.id);
+          if (index >= 0) state.projects[index] = record;
+          else state.projects.unshift(record);
+          saveState(); closeModal(); renderAll(); toast("Project saved.");
+        });
+    }
+
+    function appForm() {
+      openModal("Add an app shortcut", `
+        <form>
+          <div class="form-stack">
+            <div class="form-group"><label class="field-label" for="appName">Name</label><input class="field" id="appName" name="name" maxlength="100" required placeholder="My favourite tool"></div>
+            <div class="form-group"><label class="field-label" for="appURL">Website URL</label><input class="field" id="appURL" name="url" type="url" required placeholder="https://example.com"></div>
+            <div class="form-row">
+              <div class="form-group"><label class="field-label" for="appIcon">Emoji icon</label><input class="field" id="appIcon" name="icon" maxlength="8" value="🌐" placeholder="🌐"></div>
+              <div class="form-group"><label class="field-label" for="appCategory">Category</label><input class="field" id="appCategory" name="category" maxlength="40" value="Custom" placeholder="Custom"></div>
+            </div>
+          </div>
+          <div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-cancel>Cancel</button><button class="btn btn-primary" type="submit">Add shortcut</button></div>
+        </form>`,
+        data => {
+          const name = safeText(data.get("name"), 100).trim();
+          const url = safeURL(data.get("url"));
+          if (!name || !url) { toast("Enter a valid HTTP or HTTPS website URL."); return; }
+          state.apps.push({
+            id: "custom-" + uid(), name, url,
+            icon: safeText(data.get("icon"), 8) || "🌐",
+            category: safeText(data.get("category"), 40) || "Custom"
+          });
+          saveState(); closeModal(); renderApps(); toast("Shortcut added.");
+        });
+    }
+
+    function createByType(type) {
+      if (type === "create-task") return taskForm();
+      if (type === "create-note") return noteForm();
+      if (type === "create-project") return projectForm();
+      if (type === "create-app") return appForm();
+      if (type === "create") return showCreateMenu();
+    }
+
+    function showCreateMenu() {
+      openModal("Create something", `
+        <div class="list">
+          <button class="command-item" data-action="create-task"><span class="stat-icon">☑</span><span><strong>New task</strong><small>Add a clear next step</small></span></button>
+          <button class="command-item" data-action="create-note"><span class="stat-icon">✎</span><span><strong>New note</strong><small>Capture an idea or thought</small></span></button>
+          <button class="command-item" data-action="create-project"><span class="stat-icon">◫</span><span><strong>New project</strong><small>Give a bigger idea a home</small></span></button>
+          <button class="command-item" data-action="create-app"><span class="stat-icon">⠿</span><span><strong>App shortcut</strong><small>Add a website to your launcher</small></span></button>
+        </div>`);
+    }
+
+    function deleteTask(id) {
+      const task = state.tasks.find(t => t.id === id);
+      if (!task || !confirm(`Delete "${task.title}"?`)) return;
+      state.tasks = state.tasks.filter(t => t.id !== id);
+      saveState(); renderAll(); toast("Task deleted.");
+    }
+
+    function deleteNote(id) {
+      const note = state.notes.find(n => n.id === id);
+      if (!note) return;
+      if (!confirm(`Delete "${note.title}"?`)) return;
+      state.notes = state.notes.filter(n => n.id !== id);
+      saveState(); closeModal(); renderAll(); toast("Note deleted.");
+    }
+
+    function deleteProject(id) {
+      const project = state.projects.find(p => p.id === id);
+      if (!project || !confirm(`Delete "${project.name}"?`)) return;
+      state.projects = state.projects.filter(p => p.id !== id);
+      saveState(); renderAll(); toast("Project deleted.");
+    }
+
+    function deleteApp(id) {
+      const app = state.apps.find(a => a.id === id);
+      if (!app || !id.startsWith("custom-")) return;
+      if (!confirm(`Remove "${app.name}" from your shortcuts?`)) return;
+      state.apps = state.apps.filter(a => a.id !== id);
+      saveState(); renderApps(); toast("Shortcut removed.");
+    }
+
+    function openApp(id) {
+      const app = state.apps.find(a => a.id === id);
+      if (!app) return;
+      const url = safeURL(app.url);
+      if (!url) { toast("This shortcut URL is not valid."); return; }
+
+      // Open synchronously from the user's click so popup blockers are less likely to interfere.
+      const tab = window.open(url, "_blank", "noopener,noreferrer");
+      if (!tab) toast("Your browser blocked the new tab. Allow pop-ups for this site if needed.");
+      state.recentApps = [id, ...state.recentApps.filter(old => old !== id)].slice(0, 20);
+      saveState();
+    }
+
+    function exportData() {
+      const payload = {
+        product: "VYBE OS",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        workspace: state
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `vybe-workspace-${todayISO()}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      toast("Workspace backup downloaded.");
+    }
+
+    async function importData(file) {
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { toast("Backup is too large. Choose a file under 5 MB."); return; }
+      try {
+        const parsed = JSON.parse(await file.text());
+        const incoming = parsed && parsed.workspace ? parsed.workspace : parsed;
+        if (!incoming || typeof incoming !== "object" || Array.isArray(incoming)) {
+          throw new Error("Invalid backup format");
+        }
+        if (!confirm("Import this backup and replace the current local workspace? Export your current data first if you want to keep it.")) return;
+        state = normalizeState(incoming);
+        saveState(); renderAll(); setView(currentView); toast("Backup imported.");
+      } catch (error) {
+        toast("Could not import this file. Choose a valid VYBE JSON backup.");
+      } finally {
+        $("#importFile").value = "";
+      }
+    }
+
+    function resetWorkspace() {
+      if (!confirm("This will delete your local notes, tasks, projects, focus history and custom shortcuts from this browser. Export a backup first if you need it. Continue?")) return;
+      stopFocusTimer();
+      state = defaultState();
+      saveState();
+      taskFilter = "all";
+      focusDuration = 25 * 60;
+      focusRemaining = focusDuration;
+      focusInitialDuration = focusDuration;
+      selectedDate = todayISO();
+      renderAll();
+      setView("dashboard");
+      toast("Workspace reset.");
+    }
+
+    function openCommand() {
+      $("#commandOverlay").classList.remove("hidden");
+      $("#commandInput").value = "";
+      renderCommandResults("");
+      setTimeout(() => $("#commandInput").focus(), 20);
+    }
+
+    function closeCommand() {
+      $("#commandOverlay").classList.add("hidden");
+    }
+
+    function buildCommandItems(query) {
+      const q = query.trim().toLowerCase();
+      const items = [];
+      const views = [
+        ["dashboard", "Overview", "Open your workspace dashboard", "◈"],
+        ["tasks", "Task manager", "Manage your tasks", "☑"],
+        ["notes", "Notes & ideas", "Write or find notes", "▤"],
+        ["projects", "Projects", "Manage your projects", "◫"],
+        ["planner", "Planner", "View your schedule", "▦"],
+        ["focus", "Focus room", "Start a focus timer", "◷"],
+        ["apps", "App launcher", "Open your shortcuts", "⠿"],
+        ["settings", "Settings", "Manage your workspace", "⚙"]
+      ];
+      views.forEach(([view, title, desc, icon]) => items.push({
+        title, desc, icon, run: () => { closeCommand(); setView(view); }
+      }));
+      items.push(
+        { title: "Create a task", desc: "Add a new task", icon: "＋", run: () => { closeCommand(); taskForm(); } },
+        { title: "Create a note", desc: "Capture an idea", icon: "✎", run: () => { closeCommand(); noteForm(); } },
+        { title: "Create a project", desc: "Start a project", icon: "◫", run: () => { closeCommand(); projectForm(); } },
+        { title: "Add app shortcut", desc: "Save a website shortcut", icon: "⠿", run: () => { closeCommand(); appForm(); } },
+        { title: "Export workspace", desc: "Download your local backup", icon: "⇩", run: () => { closeCommand(); exportData(); } }
+      );
+
+      state.tasks.forEach(task => items.push({
+        title: task.title, desc: `Task · ${task.completed ? "Completed" : "Open"}`, icon: "☑",
+        run: () => { closeCommand(); setView("tasks"); }
+      }));
+      state.notes.forEach(note => items.push({
+        title: note.title, desc: "Note", icon: "▤",
+        run: () => { closeCommand(); setView("notes"); noteForm(note); }
+      }));
+      state.apps.forEach(app => items.push({
+        title: app.name, desc: `Open website · ${app.category}`, icon: app.icon,
+        run: () => { closeCommand(); openApp(app.id); }
+      }));
+
+      return q ? items.filter(item => (item.title + " " + item.desc).toLowerCase().includes(q)) : items;
+    }
+
+    function renderCommandResults(query) {
+      commandItems = buildCommandItems(query).slice(0, 30);
+      commandIndex = Math.min(commandIndex, Math.max(0, commandItems.length - 1));
+      $("#commandResults").innerHTML = commandItems.length ? commandItems.map((item, index) => `
+        <button class="command-item ${index === commandIndex ? "selected" : ""}" data-command-index="${index}">
+          <span class="stat-icon">${escapeHTML(item.icon)}</span>
+          <span style="min-width:0"><strong>${escapeHTML(item.title)}</strong><small>${escapeHTML(item.desc)}</small></span>
+          <span class="kbd">↵</span>
+        </button>`).join("") : `<div class="empty-state"><strong>No results</strong><p>Try a different search.</p></div>`;
+    }
+
+    function runCommand(index) {
+      const item = commandItems[index];
+      if (item) item.run();
+    }
+
+    // Main navigation and actions
+    document.addEventListener("click", event => {
+      const viewButton = event.target.closest("[data-view]");
+      if (viewButton) {
+        event.preventDefault();
+        setView(viewButton.dataset.view);
+        return;
+      }
+
+      const actionButton = event.target.closest("[data-action]");
+      if (actionButton) {
+        const action = actionButton.dataset.action;
+        if (action === "export") exportData();
+        else createByType(action);
+        return;
+      }
+
+      const cancel = event.target.closest("[data-modal-cancel]");
+      if (cancel) { closeModal(); return; }
+
+      const taskCheck = event.target.closest("[data-task-check]");
+      if (taskCheck) {
+        const task = state.tasks.find(t => t.id === taskCheck.dataset.taskCheck);
+        if (task) {
+          task.completed = taskCheck.checked;
+          saveState(); renderAll();
+        }
+        return;
+      }
+
+      const taskEdit = event.target.closest("[data-task-edit]");
+      if (taskEdit) {
+        const task = state.tasks.find(t => t.id === taskEdit.dataset.taskEdit);
+        if (task) taskForm(task);
+        return;
+      }
+
+      const taskDelete = event.target.closest("[data-task-delete]");
+      if (taskDelete) { deleteTask(taskDelete.dataset.taskDelete); return; }
+
+      const noteDelete = event.target.closest("[data-note-delete]");
+      if (noteDelete) { deleteNote(noteDelete.dataset.noteDelete); return; }
+
+      const noteEdit = event.target.closest("[data-note-edit]");
+      if (noteEdit) {
+        if (event.target.closest("[data-note-delete]")) return;
+        const note = state.notes.find(n => n.id === noteEdit.dataset.noteEdit);
+        if (note) noteForm(note);
+        return;
+      }
+
+      const projectEdit = event.target.closest("[data-project-edit]");
+      if (projectEdit) {
+        const project = state.projects.find(p => p.id === projectEdit.dataset.projectEdit);
+        if (project) projectForm(project);
+        return;
+      }
+
+      const projectDelete = event.target.closest("[data-project-delete]");
+      if (projectDelete) { deleteProject(projectDelete.dataset.projectDelete); return; }
+
+      const projectProgress = event.target.closest("[data-project-progress]");
+      if (projectProgress) {
+        const project = state.projects.find(p => p.id === projectProgress.dataset.projectProgress);
+        if (project) {
+          project.progress = Math.min(100, project.progress + 10);
+          if (project.progress === 100) project.status = "completed";
+          saveState(); renderAll(); toast("Project progress updated.");
+        }
+        return;
+      }
+
+      const appDelete = event.target.closest("[data-app-delete]");
+      if (appDelete) { event.stopPropagation(); deleteApp(appDelete.dataset.appDelete); return; }
+
+      const appOpen = event.target.closest("[data-app-open]");
+      if (appOpen) {
+        if (event.target.closest("[data-app-delete]")) return;
+        openApp(appOpen.dataset.appOpen);
+        return;
+      }
+
+      const dateButton = event.target.closest("[data-calendar-date]");
+      if (dateButton) {
+        selectedDate = dateButton.dataset.calendarDate;
+        renderPlanner();
+        return;
+      }
+
+      const durationButton = event.target.closest("[data-duration]");
+      if (durationButton) {
+        if (focusRunning) { toast("Pause the current session before changing duration."); return; }
+        focusDuration = Number(durationButton.dataset.duration) * 60;
+        focusRemaining = focusDuration;
+        focusInitialDuration = focusDuration;
+        $$("#view-focus [data-duration]").forEach(btn => btn.classList.toggle("active", btn === durationButton));
+        updateFocusDisplay();
+        return;
+      }
+
+      const commandButton = event.target.closest("[data-command-index]");
+      if (commandButton) { runCommand(Number(commandButton.dataset.commandIndex)); return; }
+
+      if (event.target.id === "modalOverlay") closeModal();
+      if (event.target.id === "commandOverlay") closeCommand();
+    });
+
+    // Keyboard support for clickable cards.
+    document.addEventListener("keydown", event => {
+      const card = event.target.closest('[role="button"][data-note-edit], [role="button"][data-app-open]');
+      if (card && (event.key === "Enter" || event.key === " ")) {
+        if (event.target.closest("button")) return;
+        event.preventDefault();
+        card.click();
+      }
+    });
+
+    $("#openCommand").addEventListener("click", openCommand);
+    $("#closeModal").addEventListener("click", closeModal);
+    $("#quickCreate").addEventListener("click", showCreateMenu);
+    $("#menuToggle").addEventListener("click", () => $("#sidebar").classList.toggle("open"));
+    $("#themeToggle").addEventListener("click", () => {
+      state.theme = state.theme === "light" ? "dark" : "light";
+      saveState(); applyTheme();
+    });
+    $("#lightSwitch").addEventListener("change", event => {
+      state.theme = event.target.checked ? "light" : "dark";
+      saveState(); applyTheme();
+    });
+
+    $("#taskFilters").addEventListener("click", event => {
+      const button = event.target.closest("[data-filter]");
+      if (!button) return;
+      taskFilter = button.dataset.filter;
+      renderTasks();
+    });
+
+    $("#noteSearch").addEventListener("input", renderNotes);
+    $("#appSearch").addEventListener("input", renderApps);
+    $("#focusStart").addEventListener("click", startFocusTimer);
+    $("#focusReset").addEventListener("click", resetFocusTimer);
+    $("#saveIntention").addEventListener("click", () => {
+      state.focusIntention = safeText($("#focusIntention").value, 1000).trim();
+      saveState(); renderSettings(); toast("Focus intention saved.");
+    });
+
+    $("#prevMonth").addEventListener("click", () => {
+      calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+      renderPlanner();
+    });
+    $("#nextMonth").addEventListener("click", () => {
+      calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+      renderPlanner();
+    });
+
+    $("#importButton").addEventListener("click", () => $("#importFile").click());
+    $("#importFile").addEventListener("change", event => importData(event.target.files[0]));
+    $("#resetButton").addEventListener("click", resetWorkspace);
+
+    $("#editWorkspaceName").addEventListener("click", () => {
+      openModal("Name your workspace", `
+        <form>
+          <div class="form-group"><label class="field-label" for="workspaceNameInput">Workspace name</label><input class="field" id="workspaceNameInput" name="name" maxlength="80" required value="${escapeHTML(state.workspaceName)}"></div>
+          <div class="modal-footer"><button type="button" class="btn btn-secondary" data-modal-cancel>Cancel</button><button type="submit" class="btn btn-primary">Save name</button></div>
+        </form>`,
+        data => {
+          const name = safeText(data.get("name"), 80).trim();
+          if (!name) return;
+          state.workspaceName = name;
+          saveState(); closeModal(); renderAll(); setView(currentView); toast("Workspace name updated.");
+        });
+    });
+
+    $("#commandInput").addEventListener("input", event => {
+      commandIndex = 0;
+      renderCommandResults(event.target.value);
+    });
+
+    $("#commandInput").addEventListener("keydown", event => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        commandIndex = Math.min(commandIndex + 1, commandItems.length - 1);
+        renderCommandResults($("#commandInput").value);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        commandIndex = Math.max(0, commandIndex - 1);
+        renderCommandResults($("#commandInput").value);
+      } else if (event.key === "Enter") {
+        event.preventDefault();
+        runCommand(commandIndex);
+      } else if (event.key === "Escape") {
+        closeCommand();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      const target = event.target;
+      const typing = target && (
+        target.matches("input, textarea, select") ||
+        target.isContentEditable
+      );
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        $("#commandOverlay").classList.contains("hidden") ? openCommand() : closeCommand();
+      } else if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "n" && !typing) {
+        event.preventDefault();
+        noteForm();
+      } else if (event.key === "Escape") {
+        closeModal();
+        closeCommand();
+        $("#sidebar").classList.remove("open");
+      }
+    });
+
+    // Initialize the application.
+    applyTheme();
+    renderAll();
+    setView("dashboard");
+  </script>
 </body>
 </html>
