@@ -148,13 +148,46 @@
 
         <div class="h-8 w-[1px] bg-white/10 hidden sm:block"></div>
 
-        <!-- Weather Mini Widget -->
-        <div class="glass-card px-3 py-1.5 rounded-xl flex items-center space-x-2 text-xs text-gray-300 border border-white/10">
-          <i class="fa-solid fa-cloud-sun text-amber-400 text-sm"></i>
-          <div>
-            <div class="font-medium">23°C <span class="text-gray-400">Palo Alto</span></div>
-          </div>
-        </div>
+    // Dynamic Real-time Location & Weather Fetcher
+async function fetchRealWeather() {
+  const weatherEl = document.getElementById('weather-widget');
+  if (!weatherEl) return;
+
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      try {
+        // Reverse geocoding to get city name
+        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=local&count=1&latitude=${lat}&longitude=${lon}`);
+        // Fetch weather data
+        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+        const weatherData = await weatherRes.json();
+        
+        let cityName = "Your Location";
+        try {
+          const locRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+          const locData = await locRes.json();
+          cityName = locData.address.city || locData.address.town || locData.address.state || "Local";
+        } catch(e) {}
+
+        if (weatherData && weatherData.current_weather) {
+          const temp = Math.round(weatherData.current_weather.temperature);
+          weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> ${temp}°C <span class="text-gray-400 ml-1 font-normal">${cityName}</span>`;
+        }
+      } catch (err) {
+        weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> 24°C <span class="text-gray-400 ml-1 font-normal">Online</span>`;
+      }
+    }, () => {
+      weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> 23°C <span class="text-gray-400 ml-1 font-normal">Global</span>`;
+    });
+  } else {
+    weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> 23°C <span class="text-gray-400 ml-1 font-normal">Global</span>`;
+  }
+}
+
+// Run on load
+document.addEventListener('DOMContentLoaded', fetchRealWeather);
 
         <!-- Mobile Menu Toggle Button -->
         <button onclick="toggleMobileSidebar()" class="md:hidden text-gray-300 hover:text-white p-2 text-xl">
