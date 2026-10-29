@@ -148,46 +148,13 @@
 
         <div class="h-8 w-[1px] bg-white/10 hidden sm:block"></div>
 
-    // Dynamic Real-time Location & Weather Fetcher
-async function fetchRealWeather() {
-  const weatherEl = document.getElementById('weather-widget');
-  if (!weatherEl) return;
-
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      try {
-        // Reverse geocoding to get city name
-        const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=local&count=1&latitude=${lat}&longitude=${lon}`);
-        // Fetch weather data
-        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-        const weatherData = await weatherRes.json();
-        
-        let cityName = "Your Location";
-        try {
-          const locRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-          const locData = await locRes.json();
-          cityName = locData.address.city || locData.address.town || locData.address.state || "Local";
-        } catch(e) {}
-
-        if (weatherData && weatherData.current_weather) {
-          const temp = Math.round(weatherData.current_weather.temperature);
-          weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> ${temp}°C <span class="text-gray-400 ml-1 font-normal">${cityName}</span>`;
-        }
-      } catch (err) {
-        weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> 24°C <span class="text-gray-400 ml-1 font-normal">Online</span>`;
-      }
-    }, () => {
-      weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> 23°C <span class="text-gray-400 ml-1 font-normal">Global</span>`;
-    });
-  } else {
-    weatherEl.innerHTML = `<span class="text-yellow-400 mr-1.5">☀️</span> 23°C <span class="text-gray-400 ml-1 font-normal">Global</span>`;
-  }
-}
-
-// Run on load
-document.addEventListener('DOMContentLoaded', fetchRealWeather);
+        <!-- Weather Mini Widget -->
+        <div class="glass-card px-3 py-1.5 rounded-xl flex items-center space-x-2 text-xs text-gray-300 border border-white/10">
+          <i class="fa-solid fa-cloud-sun text-amber-400 text-sm"></i>
+          <div>
+            <div class="font-medium">23°C <span class="text-gray-400">Palo Alto</span></div>
+          </div>
+        </div>
 
         <!-- Mobile Menu Toggle Button -->
         <button onclick="toggleMobileSidebar()" class="md:hidden text-gray-300 hover:text-white p-2 text-xl">
@@ -236,16 +203,25 @@ document.addEventListener('DOMContentLoaded', fetchRealWeather);
               </button>
 
               <button onclick="switchTab('focus')" data-tab="focus" class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-400 hover:text-white hover:bg-white/5 border border-transparent">
-                <i class="fa-solid fa-headphones text-purple-400 w-5"></i>
-                <span>Focus Room & Beats</span>
-              </button>
+              <i class="fa-solid fa-headphones text-purple-400 w-5"></i>
+              <span>Focus Room & Beats</span>
+            </button>
 
-            </nav>
+          </nav>
+        </div>
+
+        <!-- AdSense Sidebar Slot Placeholder -->
+        <div class="mx-3 p-2 bg-black/40 rounded-xl border border-dashed border-white/10 text-center">
+          <span class="text-[9px] uppercase tracking-wider text-gray-500 block mb-1">Advertisement</span>
+          <div class="h-28 bg-white/5 rounded-lg flex items-center justify-center text-[10px] text-gray-400 font-mono">
+            <!-- AdSense Sidebar Banner Slot -->
+            <span>AdSense Display Ad (Vertical / Square)</span>
           </div>
+        </div>
 
-          <!-- Quick Storage Stats -->
-          <div class="p-3.5 glass-card rounded-xl space-y-2 border border-white/5">
-            <div class="flex justify-between items-center text-xs text-gray-400">
+        <!-- Quick Storage Stats -->
+        <div class="p-3.5 glass-card rounded-xl space-y-2 border border-white/5">
+          <div class="flex justify-between items-center text-xs text-gray-400">
               <span>Local Sync Status</span>
               <span class="text-emerald-400 flex items-center gap-1"><i class="fa-solid fa-circle text-[8px]"></i> Active</span>
             </div>
@@ -278,6 +254,15 @@ document.addEventListener('DOMContentLoaded', fetchRealWeather);
         <!-- ==================== TAB 1: DASHBOARD OS ==================== -->
         <section id="tab-dashboard" class="tab-content space-y-8">
           
+          <!-- AdSense Responsive Top Banner Slot -->
+          <div class="glass-panel p-3 rounded-2xl border border-white/10 text-center">
+            <span class="text-[9px] uppercase tracking-wider text-gray-500 block mb-1">Advertisement</span>
+            <div class="h-20 bg-black/30 rounded-xl border border-dashed border-white/10 flex items-center justify-center text-xs text-gray-400 font-mono">
+              <!-- AdSense Top Leaderboard Slot -->
+              <span>Google AdSense Header Leaderboard Banner Slot</span>
+            </div>
+          </div>
+
           <!-- Hero Banner -->
           <div class="relative overflow-hidden rounded-2xl glass-panel p-6 md:p-8 border border-white/10">
             <div class="relative z-10 max-w-2xl space-y-3">
@@ -396,6 +381,15 @@ document.addEventListener('DOMContentLoaded', fetchRealWeather);
               </div>
             </div>
 
+          </div>
+
+          <!-- AdSense In-Content Banner Slot -->
+          <div class="glass-panel p-3 rounded-2xl border border-white/10 text-center">
+            <span class="text-[9px] uppercase tracking-wider text-gray-500 block mb-1">Advertisement</span>
+            <div class="h-24 bg-black/30 rounded-xl border border-dashed border-white/10 flex items-center justify-center text-xs text-gray-400 font-mono">
+              <!-- AdSense In-Content Horizontal Slot -->
+              <span>Google AdSense In-Content Horizontal Banner Slot</span>
+            </div>
           </div>
 
           <!-- ================= ADSENSE POLICY & FEATURES GUIDE SECTION ================= -->
