@@ -891,19 +891,28 @@
 
       if (type === 'privacy') {
         title.textContent = 'Privacy Policy';
-        body.innerHTML = `
-          <p><strong>Effective Date:</strong> October 2026</p>
-          <p>At VYBE OS (accessible from <code>vybe-app-beta.vercel.app</code>), one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by VYBE OS and how we use it.</p>
+body.innerHTML = `
+  <p><strong>Effective Date:</strong> November 2026</p>
 
-          <h4 class="font-bold text-white text-sm mt-3">1. Local Processing & Zero Server Uploads</h4>
-          <p>VYBE OS operates entirely as a client-side web application. All images uploaded to <strong>VYBE Image Studio</strong>, notes written in <strong>Notes & Quick Pad</strong>, and task items are processed directly within your browser session using JavaScript. No personal files are transmitted to or stored on external servers.</p>
+  <p>VYBE OS (accessible at <code>https://vybe-app-beta.vercel.app/</code>) provides browser-based productivity tools. This policy explains how information may be stored or processed when you use this website.</p>
 
-          <h4 class="font-bold text-white text-sm mt-3">2. Third-Party Advertisements & Google AdSense</h4>
-          <p>Google is one of our third-party vendors. It uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to our website and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at <a href="https://policies.google.com/technologies/ads" target="_blank" class="text-indigo-400 underline">Google Ads Policy</a>.</p>
+  <h4 class="font-bold text-white text-sm mt-3">1. Browser-Based Tools</h4>
+  <p>VYBE Image Studio is designed to process selected images locally in your browser using HTML5 Canvas. Notes, tasks, custom app shortcuts and preferences may be stored in your browser's localStorage. These locally stored items can be removed through your browser settings or the reset option, where available.</p>
 
-          <h4 class="font-bold text-white text-sm mt-3">3. LocalStorage Data Retention</h4>
-          <p>User preferences and notes are saved strictly in your device's browser <code>localStorage</code>. You may clear or delete this data at any time through your browser settings or via the system reset option inside VYBE OS.</p>
-        `;
+  <h4 class="font-bold text-white text-sm mt-3">2. Third-Party Services and Advertising</h4>
+  <p>This website may load third-party services, including Google AdSense, analytics, fonts and content-delivery services. These providers may process technical information, use cookies or similar technologies, and handle data according to their own privacy policies and applicable settings.</p>
+  <p>For information about how Google uses data on partner sites, visit <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" class="text-indigo-400 underline">Google's Advertising Privacy Information</a>.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">3. Local Data Retention</h4>
+  <p>Information saved in localStorage remains in the browser where it was created until it is cleared by the user or removed through an available reset option. Clearing browser data may remove saved notes, tasks and preferences.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">4. External Websites</h4>
+  <p>VYBE may provide links to external websites and applications. Their content and privacy practices are governed by their respective providers, not by this policy.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
+  <p>For privacy-related questions, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
+`;
+        
       } else if (type === 'terms') {
         title.textContent = 'Terms of Service';
         body.innerHTML = `
