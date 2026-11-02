@@ -882,102 +882,100 @@
     }
     setInterval(updateClock, 1000);
     updateClock();
+// ================= POLICY & CONTACT MODAL CONTROLLER =================
+function openPolicyModal(type) {
+  const modal = document.getElementById('policy-modal');
+  const title = document.getElementById('policy-modal-title');
+  const body = document.getElementById('policy-modal-body');
 
-    // ================= POLICY & CONTACT MODAL CONTROLLER =================
-    function openPolicyModal(type) {
-      const modal = document.getElementById('policy-modal');
-      const title = document.getElementById('policy-modal-title');
-      const body = document.getElementById('policy-modal-body');
+  if (type === 'privacy') {
+    title.textContent = 'Privacy Policy';
+    body.innerHTML = `
+      <p><strong>Effective Date:</strong> November 2026</p>
+      <p>VYBE OS (accessible at <code>https://vybe-app-beta.vercel.app/</code>) provides browser-based productivity tools. This policy explains how information may be stored or processed when you use this website.</p>
 
-      if (type === 'privacy') {
-        title.textContent = 'Privacy Policy';
-body.innerHTML = `
-  <p><strong>Effective Date:</strong> November 2026</p>
+      <h4 class="font-bold text-white text-sm mt-3">1. Browser-Based Tools</h4>
+      <p>VYBE Image Studio is designed to process selected images locally in your browser using HTML5 Canvas. Notes, tasks, custom app shortcuts and preferences may be stored in your browser's localStorage. These items can be removed through your browser settings or the reset option, where available.</p>
 
-  <p>VYBE OS (accessible at <code>https://vybe-app-beta.vercel.app/</code>) provides browser-based productivity tools. This policy explains how information may be stored or processed when you use this website.</p>
+      <h4 class="font-bold text-white text-sm mt-3">2. Third-Party Services and Advertising</h4>
+      <p>This website may load third-party services, including Google AdSense, analytics, fonts and content-delivery services. These providers may process technical information, use cookies or similar technologies according to their own privacy policies and applicable settings.</p>
+      <p>For information about Google's advertising practices, visit <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" class="text-indigo-400 underline">Google's Advertising Privacy Information</a>.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">1. Browser-Based Tools</h4>
-  <p>VYBE Image Studio is designed to process selected images locally in your browser using HTML5 Canvas. Notes, tasks, custom app shortcuts and preferences may be stored in your browser's localStorage. These locally stored items can be removed through your browser settings or the reset option, where available.</p>
+      <h4 class="font-bold text-white text-sm mt-3">3. Local Data Retention</h4>
+      <p>Information saved in localStorage remains in the browser where it was created until it is cleared by the user or removed through an available reset option. Clearing browser data may remove saved notes, tasks and preferences.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">2. Third-Party Services and Advertising</h4>
-  <p>This website may load third-party services, including Google AdSense, analytics, fonts and content-delivery services. These providers may process technical information, use cookies or similar technologies, and handle data according to their own privacy policies and applicable settings.</p>
-  <p>For information about how Google uses data on partner sites, visit <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" class="text-indigo-400 underline">Google's Advertising Privacy Information</a>.</p>
+      <h4 class="font-bold text-white text-sm mt-3">4. External Websites</h4>
+      <p>VYBE may provide links to external websites and applications. Their content and privacy practices are governed by their respective providers.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">3. Local Data Retention</h4>
-  <p>Information saved in localStorage remains in the browser where it was created until it is cleared by the user or removed through an available reset option. Clearing browser data may remove saved notes, tasks and preferences.</p>
+      <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
+      <p>For privacy-related questions, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
+    `;
 
-  <h4 class="font-bold text-white text-sm mt-3">4. External Websites</h4>
-  <p>VYBE may provide links to external websites and applications. Their content and privacy practices are governed by their respective providers, not by this policy.</p>
+  } else if (type === 'terms') {
+    title.textContent = 'Terms of Service';
+    body.innerHTML = `
+      <p><strong>Effective Date:</strong> November 2026</p>
+      <p>Welcome to VYBE OS. By using this website, you agree to these Terms of Service.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
-  <p>For privacy-related questions, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
-`;
-        
-   title.textContent = 'Terms of Service';
-body.innerHTML = `
-  <p><strong>Effective Date:</strong> November 2026</p>
+      <h4 class="font-bold text-white text-sm mt-3">1. Use of Services</h4>
+      <p>VYBE provides browser-based productivity tools, including notes, task management, focus features and image processing. You are responsible for how you use these tools and for keeping copies of important files.</p>
 
-  <p>Welcome to VYBE OS. By using this website, you agree to these Terms of Service.</p>
+      <h4 class="font-bold text-white text-sm mt-3">2. Acceptable Use</h4>
+      <p>You agree not to use the website for unlawful activities, interfere with its operation, attempt unauthorized access, or introduce malicious code.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">1. Use of Services</h4>
-  <p>VYBE provides browser-based productivity tools, including notes, task management, focus features and image processing. You are responsible for how you use these tools and for keeping copies of important files.</p>
+      <h4 class="font-bold text-white text-sm mt-3">3. Third-Party Services</h4>
+      <p>The website may include links to or services from third parties. Their services are governed by their own terms and policies.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">2. Acceptable Use</h4>
-  <p>You agree not to use the website for unlawful activities, interfere with its operation, attempt unauthorized access, or introduce malicious code.</p>
+      <h4 class="font-bold text-white text-sm mt-3">4. Availability and Changes</h4>
+      <p>Features may be updated, changed or discontinued. We do not guarantee uninterrupted availability of the website.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">3. Third-Party Services</h4>
-  <p>The website may include links to or services from third parties. Their services are governed by their own terms and policies.</p>
+      <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
+      <p>For questions about these terms, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
+    `;
 
-  <h4 class="font-bold text-white text-sm mt-3">4. Availability and Changes</h4>
-  <p>Features may be updated, changed or discontinued. We do not guarantee uninterrupted availability of the website.</p>
+  } else if (type === 'disclaimer') {
+    title.textContent = 'Disclaimer';
+    body.innerHTML = `
+      <p><strong>Effective Date:</strong> November 2026</p>
+      <p>VYBE OS provides browser-based productivity tools for general informational and personal productivity purposes. The website and its features are provided "as is" and "as available", without warranties of any kind.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
-  <p>For questions about these terms, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
-`;
-     title.textContent = 'Disclaimer';
-body.innerHTML = `
-  <p><strong>Effective Date:</strong> November 2026</p>
+      <h4 class="font-bold text-white text-sm mt-3">1. Accuracy and Reliability</h4>
+      <p>We make reasonable efforts to keep the tools working, but we do not guarantee that every result will be accurate, complete or suitable for a particular purpose. Please verify important results independently.</p>
 
-  <p>VYBE OS provides browser-based productivity tools for general informational and personal productivity purposes. The website and its features are provided "as is" and "as available", without warranties of any kind.</p>
+      <h4 class="font-bold text-white text-sm mt-3">2. Files and Backups</h4>
+      <p>Image processing is designed to happen locally in your browser. Keep backups of original images and important notes before using any tool. Browser issues, device failure or cleared browser storage may cause data loss.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">1. Accuracy and Reliability</h4>
-  <p>We make reasonable efforts to keep the tools working, but we do not guarantee that every result will be accurate, complete or suitable for a particular purpose. Please verify important results independently.</p>
+      <h4 class="font-bold text-white text-sm mt-3">3. Third-Party Services</h4>
+      <p>The website may use third-party services, including advertising, analytics, fonts and content-delivery services. Their content, availability and practices are governed by their respective providers.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">2. Files and Backups</h4>
-  <p>Image processing is designed to happen locally in your browser. Keep backups of original images and important notes before using any tool. VYBE is not responsible for data lost through browser issues, device failure or cleared browser storage.</p>
+      <h4 class="font-bold text-white text-sm mt-3">4. External Links</h4>
+      <p>Links to external websites are provided for convenience. VYBE does not control or guarantee their content or services.</p>
 
-  <h4 class="font-bold text-white text-sm mt-3">3. Third-Party Services</h4>
-  <p>The website may use third-party services, including advertising, analytics, fonts and content-delivery services. Their content, availability and practices are governed by their respective providers.</p>
+      <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
+      <p>For questions about this disclaimer, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
+    `;
 
-  <h4 class="font-bold text-white text-sm mt-3">4. External Links</h4>
-  <p>Links to external websites are provided for convenience. VYBE does not control or guarantee their content or services.</p>
+  } else if (type === 'contact') {
+    title.textContent = 'Contact Us';
+    body.innerHTML = `
+      <div class="p-4 bg-indigo-600/20 border border-indigo-500/30 rounded-xl space-y-3 text-center">
+        <div class="w-12 h-12 rounded-full bg-indigo-600/30 text-indigo-400 flex items-center justify-center text-xl mx-auto">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <h4 class="font-bold text-white text-base">Get in Touch with VYBE Support</h4>
+        <p class="text-gray-300">Have questions, feedback, or policy inquiries regarding VYBE OS? Reach out directly via email:</p>
+        <a href="mailto:ayanmehdi773@gmail.com" class="p-2.5 bg-black/40 rounded-xl border border-white/10 font-mono text-sm text-pink-400 select-all font-semibold inline-block">ayanmehdi773@gmail.com</a>
+        <p class="text-[11px] text-gray-400">We aim to respond to genuine feedback within 24–48 business hours.</p>
+      </div>
+    `;
+  }
 
-  <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
-  <p>For questions about this disclaimer, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
-`;
-      } else if (type === 'contact') {
-        title.textContent = 'Contact Us';
-        body.innerHTML = `
-          <div class="p-4 bg-indigo-600/20 border border-indigo-500/30 rounded-xl space-y-3 text-center">
-            <div class="w-12 h-12 rounded-full bg-indigo-600/30 text-indigo-400 flex items-center justify-center text-xl mx-auto">
-              <i class="fa-solid fa-envelope"></i>
-            </div>
-            <h4 class="font-bold text-white text-base">Get in Touch with VYBE Support</h4>
-            <p class="text-gray-300">Have questions, feedback, or policy inquiries regarding VYBE OS? Reach out directly via email:</p>
-            <div class="p-2.5 bg-black/40 rounded-xl border border-white/10 font-mono text-sm text-pink-400 select-all font-semibold inline-block">
-              ayanmehdi773@gmail.com
-            </div>
-            <p class="text-[11px] text-gray-400">We respond to all genuine feedback within 24-48 business hours.</p>
-          </div>
-        `;
-      }
+  modal.classList.remove('hidden');
+}
 
-      modal.classList.remove('hidden');
-    }
-
-    function closePolicyModal() {
-      document.getElementById('policy-modal').classList.add('hidden');
-    }
+function closePolicyModal() {
+  document.getElementById('policy-modal').classList.add('hidden');
+}
 
     // ================= DASHBOARD & LAUNCHPAD =================
     function renderAppGrid() {
