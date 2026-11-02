@@ -913,12 +913,27 @@ body.innerHTML = `
   <p>For privacy-related questions, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
 `;
         
-      } else if (type === 'terms') {
-        title.textContent = 'Terms of Service';
-        body.innerHTML = `
-          <p>By accessing VYBE OS, you agree to comply with these terms. The productivity tools, image compressor, focus timer, and web operating utilities provided on this website are for personal and non-commercial productivity purposes.</p>
-          <p class="mt-2">You agree not to misuse the web utilities, attempt malicious code injection, or use automated bots to overload browser storage mechanisms.</p>
-        `;
+   title.textContent = 'Terms of Service';
+body.innerHTML = `
+  <p><strong>Effective Date:</strong> November 2026</p>
+
+  <p>Welcome to VYBE OS. By using this website, you agree to these Terms of Service.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">1. Use of Services</h4>
+  <p>VYBE provides browser-based productivity tools, including notes, task management, focus features and image processing. You are responsible for how you use these tools and for keeping copies of important files.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">2. Acceptable Use</h4>
+  <p>You agree not to use the website for unlawful activities, interfere with its operation, attempt unauthorized access, or introduce malicious code.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">3. Third-Party Services</h4>
+  <p>The website may include links to or services from third parties. Their services are governed by their own terms and policies.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">4. Availability and Changes</h4>
+  <p>Features may be updated, changed or discontinued. We do not guarantee uninterrupted availability of the website.</p>
+
+  <h4 class="font-bold text-white text-sm mt-3">5. Contact</h4>
+  <p>For questions about these terms, contact <a href="mailto:ayanmehdi773@gmail.com" class="text-indigo-400 underline">ayanmehdi773@gmail.com</a>.</p>
+`;
       } else if (type === 'disclaimer') {
         title.textContent = 'Disclaimer';
         body.innerHTML = `
