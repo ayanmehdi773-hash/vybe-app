@@ -13,7 +13,7 @@
 
   <!-- Open Graph / Facebook / WhatsApp Preview Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vybe-app-beta.vercel.app/">
+  <meta property="og:url" content="https://vybe-app-beta.vercel.aapp/">
   <meta property="og:title" content="VYBE — Silicon Valley Grade Web OS & Productivity Suite">
   <meta property="og:description" content="A fast, privacy-first single-file web OS and productivity launcher with dark mode glassmorphism UI.">
   <meta property="og:site_name" content="VYBE Web OS">
@@ -121,6 +121,57 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+
+
+    /* VYBE visual refresh — colour-only overrides. Original layout, HTML and JavaScript stay intact. */
+    :root {
+      --vybe-bg: #07131b;
+      --vybe-panel: rgba(13, 29, 39, .82);
+      --vybe-panel-soft: rgba(18, 43, 54, .58);
+      --vybe-line: rgba(148, 190, 198, .14);
+      --vybe-blue: #38bdf8;
+      --vybe-teal: #2dd4bf;
+      --vybe-mint: #6ee7b7;
+    }
+    body { background: #07131b !important; color: #e7f3f5 !important; }
+    .glass-panel { background: var(--vybe-panel) !important; border-color: var(--vybe-line) !important; }
+    .glass-card { background: var(--vybe-panel-soft) !important; border-color: var(--vybe-line) !important; }
+    .glass-card:hover { border-color: rgba(45,212,191,.48) !important; box-shadow: 0 10px 32px rgba(0,0,0,.34), 0 0 22px rgba(45,212,191,.10) !important; }
+    .glow-accent { box-shadow: 0 0 24px rgba(45,212,191,.22) !important; }
+    .text-gradient { background-image: linear-gradient(120deg,#2dd4bf 0%,#38bdf8 52%,#a5f3fc 100%) !important; }
+    ::-webkit-scrollbar-track { background: rgba(7,19,27,.8) !important; }
+    ::-webkit-scrollbar-thumb { background: rgba(125,190,198,.28) !important; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(125,190,198,.48) !important; }
+
+    /* Re-map the old indigo / violet / cyan accent system to teal / sky blue. */
+    [class~="bg-indigo-600"], [class~="bg-indigo-700"] { background-color: #0e7490 !important; }
+    [class~="bg-indigo-500"], [class~="bg-indigo-400"] { background-color: #0891b2 !important; }
+    [class*="bg-indigo-600/"], [class*="bg-indigo-500/"], [class*="bg-purple-600/"], [class*="bg-cyan-600/"] { background-color: rgba(20,184,166,.13) !important; }
+    [class*="border-indigo-"], [class*="border-purple-"], [class*="border-cyan-"] { border-color: rgba(45,212,191,.34) !important; }
+    [class*="text-indigo-"], [class*="text-purple-"], [class*="text-cyan-"] { color: #67e8f9 !important; }
+    [class*="text-pink-"] { color: #5eead4 !important; }
+    [class*="bg-pink-500/"], [class*="bg-purple-500/"], [class*="bg-cyan-500/"] { background-color: rgba(20,184,166,.15) !important; }
+    [class*="border-pink-"], [class*="border-purple-"], [class*="border-cyan-"] { border-color: rgba(45,212,191,.3) !important; }
+    [class*="from-indigo-"], [class*="from-purple-"], [class*="from-pink-"], [class*="from-cyan-"] { --tw-gradient-from: #0d9488 var(--tw-gradient-from-position) !important; --tw-gradient-to: rgb(13 148 136 / 0) var(--tw-gradient-to-position) !important; }
+    [class*="via-purple-"], [class*="via-indigo-"] { --tw-gradient-stops: var(--tw-gradient-from), #0ea5a4 var(--tw-gradient-via-position), var(--tw-gradient-to) !important; }
+    [class*="to-indigo-"], [class*="to-purple-"], [class*="to-cyan-"], [class*="to-blue-"] { --tw-gradient-to: #38bdf8 var(--tw-gradient-to-position) !important; }
+
+    /* Replace the former near-black surfaces with a deep blue-green graphite. */
+    [class*="bg-[#080b11]"], [class*="bg-[#0d111a]"], [class*="bg-[#0a0d14]"] { background-color: #07131b !important; }
+    [class*="bg-black/20"], [class*="bg-black/30"] { background-color: rgba(2,12,18,.38) !important; }
+    [class*="bg-white/5"], [class*="bg-white/10"] { background-color: rgba(148,190,198,.07) !important; }
+    [class*="border-white/10"], [class*="border-white/5"] { border-color: rgba(148,190,198,.13) !important; }
+    [class*="text-gray-100"], [class*="text-gray-200"] { color: #e7f3f5 !important; }
+    [class*="text-gray-300"] { color: #c1d5da !important; }
+    [class*="text-gray-400"] { color: #91aeb6 !important; }
+    [class*="text-gray-500"] { color: #78949d !important; }
+    [class*="bg-gray-800"] { background-color: #18313c !important; }
+
+    /* Main navigation active / hover states. */
+    .nav-item:hover { background-color: rgba(45,212,191,.09) !important; }
+    .nav-item[class*="bg-indigo-600"] { background: rgba(13,148,136,.19) !important; border-color: rgba(45,212,191,.34) !important; }
+    button:focus-visible, [role="button"]:focus-visible { outline: 2px solid #2dd4bf !important; outline-offset: 3px; }
+
   </style>
 </head>
 
@@ -1459,4 +1510,3 @@ function closePolicyModal() {
   </script>
 </body>
 </html>
-```
